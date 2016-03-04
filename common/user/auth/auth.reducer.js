@@ -5,11 +5,10 @@ const authInitialState = {
 export default function(state = authInitialState, action) {
     switch(action.type) {
         case 'START_OAUTH_GITHUB':
-            return true;
-        case 'STOP_OAUTH_GITHUB':
-            return false;
+            return {isFetching: true};
+        case 'FINISH_OAUTH_GITHUB':
+            return {isFetching: false};
         default:
-            console.log('get default',action.type);
             return state;
     }
 }

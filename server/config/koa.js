@@ -13,8 +13,8 @@ module.exports = function(app, config) {
 	if (config.app.env !== "test") {
 		app.use(logger());
 	}
-	//app.use(errorHandler());
+	app.use(errorHandler());
 	app.use(bodyParser());
-	//app.use(compress());
-	//app.use(responseTime());
+	app.use(compress());
+	app.use(responseTime());
 };

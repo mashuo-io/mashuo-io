@@ -1,7 +1,7 @@
 import React from 'react';
 import { DatePicker, message } from 'antd';
 
-import 'antd/lib/index.css';
+import 'antd/style/index.less';
 
 const App = React.createClass({
 	getInitialState() {

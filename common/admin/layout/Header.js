@@ -14,8 +14,12 @@ export default class extends React.Component {
 				<Link to="/admin/video"><Icon type="video-camera" />视频</Link>
 			</Menu.Item>
 
+			<Menu.Item key="user">
+				<Link to="/admin/user"><Icon type="user" />用户</Link>
+			</Menu.Item>
+
 			<Menu.Item key="auth">
-				<Link to="/auth"><Icon type="user" />登陆</Link>
+				<Link to="/auth"><Icon type="logout" />登陆</Link>
 			</Menu.Item>
 
 		</Menu>

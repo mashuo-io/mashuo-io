@@ -5,12 +5,19 @@ import {Link} from 'react-router';
 export default class extends React.Component {
 	render() {
 		return <Menu mode="horizontal">
+
 			<Menu.Item key="home">
 				<Link to="/"><Icon type="home" />主页</Link>
 			</Menu.Item>
+
+			<Menu.Item key="video">
+				<Link to="/admin/video"><Icon type="video-camera" />视频</Link>
+			</Menu.Item>
+
  			<Menu.Item key="auth">
 			     <Link to="/auth"><Icon type="user" />登陆</Link>
 			</Menu.Item>
+
 		</Menu>
 	}
 }

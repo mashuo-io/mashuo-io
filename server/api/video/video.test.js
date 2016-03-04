@@ -1,7 +1,7 @@
 "use strict";
 let expect = require('chai').expect;
 let request = require('supertest-as-promised')(require('../../index').listen());
-let tool = require('../shared/test-tool');
+let tool = require('../shared/tool.test');
 
 describe('video', () => {
 
@@ -10,6 +10,7 @@ describe('video', () => {
 	});
 
 	it('save video should work', function *() {
+
 		yield request.post('/api/videos')
 		.send({
 			name: 'c#',

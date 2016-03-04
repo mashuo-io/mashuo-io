@@ -10,7 +10,7 @@ const Main = ()=> (
 const App = (props) => (
 	<div>
 		<Header></Header>
-		{props.children ? props.children : <Main />}
+		{props.children}
 		<Footer></Footer>
 	</div>
 );

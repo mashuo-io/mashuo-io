@@ -3,7 +3,6 @@ import {Button, Icon}  from "antd";
 
 //const text = Array.from(Array(100).keys());
 
-console.log(text);
 export default class Auth extends Component {
     render() {
         return (

@@ -6,15 +6,13 @@ import { Provider }         from 'react-redux';
 import { createStore, combineReducers, applyMiddleware }  from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import auth from '../common/auth/auth.reducer';
+import auth from '../common/user/auth/auth.reducer';
 
 const reducer = combineReducers({auth});
 
-let initialState = {};
 const loggerMiddleware = createLogger();
 const store = createStore(
 	reducer,
-	initialState,
 	applyMiddleware(
 		thunkMiddleware,
 		loggerMiddleware

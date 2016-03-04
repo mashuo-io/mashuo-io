@@ -1,22 +1,32 @@
 import React, { Component, PropTypes } from 'react';
 import {Button, Icon}  from "antd";
+import {connect} from "react-redux";
+import {startOauthGithubLogin, doOauthGithubLogin} from './auth.action';
 
-//const text = Array.from(Array(100).keys());
-
-export default class Auth extends Component {
-    render() {
+const Auth = React.createClass({
+    render: function() {
         return (
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" onClick={this.props.onLogin} loading={this.props.isFetching}>
                 <Icon type="github" />
                 通过Github登录
             </Button>
-            //<ul>
-            //{
-            //    text.map((i)=>{
-            //        return <li key={i}>hello {i}</li>;
-            //    })
-            //}
-            //</ul>
         )
     }
-}
+});
+
+const stateToProps = function(state) {
+    console.log(state.auth);
+    return {
+        isFetching: state.auth.isFetching
+    }
+};
+
+const dispatchToProps = function(dispatch) {
+    // In a real app, you would 'dispatch' an action here based
+    // on the user being clicked
+    return {
+        onLogin: () => {dispatch(startOauthGithubLogin())}
+    }
+};
+
+export default connect(stateToProps, dispatchToProps)(Auth)

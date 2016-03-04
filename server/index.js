@@ -5,6 +5,7 @@ const koa = require("koa");
 let router = require('koa-router')();
 const mongoose = require("mongoose");
 
+
 const config = require("./config/config");
 console.log('connect to', config.mongo.url);
 mongoose.connect(config.mongo.url, {server: {socketOptions:  {keepAlive: 1}}});

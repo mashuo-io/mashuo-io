@@ -11,7 +11,7 @@ export default class extends React.Component {
 			</Menu.Item>
 
 			<Menu.Item key="video">
-				<Link to="/admin/video"><Icon type="video-camera" />视频</Link>
+				<Link to="/video"><Icon type="video-camera" />视频</Link>
 			</Menu.Item>
 
  			<Menu.Item key="auth">

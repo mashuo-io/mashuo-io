@@ -1,5 +1,5 @@
 const authInitialState = {
-    isFetching: false
+    isFetching: false,
 };
 
 export default function(state = authInitialState, action) {

@@ -6,7 +6,7 @@ export default class extends React.Component {
 	render() {
 		return <Menu mode="horizontal">
 			<Menu.Item key="home">
-				<Icon type="home" />主页
+				<Link to="/"><Icon type="home" />主页</Link>
 			</Menu.Item>
  			<Menu.Item key="auth">
 			     <Link to="/auth"><Icon type="user" />登陆</Link>

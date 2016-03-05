@@ -25,7 +25,7 @@ const dispatchToProps = function(dispatch) {
     // In a real app, you would 'dispatch' an action here based
     // on the user being clicked
     return {
-        onLogin: () => {dispatch(startOauthGithubLogin()); dispatch(doOauthGithubLogin())}
+        onLogin: () => {dispatch(doOauthGithubLogin())}
     }
 };
 

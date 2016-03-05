@@ -1,3 +1,5 @@
+let fetch = require('isomorphic-fetch');
+
 export function startOauthGithubLogin() {
     return { type: 'START_OAUTH_GITHUB'};
 }
@@ -8,10 +10,14 @@ export function stopOauthGithubLogin() {
 
 export function doOauthGithubLogin() {
     return function(dispatch) {
-        setTimeout(() => {
-            // Yay! Can invoke sync or async actions with `dispatch`
-            dispatch(stopOauthGithubLogin());
-        }, 1000);
+        //dispatch(startOauthGithubLogin());
+        //setTimeout(() => {
+        //    dispatch(stopOauthGithubLogin());
+        //}, 1000);
+
+        fetch('http://localhost:3000/api/auth/github')
+        .then(x=> x.json())
+        .then(x=> console.log('x'));
     }
 }
 

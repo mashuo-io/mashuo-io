@@ -5,13 +5,17 @@ import { Provider }         from 'react-redux';
 import { createStore, combineReducers, applyMiddleware }  from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+//import { routerReducer, routerMiddleware } from 'react-router-redux'
+
 import auth from '../common/user/auth/auth.reducer';
 import video from '../common/shared/video/video.reducer';
-
 import userRoute from '../common/user/user.route';
 import adminRoute from '../common/admin/admin.route';
 
-const reducer = combineReducers({auth, video});
+const reducer = combineReducers({
+	auth,
+	video
+});
 
 const loggerMiddleware = createLogger();
 const store = createStore(

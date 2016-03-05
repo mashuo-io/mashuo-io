@@ -7,7 +7,7 @@ const Auth = React.createClass({
     render: function() {
         return (
             <Button type="primary" size="large" onClick={this.props.onLogin} loading={this.props.isFetching}>
-                <Icon type="github" />
+                <Icon icon="github" />
                 通过Github登录
             </Button>
         )

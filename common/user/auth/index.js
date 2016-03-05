@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Button, Icon}  from "antd";
+import {Button, Icon}  from "amazeui-react";
 import {connect} from "react-redux";
 import {startOauthGithubLogin, doOauthGithubLogin} from './auth.action';
 

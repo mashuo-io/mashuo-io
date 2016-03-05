@@ -1,7 +1,7 @@
 import React from 'react';
-import 'antd/style/index.less';
 import Header from './layout/Header.js';
 import Footer from './layout/Footer.js';
+import 'amazeui/less/amazeui.less';
 
 const Main = ()=> (
 	<h2>main page</h2>

@@ -21,6 +21,5 @@ module.exports = function(app, config) {
 	.use(bodyParser())
 	.use(compress())
 	.use(responseTime())
-	.use(passport.initialize())
-	.use(passport.session());
+	.use(passport.initialize());
 };

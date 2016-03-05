@@ -1,23 +1,23 @@
 import React from 'react';
-import {Menu, Icon} from 'antd';
 import {Link} from 'react-router';
+import {Topbar, Nav, CollapsibleNav, Icon} from 'amazeui-react';
+import ActiveNavItem from '../../shared/utils/ActiveNavItem';
 
-export default class extends React.Component {
+class Header extends React.Component {
 	render() {
-		return <Menu mode="horizontal">
+		return (
+			<Topbar brand="码说" toggleNavKey="nav">
 
-			<Menu.Item key="home">
-				<Link to="/"><Icon type="home" />主页</Link>
-			</Menu.Item>
-
-			<Menu.Item key="video">
-				<Link to="/video"><Icon type="video-camera" />视频</Link>
-			</Menu.Item>
-
- 			<Menu.Item key="auth">
-			     <Link to="/auth"><Icon type="user" />登陆</Link>
-			</Menu.Item>
-
-		</Menu>
+				<CollapsibleNav eventKey="nav">
+					<Nav topbar>
+						<ActiveNavItem activeClassName="am-active" onlyActiveOnIndex  to="/">主页</ActiveNavItem>
+						<ActiveNavItem activeClassName="am-active"  to="/video">视频</ActiveNavItem>
+						<ActiveNavItem activeClassName="am-active"  to="/auth">登陆</ActiveNavItem>
+					</Nav>
+				</CollapsibleNav>
+			</Topbar>
+		);
 	}
 }
+
+export default Header;

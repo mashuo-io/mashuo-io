@@ -1,4 +1,5 @@
-let fetch = require('isomorphic-fetch');
+//let fetch = require('isomorphic-fetch');
+let axios = require('axios');
 
 export function startFetching() {
 	return {
@@ -14,12 +15,20 @@ export function finishFetching(videos) {
 }
 
 export function doFetch() {
-	return (disptch) => {
-		disptch(startFetching());
+	return (dispatch) => {
+		dispatch(startFetching());
 
-		fetch('http://localhost:3000/api/videos')
-		.then(x=> x.json())
-		.then(x=>disptch(finishFetching(x)));
+		//fetch('http://localhost:3000/api/videos')
+		//.then(x=> x.json())
+		//.then(x=>{
+		//	console.log(x);
+		//	dispatch(finishFetching(x))
+		//});
 
+		axios.get('http://localhost:3000/api/videos')
+		.then(function (response) {
+			dispatch(finishFetching(response.data));
+		})
+		.catch(x=>{})
 	}
 }

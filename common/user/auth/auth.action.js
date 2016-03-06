@@ -1,5 +1,32 @@
-//let fetch = require('isomorphic-fetch');
-let axios = require('axios');
+import axios from 'axios';
+import {browserHistory} from 'react-router'
+
+axios.interceptors.request.use(function (config) {
+    if (/.json$/.test(config.url) || /.html$/.test(config.url)) return config;
+
+    config.headers['Authorization'] = `Bearer ${localStorage.getItem('Token')}`;
+
+    return config;
+
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    switch(error.status)
+    {
+        case 401:
+        case 403:
+            browserHistory.push('/auth');
+            break;
+    }
+
+    return Promise.reject(error);
+});
+
+console.log(axios.interceptors.response);
 
 export function loggedIn() {
     return {type: 'OAUTH.LOGGED_IN'};
@@ -11,21 +38,6 @@ export function loggedOut() {
 
 export function exchangeTokenByCode(code) {
     return function(dispatch) {
-        //dispatch(startOauthGithubLogin());
-        //setTimeout(() => {
-        //    dispatch(loggedIn());
-        //}, 1000);
-
-        //fetch('http://localhost:3000/api/auth/github')
-
-        //.then(x => x.json())
-        //.then(x=> console.log('x'));
-        //.then( x => {
-        //    console.log('response');
-        //    if (x.status == 302){
-        //        console.log(x);
-        //    }
-        //})
 
         axios.get('http://localhost:3000/api/auth/github', {params: {code}})
         .then(function (response) {
@@ -33,7 +45,6 @@ export function exchangeTokenByCode(code) {
             dispatch(loggedIn())
         })
         .catch(function (response) {
-            console.log(response);
         });
     }
 }

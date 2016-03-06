@@ -20,7 +20,7 @@ let tokenSchema = new mongoose.Schema({
     token: {type:String, trim: true},
     accountId: {type: mongoose.Schema.Types.ObjectId, index: {unique: true}},
     expireAt: {type: Date,required: true, default: function(){
-        // 5 seconds from now
+        // 3 seconds from now
         return new Date(new Date().valueOf() + 1000 * 3);
     }}
 });

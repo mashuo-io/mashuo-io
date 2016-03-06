@@ -10,7 +10,9 @@ const Main = ()=> (
 const App = (props) => (
 	<div>
 		<Header></Header>
-		{props.children}
+		<div className="am-container">
+			{props.children}
+		</div>
 		<Footer></Footer>
 	</div>
 );

@@ -11,7 +11,6 @@ import video from '../common/shared/video/video.reducer';
 import userRoute from '../common/user/user.route';
 import adminRoute from '../common/admin/admin.route';
 
-
 const reducer = combineReducers({
 	auth,
 	video

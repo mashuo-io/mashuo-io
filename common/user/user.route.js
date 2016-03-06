@@ -3,7 +3,7 @@ import App from './App';
 import Auth from './auth';
 import Home from './layout/Home';
 import {Route, IndexRoute} from 'react-router';
-import Video from '../shared/video/Video';
+import Video from '../shared/video/VideoList';
 
 export default (
 	<Route path="/" component={App}>

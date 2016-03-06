@@ -1,12 +1,7 @@
-let initialState = {isFetching: false, videos: []};
+let initialState = {isFetching: false};
+import generateReducer from '../utils/reducer-generator';
 
-export default function(state = initialState, action) {
-	switch(action.type) {
-		case 'VIDEO.START_FETCHING':
-			return Object.assign({}, state, {isFetching: true});
-		case 'VIDEO.FINISH_FETCHING':
-			return Object.assign({}, state, {isFetching: false, videos: action.videos});
-		default:
-			return state;
-	}
-}
+export default generateReducer('VIDEO', {
+	'START_FETCHING': (state, action) => Object.assign({}, state, {isFetching: true}),
+	'FINISH_FETCHING': (state, action) => Object.assign({}, state, {isFetching: false, videos: action.videos})
+}, initialState);

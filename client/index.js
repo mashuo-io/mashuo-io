@@ -5,6 +5,7 @@ import { Provider }         from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose }  from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 
 import auth from '../common/user/auth/auth.reducer';
 import publicVideo from '../common/shared/video/public-video.reducer';
@@ -15,18 +16,21 @@ import adminRoute from '../common/admin/admin.route';
 const reducer = combineReducers({
 	auth,
 	publicVideo,
-	myVideo
+	myVideo,
+	routing: routerReducer
 });
 
 const store = compose(
 	applyMiddleware(
 		thunkMiddleware,
+		routerMiddleware(browserHistory),
 		createLogger()
 	)
 )(createStore)(reducer);
 
+const history = syncHistoryWithStore(browserHistory, store);
 render (<Provider store={store}>
-			<Router history={browserHistory} routes={userRoute} />
+			<Router history={history} routes={userRoute} />
 		</Provider>,
 	document.getElementById('app')
 );

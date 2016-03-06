@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --content-base . --history-api-fallback",
-    "test": "mocha $(find . -name '*.test.js' ! -ipath '*node_modules*')",
+    "test": "NODE_ENV=test mocha $(find . -name '*.test.js' ! -ipath '*node_modules*')",
     "web-tests": "webpack-dev-server --hot --inline --config webpack-spec.config.js"
   },
   "repository": {

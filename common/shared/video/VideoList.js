@@ -35,7 +35,7 @@ export class VideoList extends React.Component {
 
 const stateToProps = state=> {
 	return {
-		...state.video,
+		...state.publicVideo,
 		name: '最新视频'
 	}
 };

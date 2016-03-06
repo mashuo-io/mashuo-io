@@ -1,33 +1,46 @@
 //let fetch = require('isomorphic-fetch');
 let axios = require('axios');
 
-export function startFetching() {
+export function setDoing() {
 	return {
-		type: 'VIDEO.START_FETCHING'
+		type: 'VIDEO.SET_DOING'
 	}
 }
 
-export function finishFetching(videos) {
+export function setDone() {
 	return {
-		type: 'VIDEO.FINISH_FETCHING',
+		type: 'VIDEO.SET_DONE'
+	}
+}
+
+export function loadPublicVideos(videos) {
+	return {
+		type: 'VIDEO.LOAD_VIDEOS',
 		videos
 	}
 }
 
-export function doFetch() {
+export function doFetchPublicVideos() {
 	return (dispatch) => {
-		dispatch(startFetching());
+		dispatch(setDoing());
 
-		//fetch('http://localhost:3000/api/videos')
-		//.then(x=> x.json())
-		//.then(x=>{
-		//	console.log(x);
-		//	dispatch(finishFetching(x))
-		//});
-
-		axios.get('http://localhost:3000/api/videos')
+		axios.get('http://127.0.0.1:3000/api/videos')
 		.then(function (response) {
-			dispatch(finishFetching(response.data));
+			dispatch(loadPublicVideos(response.data));
+			dispatch(setDone());
+		})
+		.catch(x=>{})
+	}
+}
+
+export function doFetchMyVideos() {
+	return (dispatch) => {
+		dispatch(setDoing());
+
+		axios.get('http://127.0.0.1:3000/api/my-videos')
+		.then(function (response) {
+			dispatch(loadPublicVideos(response.data));
+			dispatch(setDone());
 		})
 		.catch(x=>{})
 	}

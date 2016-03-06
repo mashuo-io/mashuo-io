@@ -9,3 +9,8 @@ export default (prefix, mapping, initialState) => {
 		return reducer(state, action);
 	};
 };
+
+export const baseMapping = {
+	'SET_DOING': (state, action) => Object.assign({}, state, {status: 'doing'}),
+	'SET_DONE': (state, action) => Object.assign({}, state, {status: 'done'})
+};

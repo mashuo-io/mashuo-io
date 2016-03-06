@@ -11,6 +11,7 @@ class Header extends React.Component {
 					<Nav topbar>
 						<ActiveNavItem activeClassName="am-active" onlyActiveOnIndex  to="/">主页</ActiveNavItem>
 						<ActiveNavItem activeClassName="am-active" to="/video">视频</ActiveNavItem>
+						<ActiveNavItem activeClassName="am-active" to="/my-video">我的视频</ActiveNavItem>
 						<ActiveNavItem activeClassName="am-active" to="/auth">登陆</ActiveNavItem>
 					</Nav>
 				</CollapsibleNav>

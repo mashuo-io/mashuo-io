@@ -12,7 +12,8 @@ var base = {
 	},
 	mongo: {
 		debug: true
-	}
+	},
+	defaultTokenTtl: 60*60*24*3 // 3 days by default
 };
 
 var specific = {

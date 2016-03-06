@@ -2,6 +2,10 @@
 
 let mongoose = require('mongoose');
 let _ = require('lodash');
+let AccountModel = require('../auth/model').accountModel;
+let TokenModel = require('../auth/model').tokenModel;
+let co = require('co');
+let uuid = require('uuid');
 
 var mocha = require('mocha');
 var coMocha = require('co-mocha');
@@ -17,5 +21,25 @@ module.exports = {
 		});
 
 		return Promise.all(promises);
+	},
+
+	mochaGithubLogin: (githubId) => {
+		return co(function *() {
+			let account = yield new AccountModel({
+				github: {
+					id: githubId,
+					email: `${githubId}@example.com`,
+					login: githubId,
+					avatarUrl: `${githubId}.jpg`
+				}
+			}).save();
+
+			let token = yield new TokenModel({
+				token: uuid.v4(),
+				accountId: account._id
+			}).save();
+
+			return {accountId: account._id, token: token.token};
+		})
 	}
 };

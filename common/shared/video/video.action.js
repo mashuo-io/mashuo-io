@@ -13,7 +13,7 @@ export function finishFetching(videos) {
 	}
 }
 
-export function doFetch() {
+export function doFetchPublicVideos() {
 	return (disptch) => {
 		disptch(startFetching());
 

@@ -5,7 +5,7 @@ axios.interceptors.request.use(function (config) {
     let isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
     if ( !isAbsoluteURLRegex.test(config.url) ) {
-        config.url = 'http://localhost:3000' + config.url;
+        config.url = 'http://localhost:3000/api' + config.url;
     }
 
     if (/.json$/.test(config.url) || /.html$/.test(config.url)) return config;
@@ -45,7 +45,7 @@ export function exchangeTokenByCode(code) {
     return function(dispatch) {
 
         //axios.get('http://localhost:3000/api/auth/github', {params: {code}})
-        axios.get('/api/auth/github', {params: {code}})
+        axios.get('/auth/github', {params: {code}})
         .then(function (response) {
             localStorage.setItem('Token', response.data);
             dispatch(loggedIn())

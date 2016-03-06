@@ -3,10 +3,12 @@ import {connect} from 'react-redux';
 import {doFetchMyVideos} from './video.action';
 import {Table, Button} from 'amazeui-react';
 import {push} from 'react-router-redux';
+import {initialize} from 'redux-form';
+import TimeAgo from 'react-timeago';
 
 export class VideoList extends React.Component {
 	componentWillMount() {
-		if (!this.props.videos) this.props.doFetch();
+		this.props.doFetch();
 	}
 	render() {
 		return (
@@ -19,6 +21,7 @@ export class VideoList extends React.Component {
 						<th>名称</th>
 						<th>状态</th>
 						<th>上传时间</th>
+						<th>动作</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -27,6 +30,7 @@ export class VideoList extends React.Component {
 							<td>{x.name}</td>
 							<td>{x.status === 'new' ? '未发布': '已发布'}</td>
 							<td><TimeAgo date={x.createdOn} /></td>
+							<td><Button onClick={()=>this.props.editVideo(x)}>编辑</Button></td>
 						</tr>
 					))}
 					</tbody>
@@ -40,13 +44,16 @@ export default connect(
 	(state)=> {
 		return {
 			...state.myVideo
-
 		}
 	},
 	dispatch=> {
 		return {
-			doFetch: () => dispatch(doFetchMyVideos),
-			newVideo: ()=> dispatch(push('/new-video'))
+			doFetch: () => dispatch(doFetchMyVideos()),
+			newVideo: ()=> dispatch(push('/new-video')),
+			editVideo: (video)=> {
+				dispatch(initialize('video', video, ['name', 'description']));
+				dispatch(push('/new-video'));
+			}
 		}
 	}
 )(VideoList)

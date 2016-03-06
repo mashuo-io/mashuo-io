@@ -23,7 +23,7 @@ module.exports = {
 		return Promise.all(promises);
 	},
 
-	mochaGithubLogin: (githubId) => {
+	mockGithubLogin: (githubId) => {
 		return co(function *() {
 			let account = yield new AccountModel({
 				github: {

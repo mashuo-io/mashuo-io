@@ -10,11 +10,11 @@ describe('video', () => {
 	beforeEach(function *() {
 		yield tool.cleanDb();
 
-		let result = yield tool.mochaGithubLogin('ron-liu');
+		let result = yield tool.mockGithubLogin('ron-liu');
 		accountId = result.accountId;
 		token = result.token;
 
-		result = yield tool.mochaGithubLogin('zhui');
+		result = yield tool.mockGithubLogin('zhui');
 		accountId1 = result.accountId;
 		token1 = result.token;
 

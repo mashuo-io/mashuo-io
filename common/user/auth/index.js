@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import {Button, Icon}  from "amazeui-react";
 import {connect} from "react-redux";
-import {startOauthGithubLogin, doOauthGithubLogin, popoutGithubLogin, closeGithubLogin} from './auth.action';
+import {exchangeTokenByCode, logout} from './auth.action';
 
 class Auth extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
     openLogin(){
         function encodeQueryData(data) {
             var ret = [];
@@ -23,9 +27,12 @@ class Auth extends React.Component {
                 scope: 'user:email'
             });
 
-        window.setSearchResult = function(returnValue){
-            console.log('child closed', returnValue);
+        window.setSearchResult = function(code){
             window.focus();
+
+            if( window.thisAuth){
+                window.thisAuth.props.onExchangeTokenByCode(code);
+            }
         };
 
         window.open(loginUrl,'_blank','width=400,height=400,scrollbars=1');
@@ -33,27 +40,36 @@ class Auth extends React.Component {
 
 
     render() {
-        return (
-            <Button type="primary" size="large" onClick={this.openLogin}>
-                <Icon icon="github"/>
-                通过Github登录
-            </Button>
-        )
+        window.thisAuth = this;
+        if ( this.props.isLoggedIn ){
+            return (
+                <Button type="primary" size="large" onClick={this.props.onLogout}>
+                    <Icon icon="github"/>
+                    注销
+                </Button>
+            )
+        }else {
+            return (
+                <Button type="primary" size="large" onClick={this.openLogin}>
+                    <Icon icon="github"/>
+                    通过Github登录
+                </Button>
+            )
+        }
+
     }
 }
 
 const stateToProps = function(state) {
     return {
-        isFetching: state.auth.isFetching,
-        isPoppedOut: state.auth.isPoppedOut
+        isLoggedIn: state.auth.isLoggedIn
     }
 };
 
 const dispatchToProps = function(dispatch) {
     return {
-        onLogin: () => {dispatch(doOauthGithubLogin())},
-        onPopoutGithubLogin: (url) => {dispatch(popoutGithubLogin(url))},
-        onCloseGithubLogin: () => {dispatch(closeGithubLogin())}
+        onExchangeTokenByCode: (code) => {dispatch(exchangeTokenByCode(code))},
+        onLogout: () => {dispatch(logout())}
     }
 };
 

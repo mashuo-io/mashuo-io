@@ -1,19 +1,19 @@
 //let fetch = require('isomorphic-fetch');
 let axios = require('axios');
 
-export function startOauthGithubLogin() {
-    return { type: 'START_OAUTH_GITHUB'};
+export function loggedIn() {
+    return {type: 'OAUTH.LOGGED_IN'};
 }
 
-export function stopOauthGithubLogin() {
-    return {type: 'FINISH_OAUTH_GITHUB'};
+export function loggedOut() {
+    return {type: 'OAUTH.LOGGED_OUT'};
 }
 
-export function doOauthGithubLogin() {
+export function exchangeTokenByCode(code) {
     return function(dispatch) {
         //dispatch(startOauthGithubLogin());
         //setTimeout(() => {
-        //    dispatch(stopOauthGithubLogin());
+        //    dispatch(loggedIn());
         //}, 1000);
 
         //fetch('http://localhost:3000/api/auth/github')
@@ -27,23 +27,18 @@ export function doOauthGithubLogin() {
         //    }
         //})
 
-        axios.get('http://localhost:3000/api/auth/github')
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (response) {
-                console.log(response);
-            });
-
-
-        //window.location = 'http://localhost:3000/api/auth/github';
+        axios.get('http://localhost:3000/api/auth/github', {params: {code}})
+        .then(function (response) {
+            localStorage.setItem('Token', response.data);
+            dispatch(loggedIn())
+        })
+        .catch(function (response) {
+            console.log(response);
+        });
     }
 }
 
-export function closeGithubLogin() {
-    return {type: 'AUTH.CLOSE_GITHUB_LOGIN'};
-}
-
-export function popoutGithubLogin() {
-    return {type: 'AUTH.POPOUT_GITHUB_LOGIN'};
+export function logout(){
+    localStorage.removeItem('Token');
+    return loggedOut();
 }

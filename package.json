@@ -21,6 +21,8 @@
     "amazeui": "^2.5.2",
     "amazeui-react": "^1.0.1",
     "axios": "^0.9.1",
+    "body-parser": "^1.15.0",
+    "co-request": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "kcors": "^1.0.1",
     "koa": "^1.2.0",
@@ -42,7 +44,8 @@
     "react-router-active-component": "^4.0.0-rc.0",
     "redux": "^3.3.1",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^1.0.3"
+    "redux-thunk": "^1.0.3",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.6.4",

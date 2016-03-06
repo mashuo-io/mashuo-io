@@ -6,6 +6,7 @@ import { createStore, combineReducers, applyMiddleware, compose }  from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
+import {reducer as formReducer} from 'redux-form';
 
 import auth from '../common/user/auth/auth.reducer';
 import publicVideo from '../common/shared/video/public-video.reducer';
@@ -17,7 +18,8 @@ const reducer = combineReducers({
 	auth,
 	publicVideo,
 	myVideo,
-	routing: routerReducer
+	routing: routerReducer,
+	form: formReducer
 });
 
 const store = compose(

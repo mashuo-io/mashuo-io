@@ -4,7 +4,7 @@ let request = require('supertest-as-promised')(require('../../index').listen());
 let tool = require('../shared/tool.test');
 
 describe('qiniu', () => {
-	it.only('should get qiniu token with key', function *() {
+	it('should get qiniu token with key', function *() {
 		yield request.get('/api/qiniu-token/abc.jpg')
 		.expect(200)
 		.expect(res=>console.log('qiniu token', res.body))

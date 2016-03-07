@@ -4,7 +4,6 @@ let request = require('co-request');
 let config = require('../../config/config');
 let accountModel = require('./model').accountModel;
 let tokenModel = require('./model').tokenModel;
-let _ = require('lodash');
 
 function getBearerToken(header, throwException) {
 	let groups = /^\s*(\w+)\s+(\S+)\s*$/.exec(header);
@@ -55,6 +54,8 @@ module.exports = {
 			}).save();
 		}
 
+		console.log(account);
+
 		// If token exists, update the expired time, otherwise create new one
 		let token = yield tokenModel.findOne({accountId: account._id});
 		if (!token) {
@@ -73,20 +74,9 @@ module.exports = {
 			)
 		}
 
-		this.body = {
-			token: token.token,
-			avatarUrl: account.github.avatarUrl,
-			email: account.github.email,
-			loginName: account.github.login
-		};
-	},
+		console.log(token);
 
-	getAccountInfo: function* () {
-		this.body = {
-			avatarUrl: this.currentUser.github.avatarUrl,
-			email: this.currentUser.github.email,
-			loginName: this.currentUser.github.login
-		}
+		this.body = token.token;
 	},
 
 	authenticateTokenMiddleware: function* (next) {

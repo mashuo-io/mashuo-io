@@ -4,6 +4,7 @@ import {Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, Ov
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
+import {upload} from '../utils/uploader';
 
 export const fields = [
 	'_id',
@@ -12,6 +13,35 @@ export const fields = [
 	'episodes[].name',
 	'episodes[].url'
 ];
+
+class Episode extends React.Component {
+	componentDidMount() {
+		console.log('pppppp', this.props);
+		upload({
+			fileKey: '6.png',
+			chooseFileId: `e${this.props.index}`,
+			uploadComplete: ()=>console.log('upload complete', arguments),
+			uploadProgress: (percent)=>console.log(percent)
+		});
+	}
+
+	render() {
+		return (
+			<Row >
+				<Col sm={1}><span>#{this.props.index + 1}</span></Col>
+				<Col sm={5}><Input type="text"  placeholder="说明" field={this.props.episode.name}/></Col>
+				<Col sm={5}>
+					<Input id={`e${this.props.index}`} type="file" placeholder="Url" field={this.props.episode.url} />
+				</Col>
+				<Col sm={1}>
+					<OverlayTrigger placement="left" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
+						<a href="javascript:"><Glyphicon glyph="trash" /></a>
+					</OverlayTrigger>
+				</Col>
+			</Row>
+		)
+	}
+}
 
 @reduxForm(
 	{ form: 'video', fields },
@@ -45,20 +75,9 @@ export default class Form extends React.Component {
 					<Input type="textarea" label="视频描述" placeholder="视频描述" {...description} value={description.value || ''}/>
 					<Input label="内容" wrapperClassName="wrapper">
 						{episodes.map((episode, index) => (
-							<Row key={index}>
-								<Col sm={1}><span>#{index + 1}</span></Col>
-								<Col sm={5}><Input type="text"  placeholder="说明" field={episode.name}/></Col>
-								<Col sm={5}>
-									<Input type="file" placeholder="Url" field={episode.url} />
-								</Col>
-								<Col sm={1}>
-									<OverlayTrigger placement="left" overlay={ <Tooltip id={`del-${index}`}>删除</Tooltip>}>
-										<a href="javascript:"><Glyphicon glyph="trash" /></a>
-									</OverlayTrigger>
-								</Col>
-							</Row>
+							<Episode key={index} index={index} episode={episode} />
 						))}
-						<Row>
+						<Row key={Infinity}>
 							<Col sm={12}><Button onClick={()=>episodes.addField()}>添加一集</Button></Col>
 						</Row>
 					</Input>

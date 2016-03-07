@@ -10,20 +10,21 @@ export class HeaderBS extends React.Component {
 			<Navbar>
 				<Navbar.Header>
 					<Navbar.Brand>
-						<LinkContainer to="/">
-							<a >码说</a>
-						</LinkContainer>
+						<LinkContainer to="/"><a >码说</a></LinkContainer>
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav>
+						<LinkContainer to="/video">
+							<NavItem >最新视频</NavItem>
+						</LinkContainer>
 						<LinkContainer to="/my-video">
 							<NavItem >我的视频</NavItem>
 						</LinkContainer>
 					</Nav>
 					<Nav pullRight>
-                        <AuthButton />
+						<AuthButton />
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

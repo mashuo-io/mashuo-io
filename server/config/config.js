@@ -13,7 +13,12 @@ var base = {
 	mongo: {
 		debug: true
 	},
-	defaultTokenTtl: 60*60*24*3 // 3 days by default
+	defaultTokenTtl: 60*60*24*3, // 3 days by default
+	qiniu: {
+		accessKey: '4E1QPOwTOwbW2p6AGeIve3jw4I6Udy3CjjlHq91b',
+		secretKey: 'mQyFwg53EvU1hsXBbU8ml0hFWVIdCpO7yVUul1Pj',
+		bucket: 'test'
+	}
 };
 
 var specific = {

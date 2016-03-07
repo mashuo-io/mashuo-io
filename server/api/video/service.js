@@ -21,7 +21,10 @@ module.exports = {
 	},
 
 	getMyVideos: function *() {
-		this.body = yield VideoModel.find({createdBy: this.currentUser._id}).lean();
+		this.body = yield VideoModel
+		.find({createdBy: this.currentUser._id})
+		.sort({createdOn: -1})
+		.lean();
 	},
 
 	getMyVideoById: function *() {
@@ -36,7 +39,10 @@ module.exports = {
 	},
 
 	getVideos: function *() {
-		this.body = yield VideoModel.find({}).lean();
+		this.body = yield VideoModel
+		.find({})
+		.sort({createdOn: -1})
+		.lean();
 	}
 
 };

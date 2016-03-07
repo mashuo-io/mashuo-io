@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {doFetchPublicVideos} from './video.action';
 import {Table} from 'amazeui-react';
-import TimeAgo from 'react-timeago';
+import TimeAgo from '../utils/TimeAgo';
 
 
 @connect(

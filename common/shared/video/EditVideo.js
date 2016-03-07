@@ -1,6 +1,6 @@
 import React from 'react';
 import {reduxForm, reset} from 'redux-form';
-import {Input, ButtonToolbar, Button, Grid, Col, Glyphicon} from 'react-bootstrap';
+import {Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
@@ -39,32 +39,36 @@ export default class Form extends React.Component {
 		console.log('fdsafdsa', this.props);
 		return (
 			<div>
-				<h1>创建新视频</h1>
+				<h2>创建新视频</h2>
 				<form className="am-form" onSubmit={handleSubmit}>
 					<Input type="text" label="视频名称" placeholder="视频名称" {...name} />
 					<Input type="textarea" label="视频描述" placeholder="视频描述" {...description} value={description.value || ''}/>
-					<div>
-						<h4>视频</h4>
+					<Input label="内容" wrapperClassName="wrapper">
 						{episodes.map((episode, index) => (
-							<Grid key={index}>
+							<Row key={index}>
 								<Col sm={1}><span>#{index + 1}</span></Col>
 								<Col sm={5}><Input type="text"  placeholder="说明" field={episode.name}/></Col>
 								<Col sm={5}>
 									<Input type="file" placeholder="Url" field={episode.url} />
 								</Col>
 								<Col sm={1}>
-									<a><Glyphicon glyph="trush" /></a>
+									<OverlayTrigger placement="left" overlay={ <Tooltip id={`del-${index}`}>删除</Tooltip>}>
+										<a href="javascript:"><Glyphicon glyph="trash" /></a>
+									</OverlayTrigger>
 								</Col>
-							</Grid>
+							</Row>
 						))}
-						<Grid>
+						<Row>
 							<Col sm={12}><Button onClick={()=>episodes.addField()}>添加一集</Button></Col>
-						</Grid>
-					</div>
-					<ButtonToolbar>
-						<Input type="submit" value="提交" amStyle="primary" standalone/>
-						<Input type="reset" value="取消" amStyle="warning" onClick={cancelForm} standalone/>
-					</ButtonToolbar>
+						</Row>
+					</Input>
+
+					<Input wrapperClassName="wrapper">
+						<Row>
+							<Col xs={1}> <ButtonInput bsStyle="primary" type="submit" value="提交" /></Col>
+							<Col xs={1}> <ButtonInput bsStyle="warning" type="reset" value="取消" onClick={cancelForm} /></Col>
+						</Row>
+					</Input>
 				</form>
 			</div>
 		);

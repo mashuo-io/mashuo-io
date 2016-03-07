@@ -1,6 +1,6 @@
 import React from 'react';
 import {reduxForm, reset} from 'redux-form';
-import {Input, ButtonToolbar, Button, Grid, Col, FormGroup, Icon} from 'amazeui-react';
+import {Input, ButtonToolbar, Button, Grid, Col, Glyphicon} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
@@ -43,7 +43,7 @@ export default class Form extends React.Component {
 				<form className="am-form" onSubmit={handleSubmit}>
 					<Input type="text" label="视频名称" placeholder="视频名称" {...name} />
 					<Input type="textarea" label="视频描述" placeholder="视频描述" {...description} value={description.value || ''}/>
-					<FormGroup>
+					<div>
 						<h4>视频</h4>
 						{episodes.map((episode, index) => (
 							<Grid key={index}>
@@ -53,14 +53,14 @@ export default class Form extends React.Component {
 									<Input type="file" placeholder="Url" field={episode.url} />
 								</Col>
 								<Col sm={1}>
-									<a><Icon button icon="trash" /></a>
+									<a><Glyphicon glyph="trush" /></a>
 								</Col>
 							</Grid>
 						))}
 						<Grid>
 							<Col sm={12}><Button onClick={()=>episodes.addField()}>添加一集</Button></Col>
 						</Grid>
-					</FormGroup>
+					</div>
 					<ButtonToolbar>
 						<Input type="submit" value="提交" amStyle="primary" standalone/>
 						<Input type="reset" value="取消" amStyle="warning" onClick={cancelForm} standalone/>

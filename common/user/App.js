@@ -11,11 +11,9 @@ const App = (props) => (
 	<div>
 		<HeaderBS></HeaderBS>
 
-        {/*
-		<div className="am-container">
+		<div className="container">
 			{props.children}
 		</div>
-        */}
 	</div>
 );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {doFetchMyVideos} from './video.action';
-import {Table, Button} from 'amazeui-react';
+import {Table, Button} from 'react-bootstrap';
 import {push} from 'react-router-redux';
 import TimeAgo from '../utils/TimeAgo';
 
@@ -22,7 +22,7 @@ export default class VideoList extends React.Component {
 			<div>
 				<h1>我的视频</h1>
 				<Button amStyle="primary" onClick={this.props.newVideo}>新建视频</Button>
-				<Table striped hover radius>
+				<Table striped condensed hover>
 					<thead>
 					<tr>
 						<th>名称</th>

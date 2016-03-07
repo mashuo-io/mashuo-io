@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {doFetchPublicVideos} from './video.action';
-import {Table} from 'amazeui-react';
+import {Table} from 'react-bootstrap';
 import TimeAgo from '../utils/TimeAgo';
 
 

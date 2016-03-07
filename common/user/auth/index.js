@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Button, Icon}  from "amazeui-react";
+import {Button, Icon}  from "react-bootstrap";
 import {connect} from "react-redux";
 import {exchangeTokenByCode, logout} from './auth.action';
 

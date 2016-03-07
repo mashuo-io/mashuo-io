@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Topbar, Nav, CollapsibleNav, NavItem, Icon} from 'amazeui-react';
+import {Topbar, Nav, CollapsibleNav, NavItem, Icon} from 'react-bootstrap';
 
 export default ()=>(
 	<Topbar brand="码说" toggleNavKey="nav">

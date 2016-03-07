@@ -3,10 +3,17 @@ import {connect} from 'react-redux';
 import {doFetchMyVideos} from './video.action';
 import {Table, Button} from 'amazeui-react';
 import {push} from 'react-router-redux';
-import {initialize} from 'redux-form';
 import TimeAgo from 'react-timeago';
 
-export class VideoList extends React.Component {
+@connect(
+	state => state.myVideo,
+	dispatch => ({
+		doFetch: () => dispatch(doFetchMyVideos()),
+		newVideo: ()=> dispatch(push('/video/new')),
+		editVideo: video=> dispatch(push(`/video/edit/${video._id}`))
+	})
+)
+export default class VideoList extends React.Component {
 	componentWillMount() {
 		this.props.doFetch();
 	}
@@ -39,21 +46,3 @@ export class VideoList extends React.Component {
 		);
 	}
 }
-
-export default connect(
-	(state)=> {
-		return {
-			...state.myVideo
-		}
-	},
-	dispatch=> {
-		return {
-			doFetch: () => dispatch(doFetchMyVideos()),
-			newVideo: ()=> dispatch(push('/new-video')),
-			editVideo: (video)=> {
-				dispatch(initialize('video', video, ['name', 'description']));
-				dispatch(push('/new-video'));
-			}
-		}
-	}
-)(VideoList)

@@ -4,14 +4,23 @@ import {doFetchPublicVideos} from './video.action';
 import {Table} from 'amazeui-react';
 import TimeAgo from 'react-timeago';
 
-export class VideoList extends React.Component {
+
+@connect(
+	state=> state.publicVideo,
+	dispatch => {
+		return {
+			doFetch: () => dispatch(doFetchPublicVideos())
+		}
+	}
+)
+export default class VideoList extends React.Component {
 	componentWillMount() {
 		if (!this.props.videos) this.props.doFetch();
 	}
 	render() {
 		return (
 			<div>
-				<h1>{this.props.name}</h1>
+				<h1>最新视频</h1>
 				<Table striped hover radius>
 					<thead>
 					<tr>
@@ -32,18 +41,3 @@ export class VideoList extends React.Component {
 		);
 	}
 }
-
-const stateToProps = state=> {
-	return {
-		...state.publicVideo,
-		name: '最新视频'
-	}
-};
-
-const dispatchToProps = dispatch => {
-	return {
-		doFetch: () => dispatch(doFetchPublicVideos())
-	}
-};
-
-export default connect(stateToProps, dispatchToProps)(VideoList);

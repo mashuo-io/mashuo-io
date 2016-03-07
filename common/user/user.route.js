@@ -12,7 +12,8 @@ export default (
 		<IndexRoute component={Home} />
 		<Route path="auth" component={Auth} />
 		<Route path="video" component={Video} />
-		<Route path="new-video" component={EditVideo} />
+		<Route path="video/new" component={EditVideo} />
+		<Route path="video/edit/:id" component={EditVideo} />
 		<Route path="my-video" component={MyVideo} />
 	</Route>
 );

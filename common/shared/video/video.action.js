@@ -1,47 +1,57 @@
-//let fetch = require('isomorphic-fetch');
-let axios = require('axios');
+import {initialize} from 'redux-form';
+import axios from 'axios';
 
-export function setDoing(prefix) {
+export const setDoing = (prefix) => {
 	return {
 		type: `${prefix}.SET_DOING`
 	}
-}
+};
 
-export function setDone() {
+export const setDone = (prefix) => {
 	return {
 		type: `${prefix}.SET_DONE`
 	}
-}
+};
 
-export function loadVideos(prefix, videos) {
+export const loadVideos = (prefix, videos) => {
 	return {
 		type: `${prefix}.LOAD_VIDEOS`,
 		videos
 	}
-}
+};
 
-export function doFetchPublicVideos() {
-	return (dispatch) => {
+export const doFetchPublicVideos = () =>
+	dispatch => {
 		dispatch(setDoing('VIDEO'));
 
-		axios.get('http://127.0.0.1:3000/api/videos')
+		axios.get('/videos')
 		.then(function (response) {
 			dispatch(loadVideos('VIDEO', response.data));
 			dispatch(setDone('VIDEO'));
 		})
 		.catch(x=>{})
-	}
-}
+	};
 
-export function doFetchMyVideos() {
-	return (dispatch) => {
+export const doFetchMyVideos = () =>
+	dispatch => {
 		dispatch(setDoing('MY_VIDEO'));
 
-		axios.get('http://127.0.0.1:3000/api/my-videos')
+		axios.get('/my-videos')
 		.then(function (response) {
 			dispatch(loadVideos('MY_VIDEO', response.data));
 			dispatch(setDone('MY_VIDEO'));
 		})
 		.catch(x=>{})
-	}
-}
+	};
+
+export const doFetchOneMyVideo = (videoId) =>
+	dispatch => {
+		dispatch(setDoing('MY_VIDEO'));
+		axios.get(`/my-videos/${videoId}`)
+		.then(response => {
+			dispatch(initialize('video', response.data, ['name', 'description']));
+			dispatch(setDone('MY_VIDEO'));
+		})
+		.catch(x=>console.log(x))
+
+	};

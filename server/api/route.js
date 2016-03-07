@@ -9,5 +9,6 @@ router.get('/', function *(){this.body= 'hello'});
 router.get('/videos', videoService.getVideos);
 router.post('/my-videos', auth.authenticateTokenMiddleware, videoService.saveMyVideo);
 router.get('/my-videos', auth.authenticateTokenMiddleware, videoService.getMyVideos);
+router.get('/my-videos/:id', auth.authenticateTokenMiddleware, videoService.getMyVideoById);
 
 router.get('/auth/github', auth.oauthGithub);

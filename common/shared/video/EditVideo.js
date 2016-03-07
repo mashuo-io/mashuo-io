@@ -3,45 +3,46 @@ import {reduxForm, reset} from 'redux-form';
 import {Input, ButtonToolbar} from 'amazeui-react';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
+import {doFetchOneMyVideo} from './video.action';
 
 let fields = ['name', 'description'];
 
-let Form = reduxForm({
-	form: 'video',
-	fields
-})(
-	props => {
+@reduxForm(
+	{ form: 'video', fields },
+	null,
+	dispatch=> {
+		return {
+			cancelForm: () => dispatch(goBack()),
+			onSubmit: (v) => console.log('xxxx', v),
+			fetchOne: (id) => dispatch(doFetchOneMyVideo(id))
+		}
+	}
+)
+export default class Form extends React.Component {
+	componentWillMount() {
+		console.log('will mount', this.props);
+		if (this.props.params.id) this.props.fetchOne(this.props.params.id);
+	}
+	render() {
 		const {
 			fields: {name, description},
 			handleSubmit,
 			cancelForm,
 			submitting
-		} = props;
+			} = this.props;
+		console.log('fdsafdsa', this.props);
 		return (
-			<form className="am-form">
-				<Input type="text" label="视频名称" placeholder="视频名称" {...name} />
-				<Input type="textarea" label="视频描述" placeholder="视频描述" {...description} value={description.value || ''} />
-				<ButtonToolbar>
-					<Input type="submit" value="提交" amStyle="primary" onClick={handleSubmit} standalone />
-					<Input type="reset" value="取消" amStyle="warning" onClick={cancelForm} standalone />
-				</ButtonToolbar>
-			</form>
+			<div>
+				<h1>创建新视频</h1>
+				<form className="am-form" onSubmit={handleSubmit}>
+					<Input type="text" label="视频名称" placeholder="视频名称" {...name} />
+					<Input type="textarea" label="视频描述" placeholder="视频描述" {...description} value={description.value || ''}/>
+					<ButtonToolbar>
+						<Input type="submit" value="提交" amStyle="primary" standalone/>
+						<Input type="reset" value="取消" amStyle="warning" onClick={cancelForm} standalone/>
+					</ButtonToolbar>
+				</form>
+			</div>
 		);
 	}
-);
-
-Form = connect(
-	null,
-	dispatch=>{
-		return {
-			cancelForm: ()=>dispatch(goBack())
-		}
-	}
-)(Form);
-
-export default ()=>(
-	<div>
-		<h1>创建新视频</h1>
-		<Form />
-	</div>
-)
+}

@@ -19,7 +19,7 @@ module.exports = {
 
 	module: {
 		loaders: [
-			{ test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?sourceMap&presets[]=es2015&presets[]=react' },
+			{ test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
 			{
 				test: /\.less$/,
 				loader: ExtractTextPlugin.extract('css-loader?sourceMap!less-loader?sourceMap=true&sourceMapContents=true')

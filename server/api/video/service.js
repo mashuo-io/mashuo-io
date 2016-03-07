@@ -17,6 +17,17 @@ module.exports = {
 		this.body = yield VideoModel.find({createdBy: this.currentUser._id}).lean();
 	},
 
+	getMyVideoById: function *() {
+		let video = yield VideoModel
+		.findOne({_id: this.params.id})
+		.lean();
+
+		if (!video) this.throw('Not found', 404);
+		if (video.createdBy.toString() !== this.currentUser.id.toString()) this.throw('Forbidden', 403);
+
+		this.body = video;
+	},
+
 	getVideos: function *() {
 		this.body = yield VideoModel.find({}).lean();
 	}

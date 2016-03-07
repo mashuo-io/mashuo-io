@@ -3,9 +3,9 @@ import {reduxForm, reset} from 'redux-form';
 import {Input, ButtonToolbar} from 'amazeui-react';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
-import {doFetchOneMyVideo} from './video.action';
+import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
 
-let fields = ['name', 'description'];
+export const fields = ['_id', 'name', 'description'];
 
 @reduxForm(
 	{ form: 'video', fields },
@@ -13,7 +13,7 @@ let fields = ['name', 'description'];
 	dispatch=> {
 		return {
 			cancelForm: () => dispatch(goBack()),
-			onSubmit: (v) => console.log('xxxx', v),
+			onSubmit: (video) => dispatch(doSaveMyVideo(video)),
 			fetchOne: (id) => dispatch(doFetchOneMyVideo(id))
 		}
 	}
@@ -21,7 +21,7 @@ let fields = ['name', 'description'];
 export default class Form extends React.Component {
 	componentWillMount() {
 		console.log('will mount', this.props);
-		if (this.props.params.id) this.props.fetchOne(this.props.params.id);
+		if (this.props.params.id ) this.props.fetchOne(this.props.params.id);
 	}
 	render() {
 		const {

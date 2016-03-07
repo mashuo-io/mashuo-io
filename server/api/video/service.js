@@ -4,13 +4,20 @@ let VideoModel = require('./model').videoModel;
 module.exports = {
 	saveMyVideo: function * (){
 		let body = this.request.body;
-		let v = yield new VideoModel({
+		let fields = {
 			name: body.name,
 			description: body.description,
 			episodes: body.episodes,
 			createdBy: this.currentUser._id
-		}).save();
-		this.body = {_id: v._id};
+		};
+
+		if (! body._id) {
+			let newOne = yield new VideoModel(fields).save();
+			this.body = {_id: newOne._id}
+		} else {
+			yield VideoModel.update({_id: body._id}, fields);
+			this.body = {_id: body._id};
+		}
 	},
 
 	getMyVideos: function *() {

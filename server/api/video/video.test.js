@@ -96,5 +96,40 @@ describe('video', () => {
 		.expect(res=>expect(res.body.name).to.eql('c#'));
 	});
 
+	it('update should work', function *() {
+		let videoId;
+
+		yield request.post('/api/my-videos')
+		.set('Authorization', `Bearer ${token}`)
+		.send({
+			name: 'c#',
+			describe: 'c# course',
+			episodes: [
+				{name: 'string', url: 'http://abc', duration: 150}
+			]
+		})
+		.expect(200)
+		.expect(res=>videoId = res.body._id);
+
+		yield request.post('/api/my-videos')
+		.set('Authorization', `Bearer ${token}`)
+		.send({
+			_id: videoId,
+			name: 'c#',
+			describe: 'c# course',
+			episodes: [
+				{name: 'string', url: 'http://abc', duration: 150}
+			]
+		})
+		.expect(200)
+		.expect(res=>videoId = res.body._id);
+
+		yield request.get(`/api/my-videos`)
+		.set('Authorization', `Bearer ${token}`)
+		.expect(200)
+		.expect(res=>expect(res.body).to.have.length(1));
+
+	});
+
 
 });

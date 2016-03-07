@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {doFetchMyVideos} from './video.action';
 import {Table, Button} from 'amazeui-react';
 import {push} from 'react-router-redux';
-import TimeAgo from 'react-timeago';
+import TimeAgo from '../utils/TimeAgo';
 
 @connect(
 	state => state.myVideo,
@@ -36,7 +36,7 @@ export default class VideoList extends React.Component {
 						<tr key={x._id}>
 							<td>{x.name}</td>
 							<td>{x.status === 'new' ? '未发布': '已发布'}</td>
-							<td><TimeAgo date={x.createdOn} /></td>
+							<td><TimeAgo date={x.createdOn}  /></td>
 							<td><Button onClick={()=>this.props.editVideo(x)}>编辑</Button></td>
 						</tr>
 					))}

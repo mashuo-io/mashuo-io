@@ -10,7 +10,7 @@
     function getQueryStringValue (key) {
         return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     }
-    opener.setSearchResult(getQueryStringValue('code'));
+    opener.setCode(getQueryStringValue('code'));
     window.close();
 </script>
 </html>

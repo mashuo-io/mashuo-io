@@ -31,10 +31,8 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-console.log(axios.interceptors.response);
-
-export function loggedIn() {
-    return {type: 'OAUTH.LOGGED_IN'};
+export function loggedIn(avatarUrl, email, loginName) {
+    return {type: 'OAUTH.LOGGED_IN', avatarUrl, email, loginName};
 }
 
 export function loggedOut() {
@@ -44,11 +42,10 @@ export function loggedOut() {
 export function exchangeTokenByCode(code) {
     return function(dispatch) {
 
-        //axios.get('http://localhost:3000/api/auth/github', {params: {code}})
         axios.get('/auth/github', {params: {code}})
         .then(function (response) {
-            localStorage.setItem('Token', response.data);
-            dispatch(loggedIn())
+            localStorage.setItem('Token', response.data.token);
+            dispatch(loggedIn(response.data.avatarUrl, response.data.email,response.data.loginName));
         })
         .catch(function (response) {
         });
@@ -58,4 +55,22 @@ export function exchangeTokenByCode(code) {
 export function logout(){
     localStorage.removeItem('Token');
     return loggedOut();
+}
+
+
+export function findTokenAndLogin() {
+    return function(dispatch) {
+        let token = localStorage.getItem('Token');
+
+        if( !token ) {
+            dispatch(null);
+        }
+
+        axios.get('/auth/account')
+        .then(function (response) {
+            dispatch(loggedIn(response.data.avatarUrl, response.data.email,response.data.loginName));
+        })
+        .catch(function (response) {
+        });
+    }
 }

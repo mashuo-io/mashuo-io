@@ -1,11 +1,42 @@
 import React, { Component, PropTypes } from 'react';
-import {Button, Icon}  from "react-bootstrap";
 import {connect} from "react-redux";
-import {exchangeTokenByCode, logout} from './auth.action';
+import {Button, Glyphicon, Image, SplitButton, MenuItem, Dropdown, NavItem} from 'react-bootstrap';
+import {exchangeTokenByCode, logout,findTokenAndLogin} from './auth.action';
 
-class Auth extends React.Component {
+class NavImageDropdown extends React.Component {
+
+    render() {
+        let { children, img, noCaret, ...props } = this.props;
+        return (
+            <Dropdown {...props} componentClass="li">
+                <Dropdown.Toggle
+                    useAnchor
+                    disabled={props.disabled}
+                    noCaret={noCaret}
+                >
+                    <button type="button" className="btn btn-default btn-circle" ><Image src={img} responsive circle></Image></button>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    {children}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    }
+}
+
+NavImageDropdown.propTypes = {
+    noCaret: React.PropTypes.bool,
+    img: React.PropTypes.node.isRequired,
+    ...Dropdown.propTypes
+};
+
+class AuthButton extends React.Component {
     constructor(props){
         super(props);
+    }
+
+    componentWillMount(){
+        //this.props.onMount();
     }
 
     openLogin(){
@@ -27,7 +58,12 @@ class Auth extends React.Component {
                 scope: 'user:email'
             });
 
-        window.setSearchResult = function(code){
+        window.open(loginUrl,'_blank','width=400,height=400,scrollbars=1');
+    }
+
+
+    render() {
+        window.setCode = function(code){
             window.focus();
 
             if( window.thisAuth){
@@ -35,25 +71,28 @@ class Auth extends React.Component {
             }
         };
 
-        window.open(loginUrl,'_blank','width=400,height=400,scrollbars=1');
-    }
-
-
-    render() {
         window.thisAuth = this;
         if ( this.props.isLoggedIn ){
             return (
-                <Button type="primary" size="large" onClick={this.props.onLogout}>
-                    <Icon icon="github"/>
-                    注销
-                </Button>
+                <NavImageDropdown eventKey={3} img={this.props.avatarUrl} id="basic-nav-dropdown">
+                    <MenuItem eventKey={3.1}>Action</MenuItem>
+                    <MenuItem eventKey={3.2}>Another action</MenuItem>
+                    <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                    <MenuItem divider />
+                    <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                </NavImageDropdown>
             )
         }else {
+            let padding = {
+                paddingTop: '10px',
+                paddingBottom: '10px'
+            };
             return (
-                <Button type="primary" size="large" onClick={this.openLogin}>
-                    <Icon icon="github"/>
-                    通过Github登录
-                </Button>
+                <NavItem >
+                    <Button bsStyle="success" bsSize="small" onClick={this.openLogin}>
+                        <Glyphicon glyph="user" /> 通过Github登录
+                    </Button>
+                </NavItem>
             )
         }
 
@@ -62,15 +101,19 @@ class Auth extends React.Component {
 
 const stateToProps = function(state) {
     return {
-        isLoggedIn: state.auth.isLoggedIn
+        isLoggedIn: state.auth.isLoggedIn,
+        email: state.auth.email,
+        loginName: state.auth.loginName,
+        avatarUrl: state.auth.avatarUrl
     }
 };
 
 const dispatchToProps = function(dispatch) {
     return {
         onExchangeTokenByCode: (code) => {dispatch(exchangeTokenByCode(code))},
-        onLogout: () => {dispatch(logout())}
+        onLogout: () => {dispatch(logout())},
+        onMount: () => {dispatch(findTokenAndLogin())}
     }
 };
 
-export default connect(stateToProps, dispatchToProps)(Auth)
+export default connect(stateToProps, dispatchToProps)(AuthButton)

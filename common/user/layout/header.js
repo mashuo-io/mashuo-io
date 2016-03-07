@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Nav,Navbar, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import AuthButton from '../auth/index';
 
 export class HeaderBS extends React.Component {
 	render() {
@@ -12,7 +13,6 @@ export class HeaderBS extends React.Component {
 						<LinkContainer to="/">
 							<a >码说</a>
 						</LinkContainer>
-
 					</Navbar.Brand>
 					<Navbar.Toggle />
 				</Navbar.Header>
@@ -23,9 +23,7 @@ export class HeaderBS extends React.Component {
 						</LinkContainer>
 					</Nav>
 					<Nav pullRight>
-						<LinkContainer to="/">
-							<NavItem href="/">登陆</NavItem>
-						</LinkContainer>
+                        <AuthButton />
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

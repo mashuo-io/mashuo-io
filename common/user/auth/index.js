@@ -4,9 +4,8 @@ import {Button, Glyphicon, Image, SplitButton, MenuItem, Dropdown, NavItem} from
 import {exchangeTokenByCode, logout,findTokenAndLogin} from './auth.action';
 
 class NavImageDropdown extends React.Component {
-
     render() {
-        let { children, img, noCaret, ...props } = this.props;
+        let { children, img, noCaret, title, ...props } = this.props;
         return (
             <Dropdown {...props} componentClass="li">
                 <Dropdown.Toggle
@@ -14,6 +13,7 @@ class NavImageDropdown extends React.Component {
                     disabled={props.disabled}
                     noCaret={noCaret}
                 >
+                    {title}&nbsp;
                     <button type="button" className="btn btn-default btn-circle" ><Image src={img} responsive circle></Image></button>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -35,8 +35,8 @@ class AuthButton extends React.Component {
         super(props);
     }
 
-    componentWillMount(){
-        //this.props.onMount();
+    componentDidMount(){
+        this.props.onMount();
     }
 
     openLogin(){
@@ -74,12 +74,10 @@ class AuthButton extends React.Component {
         window.thisAuth = this;
         if ( this.props.isLoggedIn ){
             return (
-                <NavImageDropdown eventKey={3} img={this.props.avatarUrl} id="basic-nav-dropdown">
-                    <MenuItem eventKey={3.1}>Action</MenuItem>
-                    <MenuItem eventKey={3.2}>Another action</MenuItem>
-                    <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
+                    <MenuItem eventKey={3.1}>我的视频</MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                    <MenuItem eventKey={3.2} onClick={this.props.onLogout}>退出登录</MenuItem>
                 </NavImageDropdown>
             )
         }else {

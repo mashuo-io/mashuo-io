@@ -44,6 +44,7 @@ export function exchangeTokenByCode(code) {
 
         axios.get('/auth/github', {params: {code}})
         .then(function (response) {
+            console.log(response.data);
             localStorage.setItem('Token', response.data.token);
             dispatch(loggedIn(response.data.avatarUrl, response.data.email,response.data.loginName));
         })

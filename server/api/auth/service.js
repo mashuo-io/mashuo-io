@@ -74,10 +74,10 @@ module.exports = {
 		}
 
 		this.body = {
+			token: token.token,
 			avatarUrl: account.github.avatarUrl,
 			email: account.github.email,
-			login: account.github.login,
-			token: token.token
+			loginName: account.github.login
 		};
 	},
 

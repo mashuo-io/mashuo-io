@@ -23,3 +23,18 @@
     line-height: 1.33;
     border-radius: 35px;
 }
+
+
+// Vertically Center Navigation Links when some nav item Increasing The Height of Navbar
+@media (min-width: 768px){
+    .navbar-nav li a {
+        line-height: 30px;
+    }
+
+    .navbar-brand {
+        line-height: 30px;
+    }
+}
+
+
+

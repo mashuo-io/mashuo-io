@@ -5,12 +5,24 @@
     <title>Title</title>
 </head>
 <body>
+请稍候......
 </body>
+<script src="/node_modules/axios/dist/axios.min.js"></script>
 <script>
     function getQueryStringValue (key) {
         return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     }
-    opener.setSearchResult(getQueryStringValue('code'));
-    window.close();
+
+    var code = getQueryStringValue('code');
+    axios.get('http://127.0.0.1:3000/api/auth/github', {params: {code}})
+    .then(function (response) {
+        opener.setResponse(response);
+        window.close();
+    })
+    .catch(function (response) {
+        opener.setResponse(response);
+        window.close();
+    });
+
 </script>
 </html>

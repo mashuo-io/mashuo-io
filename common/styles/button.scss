@@ -1,0 +1,14 @@
+$btn-hover: #cce4e7;
+$btn-active: #32959f;
+$btn-border: #c4c4c4;
+
+
+.btn{
+  @include button-variant($font-dark, white, $btn-border, $btn-hover, $btn-active, 0px);
+  @include body-font();
+}
+
+.btn.btn-primary{
+  @include button-variant(white, $brand-primary, $brand-primary, $btn-hover, $btn-active, 0px);
+  @include body-font();
+}

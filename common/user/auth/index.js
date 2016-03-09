@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from "react-redux";
 import {Button, Glyphicon, Image, SplitButton, MenuItem, Dropdown, NavItem} from 'react-bootstrap';
 import {exchangeTokenByCode, logout,findTokenAndLogin, oauthReturn} from './auth.action';
-
+import {LinkContainer} from 'react-router-bootstrap';
 class NavImageDropdown extends React.Component {
     render() {
         let { children, img, noCaret, title, ...props } = this.props;
@@ -13,8 +13,8 @@ class NavImageDropdown extends React.Component {
                     disabled={props.disabled}
                     noCaret={noCaret}
                 >
-                    {title}&nbsp;
-                    <button type="button" className="btn btn-default btn-circle" ><Image src={img} responsive circle></Image></button>
+                    {title}&nbsp;&nbsp;
+                    <button type="button" className="btn btn-default navbar-circle-avatar" ><Image src={img} responsive circle></Image></button>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                     {children}
@@ -84,7 +84,9 @@ class AuthButton extends React.Component {
         if ( this.props.isLoggedIn ){
             return (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
-                    <MenuItem eventKey={3.1}>我的视频</MenuItem>
+                    <LinkContainer to="/my-video">
+                        <MenuItem eventKey={3.1}>我的视频</MenuItem>
+                    </LinkContainer>
                     <MenuItem divider />
                     <MenuItem eventKey={3.2} onClick={this.props.onLogout}>退出登录</MenuItem>
                 </NavImageDropdown>

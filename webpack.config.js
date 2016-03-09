@@ -36,6 +36,9 @@ module.exports = {
 			},{
 				test: [/glyphicons-halflings-regular\.woff/, /glyphicons-halflings-regular\.woff2/],
 				loader: "url-loader?limit=10000&minetype=application/font-woff"
+			},{
+				test: /\.(png|jpg)$/,
+				loader: 'file?name=[path][name].[ext]' // inline base64 URLs for <=10kb images, direct URLs for the rest
 			},
 			{test: require.resolve('video.js'), loader:"expose?videojs"}
 		]

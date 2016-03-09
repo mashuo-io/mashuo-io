@@ -1,0 +1,95 @@
+@mixin serif-font() {
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@mixin script-font() {
+  font-family: "Kaushan Script", "Helvetica Neue", Helvetica, Arial, cursive;
+}
+
+@mixin body-font() {
+  font-family: "Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif;
+}
+
+@mixin heading-font() {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+@mixin button-variant($color, $background, $border, $btn-group-hover, $btn-group-active, $radius) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+  border-radius: $radius;
+  outline: none !important;
+  box-shadow:none !important;
+
+  &.dropdown-toggle{
+    border-radius: 0;
+  }
+
+  &.focus {
+    background-color: transparent;
+  }
+
+  &:hover {
+    color: $color;
+    background-color: darken($background, 12%);
+    border-color: darken($border, 12%);
+  }
+
+  &:hover .btn-group& {
+    color: $color;
+    background-color: $btn-group-hover;
+    border-color: darken($border, 12%);
+  }
+
+  &:active,
+  &.active{
+    color: $color;
+    background-color: $btn-group-active;
+    border-color: darken($border, 12%);
+    box-shadow:none;
+  }
+  &:active,
+  &.active, &.dropdown-toggle{
+    background-image: none;
+  }
+
+  //&:hover,
+  //&.focus,
+  //.open .dropdown-toggle& {
+  //  color: $color;
+  //  background-color: $btn-group-hover;
+  //  border-color: darken($border, 12%);
+  //}
+  //
+  //&:active,
+  //&.active,
+  //.open .dropdown-toggle& {
+  //  color: $color;
+  //  background-color: $btn-group-active;
+  //  border-color: darken($border, 12%);
+  //}
+  //&:active,
+  //&.active,
+  //.open .dropdown-toggle& {
+  //  background-image: none;
+  //}
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: $background;
+      border-color: $border;
+    }
+  }
+
+  .badge {
+    color: $background;
+    background-color: $color;
+  }
+}

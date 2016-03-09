@@ -1,6 +1,11 @@
 @import "~compass-mixins/lib/compass/css3/border-radius";
 
+@import "./variables";
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "./user.scss";
+
+@import "./mixins";
+@import "./header";
+@import "./navbar";
+@import "./button";

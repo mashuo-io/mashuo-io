@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import Auth from './auth';
-import Home from './layout/Home';
+import {Home} from './layout/Home';
 import {Route, IndexRoute} from 'react-router';
 import VideoList from '../shared/video/VideoList';
 import Video from '../shared/video/Video';

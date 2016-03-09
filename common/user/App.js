@@ -1,5 +1,5 @@
 import React from 'react';
-import {HeaderBS} from './layout/Header.js';
+import {StyleNavbar, Header} from './layout/Header.js';
 import Footer from './layout/Footer.js';
 import '../styles/app.scss';
 
@@ -9,7 +9,8 @@ const Main = ()=> (
 
 const App = (props) => (
 	<div>
-		<HeaderBS></HeaderBS>
+		<StyleNavbar></StyleNavbar>
+		<Header></Header>
 
 		<div className="container">
 			{props.children}

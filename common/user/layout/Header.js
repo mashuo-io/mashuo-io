@@ -4,10 +4,10 @@ import {Nav,Navbar, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import AuthButton from '../auth/index';
 
-export class HeaderBS extends React.Component {
+export class StyleNavbar extends React.Component {
 	render() {
 		return (
-			<Navbar>
+			<Navbar fixedTop>
 				<Navbar.Header>
 					<Navbar.Brand>
 						<LinkContainer to="/"><a >码说</a></LinkContainer>
@@ -15,19 +15,34 @@ export class HeaderBS extends React.Component {
 					<Navbar.Toggle />
 				</Navbar.Header>
 				<Navbar.Collapse>
-					<Nav>
-						<LinkContainer to="/video">
-							<NavItem >最新视频</NavItem>
-						</LinkContainer>
-						<LinkContainer to="/my-video">
-							<NavItem >我的视频</NavItem>
-						</LinkContainer>
-					</Nav>
 					<Nav pullRight>
+                        <LinkContainer to="/video">
+                            <NavItem className="round-border">上传我的视频</NavItem>
+                        </LinkContainer>
+
+                        <LinkContainer to="/video">
+                            <NavItem >最新视频</NavItem>
+                        </LinkContainer>
 						<AuthButton />
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
 		)
 	}
+}
+
+export class Header extends React.Component {
+    render() {
+        return (
+            <header>
+                <div className="container">
+                    <div className="intro-text">
+                        <div className="intro-lead-in">Welcome To Our Studio!</div>
+                        <div className="intro-heading">It's Nice To Meet You</div>
+                        <a href="#" className="page-scroll btn btn-xl">Tell Me More</a>
+                    </div>
+                </div>
+            </header>
+        )
+    }
 }

@@ -1,0 +1,176 @@
+// Vertically Center Navigation Links when some nav item Increasing The Height of Navbar
+@media (min-width: 768px){
+  .navbar-nav li a {
+    line-height: 30px;
+  }
+
+  .navbar-brand {
+    line-height: 30px;
+  }
+}
+
+// navbar circle avatar
+.btn.navbar-circle-avatar {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 0 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn.navbar-circle-avatar.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 0 0;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn.navbar-circle-avatar.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 0 0;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+// navbar custom
+.navbar-default {
+  background-color: $gray-darkest;
+  border-color: transparent;
+  .navbar-brand {
+    color: $brand-primary;
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: darken($brand-primary, 10%);
+    }
+  }
+  .navbar-collapse {
+    //border-color: fade(white, 2%);
+  }
+  .navbar-toggle {
+    background-color: transparent;
+    border-color: $brand-primary;
+    .icon-bar {
+      background-color: white;
+    }
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: $brand-primary;
+    }
+  }
+  .nav {
+    li {
+      a {
+        font-weight: lighter;
+        letter-spacing: 1px;
+        color: white;
+        &:hover,
+        &:focus,
+        &.avtive{
+          color: $brand-primary;
+        }
+      }
+
+      &.round-border a {
+        padding: 0px 15px;
+        margin: 15px 0px;
+        border: 2px solid white;
+        border-radius: 4px;
+        &:hover,
+        &:focus,
+        &.avtive{
+          border-color: $brand-primary;
+        }
+
+      }
+
+    }
+  }
+  .navbar-nav>.active>a {
+    border-radius: 0;
+    color: $brand-primary;
+    background-color: transparent;
+  }
+  .navbar-nav>.active>a:hover,
+  .navbar-nav>.active>a:focus {
+    color: $brand-primary;
+    background-color: transparent;
+  }
+
+  // Dropdown menu items
+  .navbar-nav {
+    // Remove background color from open dropdown
+    > .open > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: transparent;
+        color: $brand-primary;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    border-radius: 0px;
+    .divider {
+      margin: 9px 10px;
+    }
+    > li > a {
+      @include transition(all 0.2s linear);
+      color: gray;
+      &:hover,
+      &:focus {
+        @include transition(all 0.2s linear);
+
+        color: gray;
+        background-color: transparent;
+        padding-left: 27px;
+      }
+    }
+
+    &::after {
+      position: absolute;
+      top: -10px;
+      right: 21%;
+      display: inline-block;
+      border-right: 11px solid transparent;
+      border-bottom: 11px solid white;
+      border-left: 11px solid transparent;
+      content:'';
+    }
+  }
+}
+
+@media(min-width:768px) {
+  .navbar-default {
+    background-color: transparent;
+    padding: 0 0;
+    -webkit-transition: padding 0.3s;
+    -moz-transition: padding 0.3s;
+    transition: padding 0.3s;
+    border: none;
+    .navbar-brand {
+      font-size: 2em;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+    .navbar-nav>.active>a {
+      border-radius: 3px;
+    }
+  }
+  .navbar-default.navbar-shrink {
+    background-color: $gray-darkest;
+    padding: 10px 0;
+    .navbar-brand {
+      font-size: 1.5em;
+    }
+  }
+}
+

@@ -8,11 +8,12 @@ const Main = ()=> (
 );
 
 const App = (props) => (
-	<div>
+	<div >
 		<StyleNavbar></StyleNavbar>
 		<Header></Header>
-
+		<div className="container-fluid">
 		{props.children}
+		</div>
 	</div>
 );
 

@@ -7,7 +7,7 @@ import AuthButton from '../auth/index';
 export class StyleNavbar extends React.Component {
 	render() {
 		return (
-			<Navbar fixedTop>
+			<Navbar fixedTop fluid>
 				<Navbar.Header>
 					<Navbar.Brand>
 						<LinkContainer to="/"><a >码说</a></LinkContainer>
@@ -35,7 +35,7 @@ export class Header extends React.Component {
     render() {
         return (
             <header>
-                <div className="container">
+                <div>
                     <div className="intro-text">
                         <div className="intro-lead-in">Welcome To Our Studio!</div>
                         <div className="intro-heading">It's Nice To Meet You</div>

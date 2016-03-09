@@ -1,38 +1,52 @@
 import uuid from 'uuid';
 
-export const upload = (option) => {
-	let noop = ()=>{};
-	let { fileKey, chooseFileId, uploadComplete=noop, fileAdded=noop,
-		beforeUpload=noop, uploadProgress=noop
-		, fileUploaded=noop, error=noop } = option;
+let uploader;
 
-	let finalOption = {
-		runtimes: 'html5,html4',
-		browse_button: chooseFileId,
-		max_file_size: '1000mb',
-		chunk_size: '4mb',
-		uptoken_url: `http://localhost:3000/api/qiniu-token`,
-		domain: '7xrmd3.com1.z0.glb.clouddn.com',
-		get_new_uptoken: false,
-		auto_start: true,
-		log_level: 5,
-		init: {
-			FilesAdded: (up, files) => {
-				console.log('file added', up, files);
-				plupload.each(files, file=>fileAdded(file));
-			},
-			BeforeUpload: (up, file) => beforeUpload(),
-			UploadProgress: (up, file) => uploadProgress(file.percent),
-			UploadComplete:() => uploadComplete(),
-			FileUploaded: (up, file, info) => {
-				fileUploaded(up, file, info);
-				console.log('FileUploaded', up, file, info);
-			},
-			Error: (up, err, errTip) => error(),
-			Key: (up, file) => `${uuid.v4()}.${Qiniu.getFileExtension(file.name)}`
-		},
-		multi_selection: false
-	};
+export const setUploader = (option) => {
+	const { multi_selection, browse_button, fileAdded=()=>{},
+		UploadProgress=()=>{}, FileUploaded=()=>{}, Error=()=>{}, BeforeUpload=()=>{}, UploadComplete=()=>{} } = option;
 
-	return Qiniu.uploader(finalOption);
+	const FilesAdded = fileAdded
+		? (up, files) => {
+			console.log('added', files);
+			plupload.each(files, fileAdded)
+		}
+		: ()=>{};
+
+	if (!uploader) {
+		let option = {
+			runtimes: 'html5,html4',
+			browse_button,
+			max_file_size: '1000mb',
+			chunk_size: '4mb',
+			uptoken_url: `http://localhost:3000/api/qiniu-token`,
+			domain: '7xrmd3.com1.z0.glb.clouddn.com',
+			get_new_uptoken: false,
+			auto_start: true,
+			log_level: 5,
+			init: {
+				FilesAdded,
+				BeforeUpload,
+				UploadProgress: (up, file)=>{
+					UploadProgress(up, file)
+				},
+				UploadComplete,
+				FileUploaded,
+				Error,
+				Key: (up, file) => `${uuid.v4()}.${Qiniu.getFileExtension(file.name)}`
+			},
+			multi_selection
+		};
+		return uploader = Qiniu.uploader(option);
+	}
+
+	if (multi_selection) uploader.setOption('multi_selection', multi_selection);
+	if (browse_button) uploader.setOption('browse_button', browse_button);
+	uploader.unbindAll();
+	uploader.bind('FilesAdded', FilesAdded);
+	uploader.bind('UploadProgress', UploadProgress);
+	uploader.bind('FileUploaded', FileUploaded);
+	uploader.bind('BeforeUpload', BeforeUpload);
+	uploader.bind('UploadComplete', UploadComplete);
+	uploader.refresh();
 };

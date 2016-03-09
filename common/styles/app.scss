@@ -5,5 +5,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 
+@import "./mixins";
 @import "./header";
 @import "./navbar";
+@import "./button";

@@ -17,7 +17,7 @@ export class StyleNavbar extends React.Component {
 				<Navbar.Collapse>
 					<Nav pullRight>
                         <LinkContainer to="/video">
-                            <NavItem className="round-border">上传我的视频</NavItem>
+                            <NavItem className="round-border">我想说</NavItem>
                         </LinkContainer>
 
                         <LinkContainer to="/video">

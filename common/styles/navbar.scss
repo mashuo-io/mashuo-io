@@ -67,7 +67,7 @@
   .nav {
     li {
       a {
-        font-weight: lighter;
+        font-weight: 400;
         letter-spacing: 1px;
         color: white;
         &:hover,
@@ -78,6 +78,7 @@
       }
 
       &.round-border a {
+        color: white;
         padding: 0px 15px;
         margin: 15px 0px;
         border: 2px solid white;

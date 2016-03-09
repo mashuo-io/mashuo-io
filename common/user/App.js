@@ -5,7 +5,7 @@ import '../styles/app.scss';
 
 const Main = ()=> (
 	<h2>main page</h2>
-)
+);
 
 const App = (props) => (
 	<div>

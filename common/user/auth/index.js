@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from "react-redux";
 import {Button, Glyphicon, Image, SplitButton, MenuItem, Dropdown, NavItem} from 'react-bootstrap';
-import {exchangeTokenByCode, logout,findTokenAndLogin} from './auth.action';
+import {exchangeTokenByCode, logout,findTokenAndLogin, oauthReturn} from './auth.action';
 
 class NavImageDropdown extends React.Component {
     render() {
@@ -63,15 +63,24 @@ class AuthButton extends React.Component {
 
 
     render() {
-        window.setCode = function(code){
+        window.thisAuth = this;
+
+        //window.setCode = function(code){
+        //    window.focus();
+        //
+        //    if( window.thisAuth){
+        //        window.thisAuth.props.onExchangeTokenByCode(code);
+        //    }
+        //};
+
+        window.setResponse = function(res) {
             window.focus();
 
             if( window.thisAuth){
-                window.thisAuth.props.onExchangeTokenByCode(code);
+                window.thisAuth.props.onOauthReturn(res);
             }
         };
 
-        window.thisAuth = this;
         if ( this.props.isLoggedIn ){
             return (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
@@ -81,14 +90,10 @@ class AuthButton extends React.Component {
                 </NavImageDropdown>
             )
         }else {
-            let padding = {
-                paddingTop: '10px',
-                paddingBottom: '10px'
-            };
             return (
                 <NavItem >
                     <Button bsStyle="success" bsSize="small" onClick={this.openLogin}>
-                        <Glyphicon glyph="user" /> 通过Github登录
+                        <Glyphicon glyph="user" />&nbsp;通过Github登录
                     </Button>
                 </NavItem>
             )
@@ -110,7 +115,8 @@ const dispatchToProps = function(dispatch) {
     return {
         onExchangeTokenByCode: (code) => {dispatch(exchangeTokenByCode(code))},
         onLogout: () => {dispatch(logout())},
-        onMount: () => {dispatch(findTokenAndLogin())}
+        onMount: () => {dispatch(findTokenAndLogin())},
+        onOauthReturn: (data) => {dispatch(oauthReturn(data))}
     }
 };
 

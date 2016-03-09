@@ -16,10 +16,10 @@ export class HeaderBS extends React.Component {
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav>
-						<LinkContainer to="/video">
+						<LinkContainer to="/videos">
 							<NavItem >最新视频</NavItem>
 						</LinkContainer>
-						<LinkContainer to="/my-video">
+						<LinkContainer to="/my-videos">
 							<NavItem >我的视频</NavItem>
 						</LinkContainer>
 					</Nav>

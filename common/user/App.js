@@ -8,12 +8,10 @@ const Main = ()=> (
 )
 
 const App = (props) => (
-	<div>
+	<div className="container-fluid">
 		<HeaderBS></HeaderBS>
 
-		<div className="container">
-			{props.children}
-		</div>
+		{props.children}
 	</div>
 );
 

@@ -43,6 +43,11 @@ module.exports = {
 		.find({})
 		.sort({createdOn: -1})
 		.lean();
-	}
+	},
 
+	getVideo: function *() {
+		this.body = yield VideoModel
+		.findOne({_id: this.params.id})
+		.lean();
+	}
 };

@@ -9,6 +9,7 @@ import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-rou
 import {reducer as formReducer} from 'redux-form';
 
 import auth from '../common/user/auth/auth.reducer';
+import publicVideoList from '../common/shared/video/public-video-list.reducer';
 import publicVideo from '../common/shared/video/public-video.reducer';
 import myVideo from '../common/shared/video/my-video.reducer';
 import userRoute from '../common/user/user.route';
@@ -16,6 +17,7 @@ import adminRoute from '../common/admin/admin.route';
 
 const reducer = combineReducers({
 	auth,
+	publicVideoList,
 	publicVideo,
 	myVideo,
 	routing: routerReducer,

@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import {doFetchPublicVideos} from './video.action';
 import {Table} from 'react-bootstrap';
 import TimeAgo from '../utils/TimeAgo';
-
+import {Link} from 'react-router';
+import videojs from 'video.js';
 
 @connect(
-	state=> state.publicVideo,
+	state=> state.publicVideoList,
 	dispatch => {
 		return {
 			doFetch: () => dispatch(doFetchPublicVideos())
@@ -31,7 +32,7 @@ export default class VideoList extends React.Component {
 					<tbody>
 					{ (this.props.videos || []).map(x=> (
 						<tr key={x._id}>
-							<td>{x.name}</td>
+							<td><Link to={`/video/${x._id}`}>{x.name}</Link></td>
 							<td><TimeAgo date={x.createdOn} /></td>
 						</tr>
 					))}

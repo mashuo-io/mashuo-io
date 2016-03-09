@@ -16,13 +16,18 @@ export const loadVideos = (prefix, videos) => ({
 		videos
 	});
 
+export const loadVideo = (video) => ({
+	type: `VIDEO.LOAD_VIDEO`,
+	video
+});
+
 export const doFetchPublicVideos = () => dispatch => {
-	dispatch(setDoing('VIDEO'));
+	dispatch(setDoing('VIDEO_LIST'));
 
 	axios.get('/videos')
 	.then(function (response) {
-		dispatch(loadVideos('VIDEO', response.data));
-		dispatch(setDone('VIDEO'));
+		dispatch(loadVideos('VIDEO_LIST', response.data));
+		dispatch(setDone('VIDEO_LIST'));
 	})
 };
 
@@ -43,6 +48,16 @@ export const doFetchOneMyVideo = (videoId) => dispatch => {
 		dispatch(initialize('video', response.data, fields));
 		dispatch(setDone('MY_VIDEO'));
 	})
+};
+
+export const doFetchOneVideo = (videoId) => dispatch => {
+	dispatch(setDoing('VIDEO'));
+	axios.get(`/videos/${videoId}`)
+	.then(response=> {
+		dispatch(loadVideo(response.data));
+		dispatch(setDone('VIDEO'));
+	});
+
 };
 
 export const doSaveMyVideo = (video) => dispatch => {

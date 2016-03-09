@@ -64,22 +64,21 @@ class Episode extends React.Component {
 @reduxForm(
 	{ form: 'video', fields },
 	null,
-	dispatch=> {
-		return {
-			cancelForm: () => dispatch(goBack()),
-			onSubmit: (video) => dispatch(doSaveMyVideo(video)),
-			fetchOne: (id) => dispatch(doFetchOneMyVideo(id)),
-			changeEpisodeUploadingState: (file, isUploading) =>
-				dispatch(change('video', `episodes[${file.index}].isUploading`, isUploading)),
-			changeEpisodeUploadingProgress: (file) =>{
-				console.log('dispatch progress', file);
-				dispatch(change('video', `episodes[${file.index}].uploadingProgress`, file.percent))
-			},
-			changeEpisodeUrl: (file, url) => dispatch(change('video', `episodes[${file.index}].url`, url)),
-			addNewEpisode: () => dispatch(addArrayValue())
-		}
-	}
+	dispatch=> ({
+		cancelForm: () => dispatch(goBack()),
+		onSubmit: (video) => dispatch(doSaveMyVideo(video)),
+		fetchOne: (id) => dispatch(doFetchOneMyVideo(id)),
+		changeEpisodeUploadingState: (file, isUploading) =>
+			dispatch(change('video', `episodes[${file.index}].isUploading`, isUploading)),
+		changeEpisodeUploadingProgress: (file) =>{
+			console.log('dispatch progress', file);
+			dispatch(change('video', `episodes[${file.index}].uploadingProgress`, file.percent))
+		},
+		changeEpisodeUrl: (file, url) => dispatch(change('video', `episodes[${file.index}].url`, url)),
+		addNewEpisode: () => dispatch(addArrayValue())
+	})
 )
+
 export default class Form extends React.Component {
 	componentWillMount() {
 		console.log('will mount', this.props);

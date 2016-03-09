@@ -26,7 +26,7 @@ describe('video', () => {
 	});
 
 	it('save video should work', function *() {
-
+		let videoId;
 		yield request.post('/api/my-videos')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
@@ -36,7 +36,8 @@ describe('video', () => {
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})
-		.expect(200);
+		.expect(200)
+		.expect(res=>videoId = res.body._id);
 
 		yield request.get('/api/my-videos')
 		.set('Authorization', `Bearer ${token}`)
@@ -46,6 +47,10 @@ describe('video', () => {
 		yield request.get('/api/videos')
 		.expect(200)
 		.expect(res=>expect(res.body).to.have.length(1));
+
+		yield request.get(`/api/videos/${videoId}`)
+		.expect(200)
+		.expect(res=>expect(res.body.name).to.eql('c#'));
 	});
 
 	it('others should not see my video', function *() {

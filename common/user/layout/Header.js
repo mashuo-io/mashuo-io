@@ -31,18 +31,3 @@ export class StyleNavbar extends React.Component {
 	}
 }
 
-export class Header extends React.Component {
-    render() {
-        return (
-            <header>
-                <div>
-                    <div className="intro-text">
-                        <div className="intro-lead-in">Welcome To Our Studio!</div>
-                        <div className="intro-heading">It's Nice To Meet You</div>
-                        <a href="#" className="page-scroll btn btn-xl">Tell Me More</a>
-                    </div>
-                </div>
-            </header>
-        )
-    }
-}

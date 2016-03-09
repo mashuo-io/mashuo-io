@@ -1,10 +1,29 @@
 import React from 'react';
 import {Button, ButtonGroup, DropdownButton, MenuItem, Glyphicon} from 'react-bootstrap';
 
+
+class Header extends React.Component {
+    render() {
+        return (
+            <header>
+                <div>
+                    <div className="intro-text">
+                        <div className="intro-lead-in">Welcome To Our Studio!</div>
+                        <div className="intro-heading">It's Nice To Meet You</div>
+                        <a href="#" className="page-scroll btn btn-xl">Tell Me More</a>
+                    </div>
+                </div>
+            </header>
+        )
+    }
+}
+
 export class Home extends React.Component{
     render () {
         return (
             <div>
+                <Header></Header>
+
                 <Button bsStyle="primary"><Glyphicon glyph="star" />提交</Button>
                 <hr/>
                 <ButtonGroup>

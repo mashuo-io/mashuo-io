@@ -47,6 +47,7 @@ export default class extends React.Component {
 
 
 		return (
+			<div className="container">
 			<Row >
 				<Col xs={9}  >
 					<video id="my-video" className="video-js  vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" >
@@ -61,6 +62,7 @@ export default class extends React.Component {
 					fdsafds
 				</Col>
 			</Row>
+			</div>
 		)
 	}
 };

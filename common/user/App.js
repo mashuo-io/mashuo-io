@@ -7,11 +7,15 @@ const Main = ()=> (
 	<h2>main page</h2>
 );
 
-const App = (props) => (
-	<div >
-		<StyleNavbar></StyleNavbar>
-		{props.children}
-	</div>
-);
-
-export default App;
+export default class App extends React.Component {
+	render() {
+        let showBackground = this.props.location.pathname === '/';
+        console.log(this.props);
+		return (
+			<div >
+				<Header showBackground={showBackground}></Header>
+				{this.props.children}
+			</div>
+		)
+	}
+}

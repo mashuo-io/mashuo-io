@@ -146,6 +146,10 @@
       content:'';
     }
   }
+
+  &.hidden {
+    @include transition(all .3s linear);
+  }
 }
 
 @media(min-width:768px) {

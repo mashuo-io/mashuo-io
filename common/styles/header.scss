@@ -24,8 +24,11 @@ header {
 
 @media(min-width:768px) {
   header {
+    .way-point {
+      padding-top: 40px;
+    }
     .intro-text {
-      padding-top: 300px;
+      padding-top: 260px;
       padding-bottom: 200px;
       .intro-lead-in {
         font-style: italic;

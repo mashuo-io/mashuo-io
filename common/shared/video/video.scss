@@ -1,0 +1,61 @@
+$playList-width: 350px;
+$min-width-two-columns: 991px;
+
+#video {
+  padding:0 75px;
+  .video-row {
+    width:100%;
+    background-color:grey;
+    position:relative;
+
+    @extend .pure-g;
+
+
+
+    .player-col {
+      background-color: blue;
+      //margin-right:$playList-width;
+      @extend .pure-u-1;
+      @media screen and (min-width: $min-width-two-columns) {
+        position: static;
+        margin: 0;
+        padding: 0;
+        top: 33%;
+        bottom: 0;
+        margin-right: $playList-width;
+        overflow: auto;
+        width: auto;
+      }
+
+      .player-wrapper {
+        padding-bottom: 56.25%;
+        width:100%;
+
+        .video-player {
+          float:left;
+          width:100%;
+          height:100%;
+          top:0;
+        }
+
+      }
+    }
+
+    .playlist-col {
+      background-color:yellow;
+      @extend .pure-u-1;
+      @media screen and (min-width: $min-width-two-columns) {
+        width: $playList-width;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right:0;
+      }
+
+
+    }
+
+  }
+}

@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/mashuo-io/mashuo-io#readme",
   "dependencies": {
+    "Plupload": "git+https://github.com/moxiecode/plupload.git",
     "axios": "^0.9.1",
     "body-parser": "^1.15.0",
     "bootstrap-sass": "^3.3.6",
     "co-request": "^1.0.0",
     "compass-mixins": "^0.12.7",
+    "css-element-queries": "^0.3.2",
     "isomorphic-fetch": "^2.2.1",
     "kcors": "^1.0.1",
     "koa": "^1.2.0",
@@ -37,6 +39,7 @@
     "lodash": "^4.6.1",
     "mongoose": "^4.4.6",
     "passport-github": "^1.1.0",
+    "purecss": "^0.6.0",
     "qiniu": "^6.1.9",
     "qiniu-js": "^1.0.14-beta",
     "react": "^0.14.7",
@@ -54,9 +57,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^1.0.3",
     "uuid": "^2.0.1",
-    "video.js": "^5.8.0",
-    "videojs-playlist": "^2.2.0",
-    "videojs-playlist-ui": "^2.1.2"
+    "video.js": "^5.8.0"
   },
   "devDependencies": {
     "babel-core": "^6.6.4",
@@ -76,7 +77,6 @@
     "mocha": "^2.4.5",
     "mocha-loader": "^0.7.1",
     "node-sass": "^3.4.2",
-    "postcss-loader": "^0.8.1",
     "sass-loader": "^3.1.2",
     "serve": "^1.4.0",
     "supertest": "^1.2.0",

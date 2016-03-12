@@ -3,9 +3,11 @@
 @import "./variables";
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
+@import '~purecss/build/pure.css';
 
 @import "./mixins";
 @import "./header";
 @import "./navbar";
 @import "./button";
+
+@import "../shared/video/video";

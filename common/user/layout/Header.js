@@ -12,7 +12,8 @@ export class StyleNavbar extends React.Component {
     }
 	render() {
         let classes = classNames( this.props.className, {
-            "hidden": this.props.hide
+            "hidden": this.props.hide,
+            "no-background-image": !this.props.fixedTop
         } );
 		return (
 			<Navbar fixedTop={this.props.fixedTop} fluid className = {classes}>
@@ -25,7 +26,7 @@ export class StyleNavbar extends React.Component {
 				<Navbar.Collapse>
 					<Nav pullRight>
                         <LinkContainer to="/videos">
-                            <NavItem className="round-border">我想说</NavItem>
+                            <NavItem >我想说</NavItem>
                         </LinkContainer>
 
                         <LinkContainer to="/videos">

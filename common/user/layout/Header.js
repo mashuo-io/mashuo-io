@@ -69,7 +69,7 @@ export class Header extends React.Component {
                                 <Waypoint
                                     onEnter={this.showNavbar.bind(this, false)}
                                     onLeave={this.showNavbar.bind(this, true)}
-                                    threshold={0}
+                                    threshold={0.1}
                                 />
                                 <div className="intro-text">
                                     <div className="intro-lead-in">Welcome To Our Studio!</div>

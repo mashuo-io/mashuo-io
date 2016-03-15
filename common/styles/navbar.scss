@@ -9,10 +9,6 @@
   }
 }
 
-//.container-fluid {
-//  padding: 0;
-//}
-
 // navbar circle avatar
 .btn.navbar-circle-avatar {
   width: 30px;
@@ -110,7 +106,6 @@
 
   // Dropdown menu items
   .navbar-nav {
-    // Remove background color from open dropdown
     > .open > a {
       &,
       &:hover,
@@ -154,48 +149,11 @@
   }
 
   &.hidden {
-    @include transition(all .3s linear);
+    @include transition(opacity 1s ease-in-ease-out);
   }
+
+  @include transition(opacity 1s ease-in-ease-out);
 }
-
-//@media(min-width:768px) {
-//  .navbar > .container-fluid .navbar-brand {
-//    margin: 0;
-//  }
-//}
-//
-//@media(max-width:768px) {
-//  .navbar > .container-fluid .navbar-brand {
-//    margin-right: 15px;
-//  }
-//}
-
-//@media(min-width:768px) {
-//  .navbar-default {
-//    background-color: transparent;
-//    padding: 0 0;
-//    -webkit-transition: padding 0.3s;
-//    -moz-transition: padding 0.3s;
-//    transition: padding 0.3s;
-//    border: none;
-//    .navbar-brand {
-//      font-size: 2em;
-//      -webkit-transition: all 0.3s;
-//      -moz-transition: all 0.3s;
-//      transition: all 0.3s;
-//    }
-//    .navbar-nav>.active>a {
-//      border-radius: 3px;
-//    }
-//  }
-//  .navbar-default.navbar-shrink {
-//    background-color: $gray-darkest;
-//    padding: 10px 0;
-//    .navbar-brand {
-//      font-size: 1.5em;
-//    }
-//  }
-//}
 
 .no-background-image.navbar-default {
     @media(min-width:768px) {
@@ -238,23 +196,23 @@
       }
     }
 
-    .dropdown-menu {
-      //border-radius: 0px;
-      //.divider {
-      //  margin: 9px 10px;
-      //}
-      > li > a {
+  .dropdown-menu {
+    border-radius: 0px;
+    .divider {
+      margin: 9px 10px;
+    }
+    > li > a {
+      @include transition(all 0.2s linear);
+      color: gray;
+      &:hover,
+      &:focus {
         @include transition(all 0.2s linear);
-        color: gray;
-        &:hover,
-        &:focus {
-          @include transition(all 0.2s linear);
 
-          color: gray;
-          background-color: white;
-          padding-left: 27px;
-        }
+        color: gray;
+        background-color: white;
+        padding-left: 27px;
       }
     }
+  }
 }
 

@@ -57,7 +57,6 @@ export const doFetchOneVideo = (videoId) => dispatch => {
 		dispatch(loadVideo(response.data));
 		dispatch(setDone('VIDEO'));
 	});
-
 };
 
 export const doSaveMyVideo = (video) => dispatch => {

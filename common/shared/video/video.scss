@@ -1,3 +1,5 @@
+@import '~purecss/build/pure.css';
+@import '~video.js/dist/video-js.css';
 $playList-width: 350px;
 $min-width-two-columns: 991px;
 
@@ -14,7 +16,6 @@ $min-width-two-columns: 991px;
 
     .player-col {
       background-color: blue;
-      //margin-right:$playList-width;
       @extend .pure-u-1;
       @media screen and (min-width: $min-width-two-columns) {
         position: static;
@@ -28,16 +29,7 @@ $min-width-two-columns: 991px;
       }
 
       .player-wrapper {
-        padding-bottom: 56.25%;
         width:100%;
-
-        .video-player {
-          float:left;
-          width:100%;
-          height:100%;
-          top:0;
-        }
-
       }
     }
 
@@ -53,9 +45,13 @@ $min-width-two-columns: 991px;
         bottom: 0;
         right:0;
       }
-
-
     }
+  }
+}
 
+//
+@media screen and (min-width: $min-width-two-columns) {
+  .video-js .vjs-big-play-button {
+    font-size: 6em;
   }
 }

@@ -6,7 +6,7 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import videojs from 'video.js';
 
 @connect(
-	state=>({video: state.publicVideo}),
+	state =>({video: state.publicVideo}),
 	dispatch => ({
 		doFetch: id => dispatch(doFetchOneVideo(id))
 	})
@@ -15,9 +15,19 @@ export default class extends React.Component {
 
 	componentWillMount() {
 		this.props.doFetch(this.props.params.id);
+		this.setState({
+			playerHeight: 0
+		});
+	}
+
+	resize() {
+		this.setState({playerHeight: this.refs.player.offsetHeight});
 	}
 
 	componentDidMount() {
+		this.resize();
+		ResizeSensor(this.refs.player.getDOMNode(), this.resize.bind(this));
+
 		var player = videojs('my-video', {
 			controls: true,
 			autoplay: false,
@@ -26,22 +36,7 @@ export default class extends React.Component {
 				muteToggle: true
 			}
 		});
-	}
-
-
-	componentWillMount() {
-		this.setState({
-			playerHeight: 0
-		});
-	}
-
-	resize() {
-		this.setState({playerHeight: this.refs.player.getDOMNode().offsetHeight});
-	}
-
-	componentDidMount() {
-		this.resize();
-		ResizeSensor(this.refs.player.getDOMNode(), this.resize.bind(this));
+		console.log('player', player);
 	}
 
 	componentWillUnmount() {
@@ -55,11 +50,15 @@ export default class extends React.Component {
 		let {name} = video ||{};
 		return (
 			<div id="video">
-			<div className="video-row" fluid>
-				<div className="player-col" ref="player" >
-					<div className="player-wrapper" >
-						{<video id="my-video" className="video-js video-player  vjs-default-skin vjs-big-play-centered" controls >
-							<source src="http://7xrmd3.com1.z0.glb.clouddn.com/9f1f7b15-266f-4b4f-9536-99b76c85e7e8.mp4" type='video/mp4' />
+			<div className="video-row">
+				<div className="player-col" >
+					<div id="my-video-wrapper" className="player-wrapper video-js vjs-16-9" ref="player" >
+						{<video id="my-video"   className="vjs-tech"
+						        poster="https://coolestguidesontheplanet.com/videodrome/cgp_video/leeds1974.png" controls
+						        height={this.state.playerHeight}
+
+						>
+							<source src="http://7xrmd3.com1.z0.glb.clouddn.com/c747e593-e54a-4201-bfc5-6f7cb1780594.mp4" type='video/mp4' />
 							<p className="vjs-no-js">
 								To view this video please enable JavaScript, and consider upgrading to a web browser that
 								<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -69,7 +68,9 @@ export default class extends React.Component {
 				</div>
 				<div className="playlist-col" style={{height: this.state.playerHeight}}>
 					<div className="auto-play"></div>
-					<div className="video-name"></div>
+					<div className="video-name">
+
+					</div>
 					<div className="episodes"></div>
 				</div>
 			</div>

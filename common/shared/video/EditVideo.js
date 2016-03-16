@@ -1,11 +1,12 @@
 import React from 'react';
 import {reduxForm, reset, change, addArrayValue} from 'redux-form';
-import {ButtonGroup, ProgressBar, Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {ButtonGroup, ProgressBar, ButtonToolbar, Grid, Glyphicon, ButtonInput,  OverlayTrigger, Tooltip, Button as Bt} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
-import {setUploader} from '../utils/uploader';
 import {displayBytes} from '../utils/misc';
+import {FileUploader} from '../utils/qiniu-uploader';
+import {Form, Container, Input, FieldSet, Row, Col, Button, Icon} from '../utils/Ui';
 
 
 const episode_filed = ['name', 'url', 'isUploading', 'uploadingProgress', 'size'];
@@ -38,7 +39,7 @@ class Episode extends React.Component {
 			<Row >
 				<Col sm={1}><span>#{index + 1}</span></Col>
 				<Col sm={5}><Input type="text"  placeholder="说明" {...name}/></Col>
-				<Col sm={4}>
+				<Col sm='1-3'>
 					{
 						isUploading
 						? <div><ProgressBar
@@ -49,12 +50,8 @@ class Episode extends React.Component {
 						: <a href={url}>查看</a>
 					}
 				</Col>
-				<Col sm={2}>
-					<ButtonGroup>
-						<OverlayTrigger placement="top" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
-							<Button href="javascript:"><Glyphicon glyph="trash" /></Button>
-						</OverlayTrigger>
-					</ButtonGroup>
+				<Col sm='1-6'>
+					<Button><Icon fa="trash"/></Button>
 				</Col>
 			</Row>
 		)
@@ -79,35 +76,39 @@ class Episode extends React.Component {
 	})
 )
 
-export default class Form extends React.Component {
+export default class extends React.Component {
 	componentWillMount() {
-		console.log('will mount', this.props);
 		if (this.props.params.id ) this.props.fetchOne(this.props.params.id);
 	}
 
-	componentDidMount() {
+	upload(files) {
 		const {changeEpisodeUploadingProgress, changeEpisodeUrl, changeEpisodeUploadingState} = this.props;
 		let self = this;
-		setUploader({
-			multi_selection: true,
-			browse_button: `Upload`,
-			FileUploaded: (up, file, info) => {
-				info=JSON.parse(info);
-				changeEpisodeUrl(file, info.key);
-				changeEpisodeUploadingState(file, false);
-			},
-			UploadProgress: (up, file)=>changeEpisodeUploadingProgress(file),
-			fileAdded: function (f){
-				const { fields: {episodes} } = self.props;
-				f.index = episodes.length;
-				episodes.addField({
-					name: f.name,
-					size: f.size,
-					uploadingProgress: 0,
-					isUploading: true
-				});
-			}
+		files = Array.from(files);
+		files.map(x=>{
+			let uploader = new FileUploader(x);
+			uploader.upload();
 		});
+		//setUploader({
+		//	multi_selection: true,
+		//	browse_button: `Upload`,
+		//	FileUploaded: (up, file, info) => {
+		//		info=JSON.parse(info);
+		//		changeEpisodeUrl(file, info.key);
+		//		changeEpisodeUploadingState(file, false);
+		//	},
+		//	UploadProgress: (up, file)=>changeEpisodeUploadingProgress(file),
+		//	fileAdded: function (f){
+		//		const { fields: {episodes} } = self.props;
+		//		f.index = episodes.length;
+		//		episodes.addField({
+		//			name: f.name,
+		//			size: f.size,
+		//			uploadingProgress: 0,
+		//			isUploading: true
+		//		});
+		//	}
+		//});
 	}
 
 	render() {
@@ -119,17 +120,39 @@ export default class Form extends React.Component {
 			submitting
 			} = this.props;
 		return (
-			<div>
+			<Container>
 				<h2>创建新视频</h2>
-				<form className="am-form" onSubmit={handleSubmit}>
-					<Input type="text" label="名称" placeholder="视频名称" {...name} />
-					<Input type="textarea" label="描述" placeholder="视频描述" {...description} value={description.value || ''}/>
-					<Input label="内容" wrapperClassName="wrapper">
-						{episodes.map((episode, index) => (
-							<Episode key={index} index={index} fields={episode} values={episodesValue[index]} />
-						))}
+				<Form stacked onSubmit={handleSubmit}>
+					<Input type="text" label="名称"  placeholder="视频名称" {...name} />
+					<Input type="textarea" label="描述" placeholder="视频描述" {...description} value={description.value || ''} />
+					<FieldSet label="内容">
+						{
+							episodes.length
+								? episodes.map((episode, index) => <Episode key={index} index={index} fields={episode}
+								                                            values={episodesValue[index]}/>)
+								: <Row><Col>没有视频上传</Col></Row>
+						}
 						<Row key={Infinity}>
-							<Col sm={12}><Button  id="Upload">添加</Button></Col>
+							<Col sm="1-1">
+								<Input type="file" label="上传视频" help="Upload your videos" onChange={e=>this.upload(e.target.files)} />
+							</Col>
+						</Row>
+
+					</FieldSet>
+
+					{/*
+
+					<Input label="内容" wrapperClassName="wrapper">
+						{
+							episodes.length
+							? episodes.map((episode, index) => <Episode key={index} index={index} fields={episode}
+							                                            values={episodesValue[index]}/>)
+							: <Row><Col>没有视频上传</Col></Row>
+						}
+						<Row key={Infinity}>
+							<Col sm={12}>
+								<Input type="file" label="File" help="Upload your videos" onChange={e=>this.upload(e.target.files)} />
+							</Col>
 						</Row>
 					</Input>
 
@@ -138,9 +161,9 @@ export default class Form extends React.Component {
 							<Col xs={1}> <ButtonInput bsStyle="primary" type="submit" value="提交" /></Col>
 							<Col xs={1}> <ButtonInput bsStyle="warning" type="reset" value="取消" onClick={cancelForm} /></Col>
 						</Row>
-					</Input>
-				</form>
-			</div>
+					</Input>*/}
+				</Form>
+			</Container>
 		);
 	}
 }

@@ -31,10 +31,10 @@ module.exports = {
 				test: /\.scss$/,
 				loader: ExtractTextPlugin.extract('css-loader?sourceMap!sass-loader?sourceMap=true&sourceMapContents=true')
 			},{
-				test: [/glyphicons-halflings-regular\.svg/, /glyphicons-halflings-regular\.eot/, /glyphicons-halflings-regular\.ttf/, /VideoJS.eot/],
+				test: [/\.svg/, /\.eot/, /\.ttf/, /\.eot/],
 				loader:'file-loader'
 			},{
-				test: [/glyphicons-halflings-regular\.woff/, /glyphicons-halflings-regular\.woff2/],
+				test: [/\.woff/, /\.woff2/],
 				loader: "url-loader?limit=10000&minetype=application/font-woff"
 			},{
 				test: /\.(png|jpg)$/,

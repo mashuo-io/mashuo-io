@@ -84,7 +84,7 @@ class AuthButton extends React.Component {
         if ( this.props.isLoggedIn ){
             return (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
-                    <LinkContainer to="/my-video">
+                    <LinkContainer to="/my-videos">
                         <MenuItem eventKey={3.1}>我的视频</MenuItem>
                     </LinkContainer>
                     <MenuItem divider />

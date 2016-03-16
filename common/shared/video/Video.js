@@ -4,6 +4,7 @@ import {doFetchOneVideo} from './video.action';
 import {Row, Col} from 'react-bootstrap';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import videojs from 'video.js';
+import "./video.scss";
 
 @connect(
 	state =>({video: state.publicVideo}),

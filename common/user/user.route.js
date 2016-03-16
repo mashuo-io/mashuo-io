@@ -8,7 +8,7 @@ import Video from '../shared/video/Video';
 import MyVideo from '../shared/video/MyVideoList';
 import EditVideo from '../shared/video/EditVideo';
 
-export default (
+module.exports = (
 	<Route path="/" component={App}>
 		<IndexRoute component={Home} />
 		<Route path="auth" component={Auth} />

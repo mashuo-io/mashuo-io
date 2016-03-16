@@ -1,35 +1,5 @@
-import axios from 'axios';
+import axios from '../../shared/utils/server-request.service';
 import {browserHistory} from 'react-router'
-
-axios.interceptors.request.use(function (config) {
-    let isAbsoluteURLRegex = /^(?:\w+:)\/\//;
-
-    if ( !isAbsoluteURLRegex.test(config.url) ) {
-        config.url = 'http://localhost:3000/api' + config.url;
-    }
-
-    if (/.json$/.test(config.url) || /.html$/.test(config.url)) return config;
-
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem('Token')}`;
-
-    return config;
-}, function (error) {
-    return Promise.reject(error);
-});
-
-axios.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    switch(error.status)
-    {
-        case 401:
-        case 403:
-            browserHistory.push('/auth');
-            break;
-    }
-
-    return Promise.reject(error);
-});
 
 export function loggedOut() {
     return {type: 'OAUTH.LOGGED_OUT'};

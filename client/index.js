@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 import {reducer as formReducer} from 'redux-form';
+import {connectStore} from '../common/shared/utils/injector';
 
 import auth from '../common/user/auth/auth.reducer';
 import config from '../common/shared/config/config.reducer';
@@ -14,8 +15,6 @@ import {loadConfig} from '../common/shared/config/config.action';
 import publicVideoList from '../common/shared/video/public-video-list.reducer';
 import publicVideo from '../common/shared/video/public-video.reducer';
 import myVideo from '../common/shared/video/my-video.reducer';
-import userRoute from '../common/user/user.route';
-import adminRoute from '../common/admin/admin.route';
 
 const reducer = combineReducers({
 	config,
@@ -35,11 +34,13 @@ const store = compose(
 	)
 )(createStore)(reducer);
 
-const history = syncHistoryWithStore(browserHistory, store);
+connectStore(store);
 store.dispatch(loadConfig({})); // go with init state
+const history = syncHistoryWithStore(browserHistory, store);
 
 render (<Provider store={store}>
-			<Router history={history} routes={userRoute} />
+			{/* Intentionally use require instead of import. Because import will goes very first for any scripts even it is afterwards, therefore, the inject setup I wrote will goes after services instantiates  */}
+			<Router history={history} routes={require('../common/user/user.route')} />
 		</Provider>,
 	document.getElementById('app')
 );

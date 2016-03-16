@@ -19,7 +19,7 @@ export default class VideoList extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="container-fluid">
 				<h1>我的视频</h1>
 				<Button amStyle="primary" onClick={this.props.newVideo}>新建视频</Button>
 				<Table striped condensed hover>

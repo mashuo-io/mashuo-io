@@ -1,5 +1,5 @@
 import {initialize} from 'redux-form';
-import axios from 'axios';
+import axios from '../utils/server-request.service';
 import {fields} from './EditVideo';
 import {goBack} from 'react-router-redux';
 

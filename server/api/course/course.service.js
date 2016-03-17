@@ -1,5 +1,5 @@
 'use strict';
-let CourseModel = require('./model').courseModel;
+let CourseModel = require('./course.model').courseModel;
 
 module.exports = {
 	saveMyCourse: function * (){

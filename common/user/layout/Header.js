@@ -25,11 +25,11 @@ export class StyleNavbar extends React.Component {
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<Nav pullRight>
-                        <LinkContainer to="/videos">
+                        <LinkContainer to="/courses">
                             <NavItem >我想说</NavItem>
                         </LinkContainer>
 
-                        <LinkContainer to="/videos">
+                        <LinkContainer to="/courses">
                             <NavItem >最新视频</NavItem>
                         </LinkContainer>
 						<AuthButton />

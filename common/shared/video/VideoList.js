@@ -32,7 +32,7 @@ export default class VideoList extends React.Component {
 					<tbody>
 					{ (this.props.videos || []).map(x=> (
 						<tr key={x._id}>
-							<td><Link to={`/video/${x._id}`}>{x.name}</Link></td>
+							<td><Link to={`/courses/${x._id}`}>{x.name}</Link></td>
 							<td><TimeAgo date={x.createdOn} /></td>
 						</tr>
 					))}

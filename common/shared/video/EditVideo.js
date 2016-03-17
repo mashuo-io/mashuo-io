@@ -1,57 +1,103 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {reduxForm, reset, change, addArrayValue} from 'redux-form';
-import {ButtonGroup, ProgressBar, ButtonToolbar, Grid, Glyphicon, ButtonInput,  OverlayTrigger, Tooltip, Button as Bt} from 'react-bootstrap';
+import {ButtonGroup, ProgressBar, Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
-import {displayBytes} from '../utils/misc';
+import {displayBytes, displayDuration} from '../utils/misc';
 import {FileUploader} from '../utils/qiniu-uploader';
-import {Form, Container, Input, FieldSet, Row, Col, Button, Icon} from '../utils/Ui';
 
 
-const episode_filed = ['name', 'url', 'isUploading', 'uploadingProgress', 'size'];
+const episode_filed = ['name', 'url', 'size'];
 export const fields = [
 	'_id',
 	'name',
 	'description'
 ].concat(episode_filed.map(x=>`episodes[].${x}`));
 
+@connect(null,
+	dispatch=>({
+		changeEpisodeUrl: (index, url) => dispatch(change('video', `episodes[${index}].url`, url))
+	})
+)
 class Episode extends React.Component {
+	static propTypes = {
+		index: PropTypes.number,
+		fields: PropTypes.object,
+		values: PropTypes.object,
+		uploadingFile: PropTypes.object
+	};
 
-	shouldComponentUpdate({values: next}) {
-		const {values: old} = this.props;
-		return old.uploadingProgress !== next.uploadingProgress
-			|| old.name !== next.name
-			||	old.url !== next.url
-			||	old.isUploading !== next.isUploading
-			||	old.size !== next.size
-		;
+	constructor(props) {
+		super();
+		let {uploadingFile} = props;
+		this.state = {
+			percent: 0,
+			total: uploadingFile ? displayBytes(uploadingFile.size) : '',
+			loaded: 0,
+			isUploading: !!uploadingFile
+		};
+		if (uploadingFile) 	this.upload(uploadingFile);
+	}
+
+	upload = (uploadingFile) => {
+		let uploader = new FileUploader(uploadingFile);
+		uploader.upload({
+			progress: ({loaded, total, timeStamp})=>{
+				let {startedOn = timeStamp} = this.state;
+				let percent = Math.floor(loaded / total * 100);
+				this.setState({
+					startedOn,
+					percent,
+					loaded: displayBytes(loaded),
+					timeLeft: startedOn == timeStamp ? '未知' : displayDuration( (timeStamp - startedOn) / loaded * (total - loaded) / 1000)
+				})
+			}
+		})
+		.then(({data})=>{
+			this.props.changeEpisodeUrl(this.props.index, data.key);
+			this.setState({isUploading: false});
+		});
+	};
+
+	shouldComponentUpdate({values: nextProps}, nextState) {
+		const {values: oldProps} = this.props;
+		let oldState = this.state;
+		return oldProps.name !== nextProps.name
+			||	oldProps.url !== nextProps.url
+			||	oldProps.size !== nextProps.size
+			||	oldState.percent !== nextState.percent
+			||	oldProps.isUploading !== nextState.isUploading;
 	}
 
 	render() {
 		const {
 			index,
 			fields: {name},
-			values: {isUploading, uploadingProgress, size, url}
+			values: {size, url}
 			} = this.props;
+		const {percent, isUploading, total, loaded, timeLeft} = this.state;
 		return (
-
 			<Row >
 				<Col sm={1}><span>#{index + 1}</span></Col>
 				<Col sm={5}><Input type="text"  placeholder="说明" {...name}/></Col>
-				<Col sm='1-3'>
+				<Col sm={4}>
 					{
 						isUploading
-						? <div><ProgressBar
-							now={uploadingProgress}
-						    label={`共${displayBytes(size)} 还剩${uploadingProgress}%`}
-						/><span>{`共${displayBytes(size)} 还剩${uploadingProgress}%`}</span>
+							? <div><ProgressBar
+							now={percent}
+							label={`${percent}%`}
+						/><span>{`${loaded} / ${total} ${timeLeft}`}</span>
 						</div>
-						: <a href={url}>查看</a>
+							: <a href={url}>查看</a>
 					}
 				</Col>
-				<Col sm='1-6'>
-					<Button><Icon fa="trash"/></Button>
+				<Col sm={2}>
+					<ButtonGroup>
+						<OverlayTrigger placement="top" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
+							<Button href="javascript:" onClick={()=>this.props.delete(index)}><Glyphicon glyph="trash" /></Button>
+						</OverlayTrigger>
+					</ButtonGroup>
 				</Col>
 			</Row>
 		)
@@ -64,54 +110,40 @@ class Episode extends React.Component {
 	dispatch=> ({
 		cancelForm: () => dispatch(goBack()),
 		onSubmit: (video) => dispatch(doSaveMyVideo(video)),
-		fetchOne: (id) => dispatch(doFetchOneMyVideo(id)),
-		changeEpisodeUploadingState: (file, isUploading) =>
-			dispatch(change('video', `episodes[${file.index}].isUploading`, isUploading)),
-		changeEpisodeUploadingProgress: (file) =>{
-			console.log('dispatch progress', file);
-			dispatch(change('video', `episodes[${file.index}].uploadingProgress`, file.percent))
-		},
-		changeEpisodeUrl: (file, url) => dispatch(change('video', `episodes[${file.index}].url`, url)),
-		addNewEpisode: () => dispatch(addArrayValue())
+		fetchOne: (id) => dispatch(doFetchOneMyVideo(id))
 	})
 )
+export default class Form extends React.Component {
+	state = {files: {}};
 
-export default class extends React.Component {
 	componentWillMount() {
 		if (this.props.params.id ) this.props.fetchOne(this.props.params.id);
 	}
 
 	upload(files) {
-		const {changeEpisodeUploadingProgress, changeEpisodeUrl, changeEpisodeUploadingState} = this.props;
-		let self = this;
+		const {fields: {episodes}} = this.props;
+		let initIndex = episodes.length;
 		files = Array.from(files);
-		files.map(x=>{
-			let uploader = new FileUploader(x);
-			uploader.upload();
+		this.setState(
+			{
+				files: Object.assign({}, this.state.files, files.reduce((ret, value, i) => {
+					ret[initIndex+i] = value;
+					return ret;
+					}, {}))
+			}
+		);
+		files.map((f, n)=>{
+			console.log('adding', n + initIndex, f.name, f.size, this.state.files, f);
+			episodes.addField({
+				index: n + initIndex,
+				name: f.name,
+				size: f.size
+			});
 		});
-		//setUploader({
-		//	multi_selection: true,
-		//	browse_button: `Upload`,
-		//	FileUploaded: (up, file, info) => {
-		//		info=JSON.parse(info);
-		//		changeEpisodeUrl(file, info.key);
-		//		changeEpisodeUploadingState(file, false);
-		//	},
-		//	UploadProgress: (up, file)=>changeEpisodeUploadingProgress(file),
-		//	fileAdded: function (f){
-		//		const { fields: {episodes} } = self.props;
-		//		f.index = episodes.length;
-		//		episodes.addField({
-		//			name: f.name,
-		//			size: f.size,
-		//			uploadingProgress: 0,
-		//			isUploading: true
-		//		});
-		//	}
-		//});
 	}
 
 	render() {
+		console.log('rending', this.state);
 		const {
 			fields: {name, description, episodes},
 			values: {episodes: episodesValue},
@@ -120,38 +152,22 @@ export default class extends React.Component {
 			submitting
 			} = this.props;
 		return (
-			<Container>
+			<div className="container">
 				<h2>创建新视频</h2>
-				<Form stacked onSubmit={handleSubmit}>
-					<Input type="text" label="名称"  placeholder="视频名称" {...name} />
-					<Input type="textarea" label="描述" placeholder="视频描述" {...description} value={description.value || ''} />
-					<FieldSet label="内容">
+				<form className="am-form" onSubmit={handleSubmit}>
+					<Input type="text" label="名称" placeholder="视频名称" {...name} />
+					<Input type="textarea" label="描述" placeholder="视频描述" {...description} value={description.value || ''}/>
+					<Input label="视频" wrapperClassName="wrapper">
 						{
-							episodes.length
-								? episodes.map((episode, index) => <Episode key={index} index={index} fields={episode}
-								                                            values={episodesValue[index]}/>)
+							episodes.length !== 0
+								? episodes.map((episode, index) => (
+									<Episode key={index} uploadingFile={this.state.files[index]} index={index} fields={episode} values={episodesValue[index]} delete={index=>episodes.removeField(index)}/>)
+								)
 								: <Row><Col>没有视频上传</Col></Row>
 						}
 						<Row key={Infinity}>
-							<Col sm="1-1">
-								<Input type="file" label="上传视频" help="Upload your videos" onChange={e=>this.upload(e.target.files)} />
-							</Col>
-						</Row>
-
-					</FieldSet>
-
-					{/*
-
-					<Input label="内容" wrapperClassName="wrapper">
-						{
-							episodes.length
-							? episodes.map((episode, index) => <Episode key={index} index={index} fields={episode}
-							                                            values={episodesValue[index]}/>)
-							: <Row><Col>没有视频上传</Col></Row>
-						}
-						<Row key={Infinity}>
 							<Col sm={12}>
-								<Input type="file" label="File" help="Upload your videos" onChange={e=>this.upload(e.target.files)} />
+								<Input type="file" multiple help="上传视频" onChange={e=>this.upload(e.target.files)} />
 							</Col>
 						</Row>
 					</Input>
@@ -161,9 +177,9 @@ export default class extends React.Component {
 							<Col xs={1}> <ButtonInput bsStyle="primary" type="submit" value="提交" /></Col>
 							<Col xs={1}> <ButtonInput bsStyle="warning" type="reset" value="取消" onClick={cancelForm} /></Col>
 						</Row>
-					</Input>*/}
-				</Form>
-			</Container>
+					</Input>
+				</form>
+			</div>
 		);
 	}
 }

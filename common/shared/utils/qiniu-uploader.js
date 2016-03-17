@@ -10,7 +10,7 @@ export class FileUploader {
 		this.file = file;
 	}
 
-	upload = () => {
+	upload = ({progress}) => {
 		let {file, props: {config:{videoUploadUrl}}} = this;
 		let key = `${uuid.v4()}.${getExtension(file.name)}`;
 
@@ -24,9 +24,7 @@ export class FileUploader {
 			formData.append('token', uptoken);
 			formData.append('file', file);
 
-			return axios.post(videoUploadUrl, formData, {
-				progress: progress=>console.log('uploading...', progress)
-			})
+			return axios.post(videoUploadUrl, formData, {progress})
 		})
 	}
 }

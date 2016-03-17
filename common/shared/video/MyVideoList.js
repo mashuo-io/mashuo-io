@@ -9,8 +9,8 @@ import TimeAgo from '../utils/TimeAgo';
 	state => state.myVideo,
 	dispatch => ({
 		doFetch: () => dispatch(doFetchMyVideos()),
-		newVideo: ()=> dispatch(push('/my-video/new')),
-		editVideo: video=> dispatch(push(`/my-video/edit/${video._id}`))
+		newVideo: ()=> dispatch(push('/my-courses/new')),
+		editVideo: video=> dispatch(push(`/my-courses/edit/${video._id}`))
 	})
 )
 export default class VideoList extends React.Component {

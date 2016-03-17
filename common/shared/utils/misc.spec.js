@@ -1,4 +1,4 @@
-import {displayBytes} from './misc';
+import {displayBytes, displayDuration} from './misc';
 import {expect} from 'chai';
 
 describe('misc', ()=>{
@@ -12,5 +12,16 @@ describe('misc', ()=>{
 		expect(displayBytes(1024*1024 * 2 - 1)).to.eql('2M');
 		expect(displayBytes(1024*1024*1024 * 2 - 1)).to.eql('2G');
 		expect(displayBytes(1024*1024*1024 + 1)).to.eql('1G');
-	})
+	});
+
+	it ('display duration', ()=>{
+		expect(displayDuration(0.3)).to.eql('马上');
+		expect(displayDuration(3)).to.eql('3秒');
+		expect(displayDuration(45)).to.eql('1分钟');
+		expect(displayDuration(123)).to.eql('2分钟');
+		expect(displayDuration(60*28)).to.eql('28分钟');
+		expect(displayDuration(60*60*0.6)).to.eql('1小时');
+		expect(displayDuration(60*60*10)).to.eql('10小时');
+		expect(displayDuration(60*60*26)).to.eql('26小时');
+	});
 });

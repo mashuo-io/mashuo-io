@@ -1,22 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {doFetchPublicVideos} from './video.action';
+import {doFetchPublicCourses} from './course.action';
 import {Table} from 'react-bootstrap';
 import TimeAgo from '../utils/TimeAgo';
 import {Link} from 'react-router';
 import videojs from 'video.js';
 
 @connect(
-	state=> state.publicVideoList,
+	state=> state.publicCourseList,
 	dispatch => {
 		return {
-			doFetch: () => dispatch(doFetchPublicVideos())
+			doFetch: () => dispatch(doFetchPublicCourses())
 		}
 	}
 )
-export default class VideoList extends React.Component {
+export default class extends React.Component {
 	componentWillMount() {
-		if (!this.props.videos) this.props.doFetch();
+		if (!this.props.courses) this.props.doFetch();
 	}
 	render() {
 		return (
@@ -30,7 +30,7 @@ export default class VideoList extends React.Component {
 					</tr>
 					</thead>
 					<tbody>
-					{ (this.props.videos || []).map(x=> (
+					{ (this.props.courses || []).map(x=> (
 						<tr key={x._id}>
 							<td><Link to={`/courses/${x._id}`}>{x.name}</Link></td>
 							<td><TimeAgo date={x.createdOn} /></td>

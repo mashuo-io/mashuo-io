@@ -12,16 +12,16 @@ import {connectStore} from '../common/shared/utils/injector';
 import auth from '../common/user/auth/auth.reducer';
 import config from '../common/shared/config/config.reducer';
 import {loadConfig} from '../common/shared/config/config.action';
-import publicVideoList from '../common/shared/video/public-video-list.reducer';
-import publicVideo from '../common/shared/video/public-video.reducer';
-import myVideo from '../common/shared/video/my-video.reducer';
+import publicCourseList from '../common/shared/course/public-course-list.reducer';
+import publicCourse from '../common/shared/course/public-course.reducer';
+import myCourse from '../common/shared/course/my-course.reducer';
 
 const reducer = combineReducers({
 	config,
 	auth,
-	publicVideoList,
-	publicVideo,
-	myVideo,
+	publicCourseList,
+	publicCourse,
+	myCourse,
 	routing: routerReducer,
 	form: formReducer
 });

@@ -1,27 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {doFetchMyVideos} from './video.action';
+import {doFetchMyCourses} from './course.action';
 import {Table, Button} from 'react-bootstrap';
 import {push} from 'react-router-redux';
 import TimeAgo from '../utils/TimeAgo';
 
 @connect(
-	state => state.myVideo,
+	state => state.myCourse,
 	dispatch => ({
-		doFetch: () => dispatch(doFetchMyVideos()),
-		newVideo: ()=> dispatch(push('/my-courses/new')),
-		editVideo: video=> dispatch(push(`/my-courses/edit/${video._id}`))
+		doFetch: () => dispatch(doFetchMyCourses()),
+		newCourse: ()=> dispatch(push('/my-courses/new')),
+		editCourse: course=> dispatch(push(`/my-courses/edit/${course._id}`))
 	})
 )
-export default class VideoList extends React.Component {
+export default class extends React.Component {
 	componentWillMount() {
 		this.props.doFetch();
 	}
 	render() {
 		return (
 			<div className="container-fluid">
-				<h1>我的视频</h1>
-				<Button amStyle="primary" onClick={this.props.newVideo}>新建视频</Button>
+				<h1>我的课程</h1>
+				<Button amStyle="primary" onClick={this.props.newCourse}>新建课程</Button>
 				<Table striped condensed hover>
 					<thead>
 					<tr>
@@ -32,12 +32,12 @@ export default class VideoList extends React.Component {
 					</tr>
 					</thead>
 					<tbody>
-					{ (this.props.videos || []).map(x=> (
+					{ (this.props.courses || []).map(x=> (
 						<tr key={x._id}>
 							<td>{x.name}</td>
 							<td>{x.status === 'new' ? '未发布': '已发布'}</td>
 							<td><TimeAgo date={x.createdOn}  /></td>
-							<td><Button onClick={()=>this.props.editVideo(x)}>编辑</Button></td>
+							<td><Button onClick={()=>this.props.editCourse(x)}>编辑</Button></td>
 						</tr>
 					))}
 					</tbody>

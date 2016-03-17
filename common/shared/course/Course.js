@@ -1,15 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {doFetchOneVideo} from './video.action';
+import {doFetchOneCourse} from './course.action';
 import {Row, Col} from 'react-bootstrap';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import videojs from 'video.js';
-import "./video.scss";
+import "./course.scss";
 
 @connect(
-	state =>({video: state.publicVideo}),
+	state =>({course: state.publicCourse}),
 	dispatch => ({
-		doFetch: id => dispatch(doFetchOneVideo(id))
+		doFetch: id => dispatch(doFetchOneCourse(id))
 	})
 )
 export default class extends React.Component {
@@ -45,10 +45,7 @@ export default class extends React.Component {
 	}
 
 	render () {
-		const {status, video} = this.props.video;
 
-		console.log('rendering', this.state);
-		let {name} = video ||{};
 		return (
 			<div id="video">
 			<div className="video-row">

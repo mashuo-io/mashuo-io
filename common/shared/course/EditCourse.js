@@ -3,24 +3,24 @@ import {reduxForm, reset, change, addArrayValue} from 'redux-form';
 import {ButtonGroup, ProgressBar, Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
-import {doFetchOneMyVideo, doSaveMyVideo} from './video.action';
+import {doFetchOneMyCourse, doSaveMyCourse} from './course.action';
 import {displayBytes, displayDuration} from '../utils/misc';
 import {FileUploader} from '../utils/qiniu-uploader';
 
 
-const episode_filed = ['name', 'url', 'size'];
+const video_filed = ['name', 'url', 'size'];
 export const fields = [
 	'_id',
 	'name',
 	'description'
-].concat(episode_filed.map(x=>`episodes[].${x}`));
+].concat(video_filed.map(x=>`videos[].${x}`));
 
 @connect(null,
 	dispatch=>({
-		changeEpisodeUrl: (index, url) => dispatch(change('video', `episodes[${index}].url`, url))
+		changeVideoUrl: (index, url) => dispatch(change('course', `videos[${index}].url`, url))
 	})
 )
-class Episode extends React.Component {
+class Video extends React.Component {
 	static propTypes = {
 		index: PropTypes.number,
 		fields: PropTypes.object,
@@ -55,7 +55,7 @@ class Episode extends React.Component {
 			}
 		})
 		.then(({data})=>{
-			this.props.changeEpisodeUrl(this.props.index, data.key);
+			this.props.changeVideoUrl(this.props.index, data.key);
 			this.setState({isUploading: false});
 		});
 	};
@@ -105,15 +105,15 @@ class Episode extends React.Component {
 }
 
 @reduxForm(
-	{ form: 'video', fields },
+	{ form: 'course', fields },
 	null,
 	dispatch=> ({
 		cancelForm: () => dispatch(goBack()),
-		onSubmit: (video) => dispatch(doSaveMyVideo(video)),
-		fetchOne: (id) => dispatch(doFetchOneMyVideo(id))
+		onSubmit: (course) => dispatch(doSaveMyCourse(course)),
+		fetchOne: (id) => dispatch(doFetchOneMyCourse(id))
 	})
 )
-export default class Form extends React.Component {
+export default class extends React.Component {
 	state = {files: {}};
 
 	componentWillMount() {
@@ -121,8 +121,8 @@ export default class Form extends React.Component {
 	}
 
 	upload(files) {
-		const {fields: {episodes}} = this.props;
-		let initIndex = episodes.length;
+		const {fields: {videos}} = this.props;
+		let initIndex = videos.length;
 		files = Array.from(files);
 		this.setState(
 			{
@@ -134,7 +134,7 @@ export default class Form extends React.Component {
 		);
 		files.map((f, n)=>{
 			console.log('adding', n + initIndex, f.name, f.size, this.state.files, f);
-			episodes.addField({
+			videos.addField({
 				index: n + initIndex,
 				name: f.name,
 				size: f.size
@@ -145,23 +145,23 @@ export default class Form extends React.Component {
 	render() {
 		console.log('rending', this.state);
 		const {
-			fields: {name, description, episodes},
-			values: {episodes: episodesValue},
+			fields: {name, description, videos},
+			values: {videos: videosValue},
 			handleSubmit,
 			cancelForm,
 			submitting
 			} = this.props;
 		return (
 			<div className="container">
-				<h2>创建新视频</h2>
+				<h2>创建新课程</h2>
 				<form className="am-form" onSubmit={handleSubmit}>
-					<Input type="text" label="名称" placeholder="视频名称" {...name} />
-					<Input type="textarea" label="描述" placeholder="视频描述" {...description} value={description.value || ''}/>
+					<Input type="text" label="名称" placeholder="课程名称" {...name} />
+					<Input type="textarea" label="描述" placeholder="课程描述" {...description} value={description.value || ''}/>
 					<Input label="视频" wrapperClassName="wrapper">
 						{
-							episodes.length !== 0
-								? episodes.map((episode, index) => (
-									<Episode key={index} uploadingFile={this.state.files[index]} index={index} fields={episode} values={episodesValue[index]} delete={index=>episodes.removeField(index)}/>)
+							videos.length !== 0
+								? videos.map((video, index) => (
+									<Video key={index} uploadingFile={this.state.files[index]} index={index} fields={video} values={videosValue[index]} delete={index=>videos.removeField(index)}/>)
 								)
 								: <Row><Col>没有视频上传</Col></Row>
 						}

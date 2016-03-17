@@ -9,8 +9,8 @@ import TimeAgo from '../utils/TimeAgo';
 	state => state.myCourse,
 	dispatch => ({
 		doFetch: () => dispatch(doFetchMyCourses()),
-		newCourse: ()=> dispatch(push('/my-courses/new')),
-		editCourse: course=> dispatch(push(`/my-courses/edit/${course._id}`))
+		newCourse: ()=> dispatch(push('/my-course/new')),
+		editCourse: course=> dispatch(push(`/my-course/edit/${course._id}`))
 	})
 )
 export default class extends React.Component {

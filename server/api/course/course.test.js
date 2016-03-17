@@ -32,7 +32,7 @@ describe('video', () => {
 		.send({
 			name: 'c#',
 			describe: 'c# course',
-			episodes: [
+			videos: [
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})
@@ -62,7 +62,7 @@ describe('video', () => {
 		.send({
 			name: 'c#',
 			describe: 'c# course',
-			episodes: [
+			videos: [
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})
@@ -88,7 +88,7 @@ describe('video', () => {
 		.send({
 			name: 'c#',
 			describe: 'c# course',
-			episodes: [
+			videos: [
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})
@@ -109,7 +109,7 @@ describe('video', () => {
 		.send({
 			name: 'c#',
 			describe: 'c# course',
-			episodes: [
+			videos: [
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})
@@ -122,7 +122,7 @@ describe('video', () => {
 			_id: videoId,
 			name: 'c#',
 			describe: 'c# course',
-			episodes: [
+			videos: [
 				{name: 'string', url: 'http://abc', duration: 150}
 			]
 		})

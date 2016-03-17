@@ -5,7 +5,10 @@ $playList-width: 350px;
 $min-width-two-columns: 991px;
 
 #video {
-  padding:0 75px;
+  @media screen and (min-width: $min-width-two-columns) {
+    padding: 0 75px;
+  }
+
   .video-row {
     width:100%;
     background-color:grey;

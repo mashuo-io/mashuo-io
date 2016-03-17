@@ -1,6 +1,6 @@
 import {initialize} from 'redux-form';
 import axios from '../utils/server-request.service';
-import {fields} from './EditCourse';
+import {fields} from './edit-course';
 import {goBack} from 'react-router-redux';
 
 export const setDoing = (prefix) => ({

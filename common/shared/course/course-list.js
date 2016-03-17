@@ -20,7 +20,7 @@ export default class extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="container-fluid">
 				<h1>最新视频</h1>
 				<Table striped hover radius>
 					<thead>
@@ -32,7 +32,7 @@ export default class extends React.Component {
 					<tbody>
 					{ (this.props.courses || []).map(x=> (
 						<tr key={x._id}>
-							<td><Link to={`/courses/${x._id}`}>{x.name}</Link></td>
+							<td><Link to={`/course-intro/${x._id}`}>{x.name}</Link></td>
 							<td><TimeAgo date={x.createdOn} /></td>
 						</tr>
 					))}

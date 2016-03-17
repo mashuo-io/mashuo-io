@@ -24,7 +24,7 @@ export const loadVideo = (video) => ({
 export const doFetchPublicVideos = () => dispatch => {
 	dispatch(setDoing('VIDEO_LIST'));
 
-	axios.get('/videos')
+	axios.get('/courses')
 	.then(function (response) {
 		dispatch(loadVideos('VIDEO_LIST', response.data));
 		dispatch(setDone('VIDEO_LIST'));
@@ -34,7 +34,7 @@ export const doFetchPublicVideos = () => dispatch => {
 export const doFetchMyVideos = () => dispatch => {
 	dispatch(setDoing('MY_VIDEO'));
 
-	axios.get('/my-videos')
+	axios.get('/my-courses')
 	.then(function (response) {
 		dispatch(loadVideos('MY_VIDEO', response.data));
 		dispatch(setDone('MY_VIDEO'));
@@ -43,7 +43,7 @@ export const doFetchMyVideos = () => dispatch => {
 
 export const doFetchOneMyVideo = (videoId) => dispatch => {
 	dispatch(setDoing('MY_VIDEO'));
-	axios.get(`/my-videos/${videoId}`)
+	axios.get(`/my-courses/${videoId}`)
 	.then(response => {
 		dispatch(initialize('video', response.data, fields));
 		dispatch(setDone('MY_VIDEO'));
@@ -52,7 +52,7 @@ export const doFetchOneMyVideo = (videoId) => dispatch => {
 
 export const doFetchOneVideo = (videoId) => dispatch => {
 	dispatch(setDoing('VIDEO'));
-	axios.get(`/videos/${videoId}`)
+	axios.get(`/courses/${videoId}`)
 	.then(response=> {
 		dispatch(loadVideo(response.data));
 		dispatch(setDone('VIDEO'));
@@ -61,7 +61,7 @@ export const doFetchOneVideo = (videoId) => dispatch => {
 
 export const doSaveMyVideo = (video) => dispatch => {
 	dispatch(setDoing('MY_VIDEO'));
-	axios.post(`/my-videos`, video)
+	axios.post(`/my-courses`, video)
 	.then(response => {
 		dispatch(goBack());
 	});

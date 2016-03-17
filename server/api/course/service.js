@@ -2,7 +2,7 @@
 let VideoModel = require('./model').videoModel;
 
 module.exports = {
-	saveMyVideo: function * (){
+	saveMyCourse: function * (){
 		let body = this.request.body;
 		let fields = {
 			name: body.name,
@@ -20,14 +20,14 @@ module.exports = {
 		}
 	},
 
-	getMyVideos: function *() {
+	getMyCourses: function *() {
 		this.body = yield VideoModel
 		.find({createdBy: this.currentUser._id})
 		.sort({createdOn: -1})
 		.lean();
 	},
 
-	getMyVideoById: function *() {
+	getMyCourseById: function *() {
 		let video = yield VideoModel
 		.findOne({_id: this.params.id})
 		.lean();
@@ -38,14 +38,14 @@ module.exports = {
 		this.body = video;
 	},
 
-	getVideos: function *() {
+	getCourses: function *() {
 		this.body = yield VideoModel
 		.find({})
 		.sort({createdOn: -1})
 		.lean();
 	},
 
-	getVideo: function *() {
+	getCourse: function *() {
 		this.body = yield VideoModel
 		.findOne({_id: this.params.id})
 		.lean();

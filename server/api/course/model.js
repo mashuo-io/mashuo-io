@@ -20,5 +20,5 @@ let schema = new mongoose.Schema(_.extend({
 }, baseEntity));
 
 module.exports = {
-	videoModel: mongoose.model('video', schema)
+	videoModel: mongoose.model('course', schema)
 };

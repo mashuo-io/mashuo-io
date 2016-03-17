@@ -1,20 +1,18 @@
 "use strict";
 
 let router = module.exports = require('koa-router')();
-let videoService = require('./video/service');
+let videoService = require('./course/service');
 let auth = require('./auth/service');
 let qiniu = require('./qiniu/qiniu.service');
 
 router.get('/', function *(){this.body= 'hello'});
 
 
-router.get('/videos', videoService.getVideos);
-router.get('/videos/:id', videoService.getVideo);
-
-
-router.post('/my-videos', auth.authenticateTokenMiddleware, videoService.saveMyVideo);
-router.get('/my-videos', auth.authenticateTokenMiddleware, videoService.getMyVideos);
-router.get('/my-videos/:id', auth.authenticateTokenMiddleware, videoService.getMyVideoById);
+router.get('/courses', videoService.getCourses);
+router.get('/courses/:id', videoService.getCourse);
+router.post('/my-courses', auth.authenticateTokenMiddleware, videoService.saveMyCourse);
+router.get('/my-courses', auth.authenticateTokenMiddleware, videoService.getMyCourses);
+router.get('/my-courses/:id', auth.authenticateTokenMiddleware, videoService.getMyCourseById);
 
 router.get('/qiniu-token/:key?', qiniu.getUptoken);
 

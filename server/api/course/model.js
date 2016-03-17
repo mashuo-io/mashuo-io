@@ -9,7 +9,7 @@ let schema = new mongoose.Schema(_.extend({
 	name: String,
 	description: String,
 	createdBy: {type:Schema.Types.ObjectId, ref:'account'},
-	episodes: [
+	videos: [
 		{
 			name: String,
 			url: String,
@@ -20,5 +20,5 @@ let schema = new mongoose.Schema(_.extend({
 }, baseEntity));
 
 module.exports = {
-	videoModel: mongoose.model('course', schema)
+	courseModel: mongoose.model('course', schema)
 };

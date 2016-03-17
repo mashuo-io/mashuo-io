@@ -21,13 +21,13 @@ describe('video', () => {
 	});
 
 	it('my video should not work without auth', function *() {
-		yield request.get('/api/my-videos')
+		yield request.get('/api/my-courses')
 		.expect(401);
 	});
 
 	it('save video should work', function *() {
 		let videoId;
-		yield request.post('/api/my-videos')
+		yield request.post('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
 			name: 'c#',
@@ -39,16 +39,16 @@ describe('video', () => {
 		.expect(200)
 		.expect(res=>videoId = res.body._id);
 
-		yield request.get('/api/my-videos')
+		yield request.get('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.expect(200)
 		.expect(res=>expect(res.body).to.have.length(1));
 
-		yield request.get('/api/videos')
+		yield request.get('/api/courses')
 		.expect(200)
 		.expect(res=>expect(res.body).to.have.length(1));
 
-		yield request.get(`/api/videos/${videoId}`)
+		yield request.get(`/api/courses/${videoId}`)
 		.expect(200)
 		.expect(res=>expect(res.body.name).to.eql('c#'));
 	});
@@ -57,7 +57,7 @@ describe('video', () => {
 
 		let videoId;
 
-		yield request.post('/api/my-videos')
+		yield request.post('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
 			name: 'c#',
@@ -69,12 +69,12 @@ describe('video', () => {
 		.expect(200)
 		.expect(res=>videoId = res.body._id);
 
-		yield request.get('/api/my-videos')
+		yield request.get('/api/my-courses')
 		.set('Authorization', `Bearer ${token1}`)
 		.expect(200)
 		.expect(res=>expect(res.body).to.have.length(0));
 
-		yield request.get(`/api/my-videos/${videoId}`)
+		yield request.get(`/api/my-courses/${videoId}`)
 		.set('Authorization', `Bearer ${token1}`)
 		.expect(403)
 
@@ -83,7 +83,7 @@ describe('video', () => {
 	it('get my video by id should work', function *() {
 		let videoId;
 
-		yield request.post('/api/my-videos')
+		yield request.post('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
 			name: 'c#',
@@ -95,7 +95,7 @@ describe('video', () => {
 		.expect(200)
 		.expect(res=>videoId = res.body._id);
 
-		yield request.get(`/api/my-videos/${videoId}`)
+		yield request.get(`/api/my-courses/${videoId}`)
 		.set('Authorization', `Bearer ${token}`)
 		.expect(200)
 		.expect(res=>expect(res.body.name).to.eql('c#'));
@@ -104,7 +104,7 @@ describe('video', () => {
 	it('update should work', function *() {
 		let videoId;
 
-		yield request.post('/api/my-videos')
+		yield request.post('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
 			name: 'c#',
@@ -116,7 +116,7 @@ describe('video', () => {
 		.expect(200)
 		.expect(res=>videoId = res.body._id);
 
-		yield request.post('/api/my-videos')
+		yield request.post('/api/my-courses')
 		.set('Authorization', `Bearer ${token}`)
 		.send({
 			_id: videoId,
@@ -129,7 +129,7 @@ describe('video', () => {
 		.expect(200)
 		.expect(res=>videoId = res.body._id);
 
-		yield request.get(`/api/my-videos`)
+		yield request.get(`/api/my-courses`)
 		.set('Authorization', `Bearer ${token}`)
 		.expect(200)
 		.expect(res=>expect(res.body).to.have.length(1));

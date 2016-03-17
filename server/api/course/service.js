@@ -1,5 +1,5 @@
 'use strict';
-let VideoModel = require('./model').videoModel;
+let CourseModel = require('./model').courseModel;
 
 module.exports = {
 	saveMyCourse: function * (){
@@ -7,46 +7,46 @@ module.exports = {
 		let fields = {
 			name: body.name,
 			description: body.description,
-			episodes: body.episodes,
+			videos: body.videos,
 			createdBy: this.currentUser._id
 		};
 
 		if (! body._id) {
-			let newOne = yield new VideoModel(fields).save();
+			let newOne = yield new CourseModel(fields).save();
 			this.body = {_id: newOne._id}
 		} else {
-			yield VideoModel.update({_id: body._id}, fields);
+			yield CourseModel.update({_id: body._id}, fields);
 			this.body = {_id: body._id};
 		}
 	},
 
 	getMyCourses: function *() {
-		this.body = yield VideoModel
+		this.body = yield CourseModel
 		.find({createdBy: this.currentUser._id})
 		.sort({createdOn: -1})
 		.lean();
 	},
 
 	getMyCourseById: function *() {
-		let video = yield VideoModel
+		let course = yield CourseModel
 		.findOne({_id: this.params.id})
 		.lean();
 
-		if (!video) this.throw('Not found', 404);
-		if (video.createdBy.toString() !== this.currentUser.id.toString()) this.throw('Forbidden', 403);
+		if (!course) this.throw('Not found', 404);
+		if (course.createdBy.toString() !== this.currentUser.id.toString()) this.throw('Forbidden', 403);
 
-		this.body = video;
+		this.body = course;
 	},
 
 	getCourses: function *() {
-		this.body = yield VideoModel
+		this.body = yield CourseModel
 		.find({})
 		.sort({createdOn: -1})
 		.lean();
 	},
 
 	getCourse: function *() {
-		this.body = yield VideoModel
+		this.body = yield CourseModel
 		.findOne({_id: this.params.id})
 		.lean();
 	}

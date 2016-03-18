@@ -14,7 +14,7 @@ module.exports = (
 		<IndexRoute component={Home} />
 		<Route path="auth" component={Auth} />
 		<Route path="courses" component={CourseList} />
-		<Route path="course/:id" component={Course} />
+		<Route path="course/:id(/video/:index)" component={Course} />
 		<Route path="course-intro/:id" component={CourseIntro} />
 		<Route path="my-course/new" component={EditCourse} />
 		<Route path="my-course/edit/:id" component={EditCourse} />

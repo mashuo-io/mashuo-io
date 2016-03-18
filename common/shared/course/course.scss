@@ -4,6 +4,9 @@
 $playList-width: 350px;
 $min-width-two-columns: 991px;
 
+$caption-color: #ffffff;
+$description-color: #b8b8b8;
+
 #video {
   @media screen and (min-width: $min-width-two-columns) {
     padding: 0 75px;
@@ -36,8 +39,61 @@ $min-width-two-columns: 991px;
     }
 
     .playlist-col {
-      background-color:yellow;
+      position: relative;
+      background-color:rgb(37, 37, 37);
       @extend .pure-u-1;
+
+
+      .auto-play {
+        background-color:#000000;
+        padding: 15px;
+        height: 50px;
+        line-height: 20px;
+        color: $description-color;
+        div.checkbox {
+          top: -10px;
+        }
+      }
+
+      .course-name {
+        height: 60px;
+        padding: 15px;
+        font-size: 16px;
+        line-height: 30px;
+        color: $caption-color;
+        border-bottom: solid 1px rgba(218, 235, 213, 0.27) ;
+      }
+
+      .videos {
+        color: $description-color;
+        .video {
+          padding: 15px;
+          cursor: pointer;
+          height: 50px;
+
+          .index {
+            display: inline-block;
+            width: 20px;
+          }
+
+          .name {
+            display: inline-block;
+          }
+
+          &.current {
+            background-color: #3a3a3a;
+            border: solid 1px   #c03636;
+            .index {
+              color: #c03636;
+            }
+          }
+          &:hover {
+            background-color: #6a6a6a;
+          }
+
+        }
+      }
+
       @media screen and (min-width: $min-width-two-columns) {
         width: $playList-width;
         height: 100%;

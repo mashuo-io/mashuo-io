@@ -8,12 +8,11 @@ qiniu.conf.SECRET_KEY = config.qiniu.secretKey;
 
 module.exports = {
 	getUptoken: function *() {
-		let element = this.params.key
-			? `${config.qiniu.bucket}:${this.params.key}`
-			: config.qiniu.bucket;
+		let key = this.params.key;
+		let element = `${config.qiniu.bucket}:${key}`;
 		let putPolicy = new qiniu.rs.PutPolicy(element);
 		putPolicy.returnBody = `{
-			"key": $(key),
+			"src": "http://${config.qiniu.domainName}/${key}",
 			"duration": $(avinfo.video.duration)
 		}`;
 		this.body = {uptoken: putPolicy.token()};

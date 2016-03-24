@@ -14,7 +14,7 @@ router.post('/my-courses', auth.authenticateTokenMiddleware, courseService.saveM
 router.get('/my-courses', auth.authenticateTokenMiddleware, courseService.getMyCourses);
 router.get('/my-courses/:id', auth.authenticateTokenMiddleware, courseService.getMyCourseById);
 
-router.get('/qiniu-token/:key?', qiniu.getUptoken);
+router.get('/qiniu-token/:key', qiniu.getUptoken);
 
 router.get('/auth/account', auth.authenticateTokenMiddleware, auth.getAccountInfo);
 router.get('/auth/github', auth.oauthGithub);

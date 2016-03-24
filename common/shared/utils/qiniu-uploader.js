@@ -14,7 +14,7 @@ export class FileUploader {
 		let {file, props: {config:{videoUploadUrl}}} = this;
 		let key = `${uuid.v4()}.${getExtension(file.name)}`;
 
-		return axios.get(`/qiniu-token`,{params:{key}})
+		return axios.get(`/qiniu-token/${key}`)
 		.then(({data: {uptoken}}) => {
 
 			let formData = new FormData();

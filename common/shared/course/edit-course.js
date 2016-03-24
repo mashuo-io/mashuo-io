@@ -22,7 +22,7 @@ export const fields = [
 		const {config} = stateProps;
 		return {
 			...ownProps,
-			changeKey: (index, key) => dispatch(change('course', `videos[${index}].src`, `${config.videoDownloadUrl}/${key}`)),
+			changeKey: (index, src) => dispatch(change('course', `videos[${index}].src`, src)),
 			changeDuration: (index, duration) => dispatch(change('course', `videos[${index}].duration`, Math.round(parseFloat(duration))))
 		}
 	}
@@ -64,7 +64,7 @@ class Video extends React.Component {
 		})
 		.then(({data})=>{
 			console.log('finished uploading', data);
-			this.props.changeKey(this.props.index, data.key);
+			this.props.changeKey(this.props.index, data.src);
 			this.props.changeDuration(this.props.index, data.duration);
 			this.setState({isUploading: false});
 		});

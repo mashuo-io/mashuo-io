@@ -12,10 +12,12 @@ let schema = new mongoose.Schema(_.extend({
 	videos: [
 		{
 			name: String,
-			url: String,
+			src: String,
+			poster: String,
 			duration: Number
 		}
 	],
+	duration: Number,
 	status: {type: String, enum: ['new', 'published']}
 }, baseEntity));
 

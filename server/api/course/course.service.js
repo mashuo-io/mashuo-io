@@ -7,8 +7,9 @@ module.exports = {
 		let fields = {
 			name: body.name,
 			description: body.description,
-			videos: body.videos,
-			createdBy: this.currentUser._id
+			videos: body.videos.map(x=>Object.assign({}, x, {poster: `${x.src}?vframe/jpg/offset/1/w/640/h/360`})),
+			createdBy: this.currentUser._id,
+			duration: body.videos.reduce((ret, v) => ret + v.duration, 0)
 		};
 
 		if (! body._id) {

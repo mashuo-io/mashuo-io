@@ -17,7 +17,8 @@ var base = {
 	qiniu: {
 		accessKey: '4E1QPOwTOwbW2p6AGeIve3jw4I6Udy3CjjlHq91b',
 		secretKey: 'mQyFwg53EvU1hsXBbU8ml0hFWVIdCpO7yVUul1Pj',
-		bucket: 'test'
+		bucket: 'test',
+		domainName: '7xrmd3.com1.z0.glb.clouddn.com'
 	}
 };
 

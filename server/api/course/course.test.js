@@ -33,7 +33,7 @@ describe('video', () => {
 			name: 'c#',
 			describe: 'c# course',
 			videos: [
-				{name: 'string', url: 'http://abc', duration: 150}
+				{name: 'string', src: 'http://abc', duration: 150}
 			]
 		})
 		.expect(200)
@@ -50,7 +50,8 @@ describe('video', () => {
 
 		yield request.get(`/api/courses/${videoId}`)
 		.expect(200)
-		.expect(res=>expect(res.body.name).to.eql('c#'));
+		.expect(res=>expect(res.body.name).to.eql('c#'))
+		.expect(res=>expect(res.body.videos[0].src).to.eql('http://abc'))
 	});
 
 	it('others should not see my video', function *() {
@@ -63,7 +64,7 @@ describe('video', () => {
 			name: 'c#',
 			describe: 'c# course',
 			videos: [
-				{name: 'string', url: 'http://abc', duration: 150}
+				{name: 'string', src: 'http://abc', duration: 150}
 			]
 		})
 		.expect(200)
@@ -89,7 +90,7 @@ describe('video', () => {
 			name: 'c#',
 			describe: 'c# course',
 			videos: [
-				{name: 'string', url: 'http://abc', duration: 150}
+				{name: 'string', src: 'http://abc', duration: 150}
 			]
 		})
 		.expect(200)
@@ -110,7 +111,7 @@ describe('video', () => {
 			name: 'c#',
 			describe: 'c# course',
 			videos: [
-				{name: 'string', url: 'http://abc', duration: 150}
+				{name: 'string', src: 'http://abc', duration: 150}
 			]
 		})
 		.expect(200)
@@ -123,7 +124,7 @@ describe('video', () => {
 			name: 'c#',
 			describe: 'c# course',
 			videos: [
-				{name: 'string', url: 'http://abc', duration: 150}
+				{name: 'string', src: 'http://abc', duration: 150}
 			]
 		})
 		.expect(200)

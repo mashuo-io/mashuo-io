@@ -12,6 +12,10 @@ module.exports = {
 			? `${config.qiniu.bucket}:${this.params.key}`
 			: config.qiniu.bucket;
 		let putPolicy = new qiniu.rs.PutPolicy(element);
+		putPolicy.returnBody = `{
+			"key": $(key),
+			"duration": $(avinfo.video.duration)
+		}`;
 		this.body = {uptoken: putPolicy.token()};
 	}
 };

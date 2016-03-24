@@ -4,7 +4,7 @@ import {doFetchPublicCourses} from './course.action';
 import {Table} from 'react-bootstrap';
 import TimeAgo from '../utils/TimeAgo';
 import {Link} from 'react-router';
-import videojs from 'video.js';
+import {displayDuration} from '../utils/misc';
 
 @connect(
 	state=> state.publicCourseList,
@@ -26,6 +26,7 @@ export default class extends React.Component {
 					<thead>
 					<tr>
 						<th>名称</th>
+						<th>时长</th>
 						<th>上传时间</th>
 					</tr>
 					</thead>
@@ -33,6 +34,7 @@ export default class extends React.Component {
 					{ (this.props.courses || []).map(x=> (
 						<tr key={x._id}>
 							<td><Link to={`/course-intro/${x._id}`}>{x.name}</Link></td>
+							<td>{displayDuration(x.duration)}</td>
 							<td><TimeAgo date={x.createdOn} /></td>
 						</tr>
 					))}

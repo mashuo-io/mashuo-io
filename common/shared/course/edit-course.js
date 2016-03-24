@@ -8,24 +8,32 @@ import {displayBytes, displayDuration} from '../utils/misc';
 import {FileUploader} from '../utils/qiniu-uploader';
 
 
-const video_filed = ['name', 'url', 'size'];
+const video_filed = ['name', 'src', 'size', 'duration'];
 export const fields = [
 	'_id',
 	'name',
 	'description'
 ].concat(video_filed.map(x=>`videos[].${x}`));
 
-@connect(null,
-	dispatch=>({
-		changeVideoUrl: (index, url) => dispatch(change('course', `videos[${index}].url`, url))
-	})
+@connect(state=>({config: state.config}),
+	null,
+	(stateProps, dispatchProps, ownProps)=>{
+		const { dispatch } = dispatchProps;
+		const {config} = stateProps;
+		return {
+			...ownProps,
+			changeKey: (index, key) => dispatch(change('course', `videos[${index}].src`, `${config.videoDownloadUrl}/${key}`)),
+			changeDuration: (index, duration) => dispatch(change('course', `videos[${index}].duration`, Math.round(parseFloat(duration))))
+		}
+	}
 )
 class Video extends React.Component {
 	static propTypes = {
 		index: PropTypes.number,
 		fields: PropTypes.object,
 		values: PropTypes.object,
-		uploadingFile: PropTypes.object
+		uploadingFile: PropTypes.object,
+		config: PropTypes.object
 	};
 
 	constructor(props) {
@@ -55,7 +63,9 @@ class Video extends React.Component {
 			}
 		})
 		.then(({data})=>{
-			this.props.changeVideoUrl(this.props.index, data.key);
+			console.log('finished uploading', data);
+			this.props.changeKey(this.props.index, data.key);
+			this.props.changeDuration(this.props.index, data.duration);
 			this.setState({isUploading: false});
 		});
 	};
@@ -64,7 +74,7 @@ class Video extends React.Component {
 		const {values: oldProps} = this.props;
 		let oldState = this.state;
 		return oldProps.name !== nextProps.name
-			||	oldProps.url !== nextProps.url
+			||	oldProps.src !== nextProps.src
 			||	oldProps.size !== nextProps.size
 			||	oldState.percent !== nextState.percent
 			||	oldProps.isUploading !== nextState.isUploading;
@@ -74,7 +84,7 @@ class Video extends React.Component {
 		const {
 			index,
 			fields: {name},
-			values: {size, url}
+			values: {size, src}
 			} = this.props;
 		const {percent, isUploading, total, loaded, timeLeft} = this.state;
 		return (
@@ -89,7 +99,7 @@ class Video extends React.Component {
 							label={`${percent}%`}
 						/><span>{`${loaded} / ${total} ${timeLeft}`}</span>
 						</div>
-							: <a href={url}>查看</a>
+							: <a href={src}>查看</a>
 					}
 				</Col>
 				<Col sm={2}>

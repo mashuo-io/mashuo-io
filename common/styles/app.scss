@@ -4,9 +4,15 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
+html, body {
+	widht: 100%;
+	height: 100%;
+}
+
 @import "./mixins";
 @import "./header";
 @import "./navbar";
 @import "./button";
 @import "./glyphicon";
 @import "./section";
+@import "./video";

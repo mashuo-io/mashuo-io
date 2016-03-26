@@ -4,11 +4,15 @@ $btn-border: #c4c4c4;
 
 
 .btn{
-  @include button-variant($font-dark, white, $btn-border, $btn-hover, $btn-active, 0px);
-  @include body-font();
+	@include button-variant($font-dark, white, $btn-border, $btn-hover, $btn-active, 0px);
+	@include body-font();
 }
 
 .btn.btn-primary{
-  @include button-variant(white, $brand-primary, $brand-primary, $btn-hover, $btn-active, 0px);
-  @include body-font();
+	@include button-variant(white, $brand-primary, $brand-primary, $btn-hover, $btn-active, 0px);
+	@include body-font();
+}
+
+.btn-xl {
+	padding: 15px 30px;
 }

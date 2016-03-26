@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from "react-redux";
 import {Button, Glyphicon, Image, SplitButton, MenuItem, Dropdown, NavItem} from 'react-bootstrap';
 import {exchangeTokenByCode, logout,findTokenAndLogin, oauthReturn} from './auth.action';
-import {LinkContainer} from 'react-router-bootstrap';r
+import {LinkContainer} from 'react-router-bootstrap';
 
 class NavImageDropdown extends React.Component {
     render() {

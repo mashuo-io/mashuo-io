@@ -1,218 +1,218 @@
 // Vertically Center Navigation Links when some nav item Increasing The Height of Navbar
 @media (min-width: 768px){
-  .navbar-nav li a {
-    line-height: 30px;
-  }
+	.navbar-nav li a {
+		line-height: 30px;
+	}
 
-  .navbar-brand {
-    line-height: 30px;
-  }
+	.navbar-brand {
+		line-height: 30px;
+	}
 }
 
 // navbar circle avatar
 .btn.navbar-circle-avatar {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 0 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 0 0;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 15px;
 }
 .btn.navbar-circle-avatar.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 0 0;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
+	width: 50px;
+	height: 50px;
+	padding: 0 0;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
 }
 .btn.navbar-circle-avatar.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 0 0;
-  font-size: 24px;
-  line-height: 1.33;
-  border-radius: 35px;
+	width: 70px;
+	height: 70px;
+	padding: 0 0;
+	font-size: 24px;
+	line-height: 1.33;
+	border-radius: 35px;
 }
 
 // navbar custom
 .navbar-default {
-  background-color: transparent;
-  border-color: transparent;
-  .navbar-brand {
-    font-size: 2em;
-    color: white;
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      color: white;
-    }
-    margin: 0;
-    padding-left: 20px;
+	background-color: transparent;
+	border-color: transparent;
+	.navbar-brand {
+		font-size: 2em;
+		color: white;
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			color: white;
+		}
+		margin: 0;
+		padding-left: 20px;
 
-    @media(min-width:768px) {
-      height: 60px;
-    }
+		@media(min-width:768px) {
+			height: 60px;
+		}
 
-  }
+	}
 
-  @media(max-width:768px) {
-    .navbar-collapse {
-      background-color: #222222;
-    }
-  }
-  .navbar-toggle {
-    color: $font-dark;
-    background-color: transparent;
-    border-color: lightgrey;
-    border-radius: 0;
-    .icon-bar {
-      background-color: $font-dark;
-    }
-    &:hover,
-    &:focus {
-      background-color: transparent;
-      color: $brand-primary;
-    }
-  }
+	@media(max-width:768px) {
+		.navbar-collapse {
+			background-color: #222222;
+		}
+	}
+	.navbar-toggle {
+		color: $font-dark;
+		background-color: transparent;
+		border-color: lightgrey;
+		border-radius: 0;
+		.icon-bar {
+			background-color: $font-dark;
+		}
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			color: $brand-primary;
+		}
+	}
 
-  .nav {
-    >li {
-      a {
-        max-height: 60px;
-        font-weight: 400;
-        letter-spacing: 1px;
-        color: white;
-        &:hover,
-        &:focus,
-        &.avtive{
-          color: white;
-        }
-      }
-    }
-  }
-  .navbar-nav>.active>a {
-    border-radius: 0;
-    color: $brand-primary;
-    background-color: transparent;
-  }
-  .navbar-nav>.active>a:hover,
-  .navbar-nav>.active>a:focus {
-    color: $brand-primary;
-    background-color: transparent;
-  }
+	.nav {
+		>li {
+			a {
+				max-height: 60px;
+				font-weight: 400;
+				letter-spacing: 1px;
+				color: white;
+				&:hover,
+				&:focus,
+				&.avtive{
+					color: white;
+				}
+			}
+		}
+	}
+	.navbar-nav>.active>a {
+		border-radius: 0;
+		color: $brand-primary;
+		background-color: transparent;
+	}
+	.navbar-nav>.active>a:hover,
+	.navbar-nav>.active>a:focus {
+		color: $brand-primary;
+		background-color: transparent;
+	}
 
-  // Dropdown menu items
-  .navbar-nav {
-    > .open > a {
-      &,
-      &:hover,
-      &:focus {
-        background-color: transparent;
-        color: white;
-      }
-    }
-  }
+	// Dropdown menu items
+	.navbar-nav {
+		> .open > a {
+			&,
+			&:hover,
+			&:focus {
+				background-color: transparent;
+				color: white;
+			}
+		}
+	}
 
-  .dropdown-menu {
-    border-radius: 0px;
-    .divider {
-      margin: 9px 10px;
-    }
-    > li > a {
-      @include transition(all 0.2s linear);
-      color: gray;
-      &:hover,
-      &:focus {
-        @include transition(all 0.2s linear);
+	.dropdown-menu {
+		border-radius: 0px;
+		.divider {
+			margin: 9px 10px;
+		}
+		> li > a {
+			@include transition(all 0.2s linear);
+			color: gray;
+			&:hover,
+			&:focus {
+				@include transition(all 0.2s linear);
 
-        color: gray;
-        background-color: white;
-        padding-left: 27px;
-      }
-    }
+				color: gray;
+				background-color: white;
+				padding-left: 27px;
+			}
+		}
 
-    @media(min-width:768px) {
-      &::after {
-        position: absolute;
-        top: -10px;
-        right: 21%;
-        display: inline-block;
-        border-right: 11px solid transparent;
-        border-bottom: 11px solid white;
-        border-left: 11px solid transparent;
-        content: '';
-      }
-    }
-  }
+		@media(min-width:768px) {
+			&::after {
+				position: absolute;
+				top: -10px;
+				right: 21%;
+				display: inline-block;
+				border-right: 11px solid transparent;
+				border-bottom: 11px solid white;
+				border-left: 11px solid transparent;
+				content: '';
+			}
+		}
+	}
 
-  &.hidden {
-    @include transition(opacity 1s ease-in-ease-out);
-  }
+	&.hidden {
+		@include transition(opacity 1s ease-in-ease-out);
+	}
 
-  @include transition(opacity 1s ease-in-ease-out);
+	@include transition(opacity 1s ease-in-ease-out);
 }
 
 .no-background-image.navbar-default {
-    @media(min-width:768px) {
-      .container-fluid {
-        padding-right: 0;
-      }
-    }
+	@media(min-width:768px) {
+		.container-fluid {
+			padding-right: 0;
+		}
+	}
 
-    .navbar-brand {
-      color: $font-dark;
-      border-right: 1px solid lightgrey;
-      border-radius: 0;
-    }
+	.navbar-brand {
+		color: $font-dark;
+		border-right: 1px solid lightgrey;
+		border-radius: 0;
+	}
 
-  .navbar-collapse {
-    background-color: white;
-  }
+	.navbar-collapse {
+		background-color: white;
+	}
 
 
-  border: 1px solid lightgrey;
-    border-radius: 0;
-    .nav {
-      > li {
-        border-left: 1px solid lightgrey;
-        border-radius: 0;
+	border: 1px solid lightgrey;
+	border-radius: 0;
+	.nav {
+		> li {
+			border-left: 1px solid lightgrey;
+			border-radius: 0;
 
-        a {
-          font-weight: 400;
-          letter-spacing: 1px;
-          color: $font-dark;
+			a {
+				font-weight: 400;
+				letter-spacing: 1px;
+				color: $font-dark;
 
-          &:hover,
-          &:focus,
-          &.avtive {
-            color: $font-dark;
-            background-color: #F5F5F5;
-            border-radius: 0;
-          }
-        }
-      }
-    }
+				&:hover,
+				&:focus,
+				&.avtive {
+					color: $font-dark;
+					background-color: #F5F5F5;
+					border-radius: 0;
+				}
+			}
+		}
+	}
 
-  .dropdown-menu {
-    border-radius: 0px;
-    .divider {
-      margin: 9px 10px;
-    }
-    > li > a {
-      @include transition(all 0.2s linear);
-      color: gray;
-      &:hover,
-      &:focus {
-        @include transition(all 0.2s linear);
+	.dropdown-menu {
+		border-radius: 0px;
+		.divider {
+			margin: 9px 10px;
+		}
+		> li > a {
+			@include transition(all 0.2s linear);
+			color: gray;
+			&:hover,
+			&:focus {
+				@include transition(all 0.2s linear);
 
-        color: gray;
-        background-color: white;
-        padding-left: 27px;
-      }
-    }
-  }
+				color: gray;
+				background-color: white;
+				padding-left: 27px;
+			}
+		}
+	}
 }
 

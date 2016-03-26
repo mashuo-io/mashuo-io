@@ -1,47 +1,84 @@
-header {
-  background-image: url('../../assets/header-bg.jpg');
-  background-attachment: scroll;
-  background-position: center center;
-  text-align: center;
-  color: white;
-  .intro-text {
-    padding-top: 100px;
-    padding-bottom: 50px;
-    .intro-lead-in {
-      font-style: italic;
-      font-size: 22px;
-      line-height: 22px;
-      margin-bottom: 25px;
-    }
-    .intro-heading {
-      font-weight: 700;
-      font-size: 50px;
-      line-height: 50px;
-      margin-bottom: 25px;
-    }
-  }
+div#app, div.app-container {
+	height: inherit;
 }
 
-@media(min-width:768px) {
-  header {
-    .way-point {
-      padding-top: 40px;
-    }
-    .intro-text {
-      padding-top: 260px;
-      padding-bottom: 200px;
-      .intro-lead-in {
-        font-style: italic;
-        font-size: 40px;
-        line-height: 40px;
-        margin-bottom: 25px;
-      }
-      .intro-heading {
-        font-weight: 700;
-        font-size: 75px;
-        line-height: 75px;
-        margin-bottom: 50px;
-      }
-    }
-  }
+hr {
+	border-color: $brand-primary;
+	border-width: 3px;
+	max-width: 150px;
+}
+
+hr.light {
+	border-color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@include serif-font();
+}
+
+header {
+	position: relative;
+	width: 100%;
+	min-height: auto;
+	@include background-size(cover);
+	background-position: center;
+	background-image: url('../../assets/header-bg.jpg');
+	text-align: center;
+	color: white;
+	.header-content {
+		position: relative;
+		text-align: center;
+		padding: 100px 15px 100px;
+		width: 100%;
+		.header-content-inner {
+			h1 {
+				font-size: 50px;
+				font-weight: 700;
+				text-transform: uppercase;
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			hr {
+				margin: 30px auto;
+			}
+			p {
+				font-size: 18px;
+				font-weight: 300;
+				color: rgba(255, 255, 255, 0.7);
+				font-size: 16px;
+				margin-bottom: 50px;
+			}
+		}
+	}
+	@media (min-width: 768px) {
+		.way-point {
+			padding-top: 40px;
+		}
+
+		min-height: 100%;
+		.header-content {
+			position: absolute;
+			top: 50%;
+			-webkit-transform: translateY(-50%);
+			-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
+			padding: 0 50px;
+			.header-content-inner {
+				max-width: 1000px;
+				margin-left: auto;
+				margin-right: auto;
+				p {
+					font-size: 18px;
+					max-width: 80%;
+					margin-left: auto;
+					margin-right: auto;
+				}
+			}
+		}
+	}
 }

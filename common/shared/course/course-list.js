@@ -33,7 +33,7 @@ export default class extends React.Component {
 					<tbody>
 					{ (this.props.courses || []).map(x=> (
 						<tr key={x._id}>
-							<td><Link to={`/course-intro/${x._id}`}>{x.name}</Link></td>
+							<td><Link to={`/course/${x._id}`}>{x.name}</Link></td>
 							<td>{displayDuration(x.duration)}</td>
 							<td><TimeAgo date={x.createdOn} /></td>
 						</tr>

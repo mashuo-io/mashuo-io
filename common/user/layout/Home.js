@@ -143,7 +143,7 @@ export class Home extends React.Component{
                 <section className="bg-dark">
                     <Grid>
                         <Row>
-                            <Col lg="8" lgOffset="2" className="text-center">
+                            <Col lg={8} lgOffset={2} className="text-center">
                                 <h2 className="section-heading">We've got what you need!</h2>
                                 <a href="#" className="btn btn-primary btn-xl">Find Out More</a>
                             </Col>

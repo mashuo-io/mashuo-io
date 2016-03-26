@@ -40,7 +40,6 @@
     "lodash": "^4.6.1",
     "mongoose": "^4.4.6",
     "passport-github": "^1.1.0",
-    "purecss": "^0.6.0",
     "qiniu": "^6.1.9",
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.3",

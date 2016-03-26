@@ -58,7 +58,6 @@ export default class extends React.Component {
 			params: {index = 0},
 			config: {videoDownloadUrl}
 			} = this.props;
-		console.log('rendering', videos, index);
 		return (
 			<div id="video">
 				<div className="video-row">

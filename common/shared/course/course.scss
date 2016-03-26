@@ -1,5 +1,3 @@
-@import '~purecss/build/pure.css';
-@import '~purecss/build/grids-responsive.css';
 @import '~video.js/dist/video-js.css';
 $playList-width: 350px;
 $min-width-two-columns: 991px;
@@ -17,11 +15,8 @@ $description-color: #b8b8b8;
     background-color:grey;
     position:relative;
 
-    @extend .pure-g;
-
     .player-col {
       background-color: blue;
-      @extend .pure-u-1;
       @media screen and (min-width: $min-width-two-columns) {
         position: static;
         margin: 0;
@@ -41,8 +36,18 @@ $description-color: #b8b8b8;
     .playlist-col {
       position: relative;
       background-color:rgb(37, 37, 37);
-      @extend .pure-u-1;
       max-height: 300px;
+
+      @media screen and (min-width: $min-width-two-columns) {
+        max-height: none;
+        width: $playList-width;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right:0;
+      }
 
       .auto-play {
         background-color:#000000;
@@ -65,7 +70,6 @@ $description-color: #b8b8b8;
       }
 
       .videos {
-
         color: $description-color;
         .video {
           padding: 15px;
@@ -95,16 +99,7 @@ $description-color: #b8b8b8;
         }
       }
 
-      @media screen and (min-width: $min-width-two-columns) {
-        max-height: none;
-        width: $playList-width;
-        height: 100%;
-        border-left: 1px solid #ddd;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right:0;
-      }
+
     }
   }
 }

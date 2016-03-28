@@ -9,7 +9,8 @@ module.exports = {
 			description: body.description,
 			videos: body.videos.map(x=>Object.assign({}, x, {poster: `${x.src}?vframe/jpg/offset/1/w/640/h/360`})),
 			createdBy: this.currentUser._id,
-			duration: body.videos.reduce((ret, v) => ret + v.duration, 0)
+			duration: body.videos.reduce((ret, v) => ret + v.duration, 0),
+			coverImageUrl: body.coverImageUrl
 		};
 
 		if (! body._id) {

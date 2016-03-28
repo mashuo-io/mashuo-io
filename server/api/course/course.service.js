@@ -10,7 +10,8 @@ module.exports = {
 			videos: body.videos.map(x=>Object.assign({}, x, {poster: `${x.src}?vframe/jpg/offset/1/w/640/h/360`})),
 			createdBy: this.currentUser._id,
 			duration: body.videos.reduce((ret, v) => ret + v.duration, 0),
-			coverImageUrl: body.coverImageUrl
+			coverImageUrl: body.coverImageUrl,
+			tags: body.tags
 		};
 
 		if (! body._id) {
@@ -37,6 +38,7 @@ module.exports = {
 		if (!course) this.throw('Not found', 404);
 		if (course.createdBy.toString() !== this.currentUser.id.toString()) this.throw('Forbidden', 403);
 
+		course.tags = course.tags || [];
 		this.body = course;
 	},
 

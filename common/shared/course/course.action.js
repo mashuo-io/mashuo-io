@@ -44,8 +44,13 @@ export const doFetchMyCourses = () => dispatch => {
 export const doFetchOneMyCourse = (courseId) => dispatch => {
 	dispatch(setDoing('MY_COURSE'));
 	axios.get(`/my-courses/${courseId}`)
-	.then(response => {
-		dispatch(initialize('course', response.data, fields));
+	.then(response => response.data)
+	.then(data=>{
+		data.tags = data.tags.map((x, i) => ({id: i+1, text:x}));
+		return data;
+	})
+	.then(data => {
+		dispatch(initialize('course', data, fields));
 		dispatch(setDone('MY_COURSE'));
 	})
 };
@@ -61,7 +66,9 @@ export const doFetchOneCourse = (courseId) => dispatch => {
 
 export const doSaveMyCourse = (course) => dispatch => {
 	dispatch(setDoing('MY_COURSE'));
-	axios.post(`/my-courses`, course)
+	let c = Object.assign({}, course);
+	c.tags = c.tags.map(x=>x.text);
+	axios.post(`/my-courses`, c)
 	.then(response => {
 		dispatch(goBack());
 	});

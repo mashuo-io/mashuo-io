@@ -6,6 +6,7 @@ import {goBack} from 'react-router-redux';
 import {doFetchOneMyCourse, doSaveMyCourse} from './course.action';
 import {displayBytes, displayDuration} from '../utils/misc';
 import {FileUploader} from '../utils/qiniu-uploader';
+import DropZone from 'react-dropzone';
 
 
 const video_filed = ['name', 'src', 'size', 'duration'];
@@ -177,7 +178,10 @@ export default class extends React.Component {
 						}
 						<Row key={Infinity}>
 							<Col sm={12}>
-								<Input type="file" multiple help="上传视频" onChange={e=>this.upload(e.target.files)} />
+
+								<DropZone onDrop={::this.upload} className="drop-zone" >
+									<div>请将需上传视频文件拖到此处,或者点击选择视频文件上传.</div>
+								</DropZone>
 							</Col>
 						</Row>
 					</Input>

@@ -5,6 +5,10 @@ $min-width-two-columns: 991px;
 $caption-color: #ffffff;
 $description-color: #b8b8b8;
 
+.abc {
+  width:100%;
+}
+
 #video {
   @media screen and (min-width: $min-width-two-columns) {
     padding: 0 75px;

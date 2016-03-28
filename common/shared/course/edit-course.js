@@ -1,11 +1,9 @@
 import React, {PropTypes} from 'react';
-import {reduxForm, reset, change, addArrayValue} from 'redux-form';
-import {ButtonGroup, ProgressBar, Input, ButtonToolbar, Button, Grid, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {connect} from 'react-redux';
+import {reduxForm} from 'redux-form';
+import {ButtonGroup, Input,  Button, Col, Glyphicon, ButtonInput, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {goBack} from 'react-router-redux';
 import {doFetchOneMyCourse, doSaveMyCourse} from './course.action';
-import {displayBytes, displayDuration} from '../utils/misc';
-import {FileUploader} from '../utils/qiniu-uploader';
+import {FileUploader, getInitProgressState, progressStateChanged, Uploading} from '../utils/qiniu-uploader';
 import DropZone from 'react-dropzone';
 
 
@@ -13,60 +11,37 @@ const video_filed = ['name', 'src', 'size', 'duration'];
 export const fields = [
 	'_id',
 	'name',
-	'description'
+	'description',
+	'coverImageUrl'
 ].concat(video_filed.map(x=>`videos[].${x}`));
 
-@connect(state=>({config: state.config}),
-	null,
-	(stateProps, dispatchProps, ownProps)=>{
-		const { dispatch } = dispatchProps;
-		const {config} = stateProps;
-		return {
-			...ownProps,
-			changeKey: (index, src) => dispatch(change('course', `videos[${index}].src`, src)),
-			changeDuration: (index, duration) => dispatch(change('course', `videos[${index}].duration`, Math.round(parseFloat(duration))))
-		}
-	}
-)
 class Video extends React.Component {
 	static propTypes = {
 		index: PropTypes.number,
 		fields: PropTypes.object,
 		values: PropTypes.object,
-		uploadingFile: PropTypes.object,
-		config: PropTypes.object
+		uploadingFile: PropTypes.object
 	};
 
 	constructor(props) {
 		super();
-		let {uploadingFile} = props;
-		this.state = {
-			percent: 0,
-			total: uploadingFile ? displayBytes(uploadingFile.size) : '',
-			loaded: 0,
-			isUploading: !!uploadingFile
-		};
+		this.state = getInitProgressState(props.uploadingFile);
+	}
+
+	componentWillMount() {
+		let {uploadingFile} = this.props;
 		if (uploadingFile) 	this.upload(uploadingFile);
 	}
 
 	upload = (uploadingFile) => {
+		let {src, duration} = this.props.fields;
 		let uploader = new FileUploader(uploadingFile);
 		uploader.upload({
-			progress: ({loaded, total, timeStamp})=>{
-				let {startedOn = timeStamp} = this.state;
-				let percent = Math.floor(loaded / total * 100);
-				this.setState({
-					startedOn,
-					percent,
-					loaded: displayBytes(loaded),
-					timeLeft: startedOn == timeStamp ? '未知' : displayDuration( (timeStamp - startedOn) / loaded * (total - loaded) / 1000)
-				})
-			}
+			progress: progressStateChanged(::this.setState)
 		})
 		.then(({data})=>{
-			console.log('finished uploading', data);
-			this.props.changeKey(this.props.index, data.src);
-			this.props.changeDuration(this.props.index, data.duration);
+			src.onChange(data.src);
+			duration.onChange(Math.round(parseFloat(data.duration)));
 			this.setState({isUploading: false});
 		});
 	};
@@ -87,22 +62,11 @@ class Video extends React.Component {
 			fields: {name},
 			values: {size, src}
 			} = this.props;
-		const {percent, isUploading, total, loaded, timeLeft} = this.state;
 		return (
 			<Row >
 				<Col sm={1}><span>#{index + 1}</span></Col>
 				<Col sm={5}><Input type="text"  placeholder="说明" {...name}/></Col>
-				<Col sm={4}>
-					{
-						isUploading
-							? <div><ProgressBar
-							now={percent}
-							label={`${percent}%`}
-						/><span>{`${loaded} / ${total} ${timeLeft}`}</span>
-						</div>
-							: <a href={src}>查看</a>
-					}
-				</Col>
+				<Col sm={4}><Uploading {...this.state} uploadedUrl={src} /></Col>
 				<Col sm={2}>
 					<ButtonGroup>
 						<OverlayTrigger placement="top" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
@@ -125,7 +89,7 @@ class Video extends React.Component {
 	})
 )
 export default class extends React.Component {
-	state = {files: {}};
+	state = {files: {}, coverImageUploading: {}};
 
 	componentWillMount() {
 		if (this.props.params.id ) this.props.fetchOne(this.props.params.id);
@@ -144,7 +108,6 @@ export default class extends React.Component {
 			}
 		);
 		files.map((f, n)=>{
-			console.log('adding', n + initIndex, f.name, f.size, this.state.files, f);
 			videos.addField({
 				index: n + initIndex,
 				name: f.name,
@@ -152,22 +115,46 @@ export default class extends React.Component {
 			});
 		});
 	}
+	
+	uploadCoverImage = (file)=> {
+		this.setState({coverImageUploading: getInitProgressState(file)});
+		let {fields: {coverImageUrl}} = this.props;
+		let uploader = new FileUploader(file);
+		uploader.upload({
+			progress: progressStateChanged(
+				::this.setState,
+				state=>state.coverImageUploading,
+				(state, wholeState)=>Object.assign({}, wholeState, {coverImageUploading:Object.assign({}, wholeState.coverImageUploading, state)}),
+			)
+		})
+		.then(({data})=>{
+			coverImageUrl.onChange(data.src);
+			this.setState({ coverImageUploading: {isUploading: false}});
+		});
+	};
 
 	render() {
-		console.log('rending', this.state);
 		const {
 			fields: {name, description, videos},
-			values: {videos: videosValue},
+			values: {videos: videosValue, coverImageUrl},
 			handleSubmit,
 			cancelForm,
 			submitting
 			} = this.props;
+		const {coverImageUploading: {file: uploadingFile}} = this.state;
 		return (
 			<div className="container">
 				<h2>创建新课程</h2>
 				<form className="am-form" onSubmit={handleSubmit}>
 					<Input type="text" label="名称" placeholder="课程名称" {...name} />
 					<Input type="textarea" label="描述" placeholder="课程描述" {...description} value={description.value || ''}/>
+					<Input label="封面图片" wrapperClassName="wrapper">
+						<img className="preview" src={uploadingFile ?  uploadingFile.preview : coverImageUrl} />
+						<Uploading {...this.state.coverImageUploading} />
+						<DropZone onDrop={files => ::this.uploadCoverImage(files[0])} className="drop-zone" activeClassName="active-drop-zone" >
+							<div>请将需上传图片文件拖到此处,或者点击选择图片文件上传.</div>
+						</DropZone>
+					</Input>
 					<Input label="视频" wrapperClassName="wrapper">
 						{
 							videos.length !== 0
@@ -178,7 +165,6 @@ export default class extends React.Component {
 						}
 						<Row key={Infinity}>
 							<Col sm={12}>
-
 								<DropZone onDrop={::this.upload} className="drop-zone" >
 									<div>请将需上传视频文件拖到此处,或者点击选择视频文件上传.</div>
 								</DropZone>

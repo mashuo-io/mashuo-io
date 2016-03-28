@@ -17,7 +17,7 @@ let schema = new mongoose.Schema(_.extend({
 			duration: Number
 		}
 	],
-	courseImg: String,
+	coverImageUrl: String,
 	tags: [String],
 	duration: Number,
 	status: {type: String, enum: ['new', 'published']}

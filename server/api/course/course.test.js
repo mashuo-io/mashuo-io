@@ -1,7 +1,6 @@
-"use strict";
-let expect = require('chai').expect;
+import {expect} from 'chai';
 let request = require('supertest-as-promised')(require('../../index').listen());
-let tool = require('../shared/tool.test');
+import tool from '../shared/tool.test';
 
 describe('video', () => {
 	let accountId, token;
@@ -136,6 +135,4 @@ describe('video', () => {
 		.expect(res=>expect(res.body).to.have.length(1));
 
 	});
-
-
 });

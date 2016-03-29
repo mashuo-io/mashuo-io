@@ -1,8 +1,6 @@
-'use strict';
-
-let app= require('../index');
+import app from '../index';
 let request = require('supertest-as-promised')(app.listen());
-let tool = require('./shared/tool.test');
+import tool from './shared/tool.test';
 
 describe('route', ()=>{
 	it('root should work', function *() {

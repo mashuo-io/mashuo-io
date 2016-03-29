@@ -2,8 +2,8 @@
 
 let mongoose = require('mongoose');
 let _ = require('lodash');
-let AccountModel = require('../auth/model').accountModel;
-let TokenModel = require('../auth/model').tokenModel;
+let AccountModel = require('../auth/model').AccountModel;
+let TokenModel = require('../auth/model').TokenModel;
 let co = require('co');
 let uuid = require('uuid');
 

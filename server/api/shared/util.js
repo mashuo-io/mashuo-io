@@ -33,23 +33,20 @@ v.register('isNumberString', v => {
 	}
 });
 
-module.exports = {
-	checkRouteError: function (context, sch, getWhatToValidate, extraValidations) {
-		let target = _.isObject(getWhatToValidate) ? getWhatToValidate : getWhatToValidate(context);
-		let errors = v.hasErrors(target, sch);
+export function checkRouteError(context, sch, getWhatToValidate, extraValidations) {
+	let target = _.isObject(getWhatToValidate) ? getWhatToValidate : getWhatToValidate(context);
+	let errors = v.hasErrors(target, sch);
 
-		extraValidations = extraValidations || [];
-		extraValidations = _.isArray(extraValidations) ? extraValidations : [extraValidations];
-		let extraErrors = _.reduce(extraValidations, function(total, validator){
-			let err = validator(target);
-			if (!_.isEmpty(err)) return total.concat(_.isArray(err) ? err : [err]);
-		}, []);
+	extraValidations = extraValidations || [];
+	extraValidations = _.isArray(extraValidations) ? extraValidations : [extraValidations];
+	let extraErrors = _.reduce(extraValidations, function(total, validator){
+		let err = validator(target);
+		if (!_.isEmpty(err)) return total.concat(_.isArray(err) ? err : [err]);
+	}, []);
 
-		if (!_.isEmpty(extraErrors)) errors = (errors || []).concat(extraErrors);
+	if (!_.isEmpty(extraErrors)) errors = (errors || []).concat(extraErrors);
 
-		if (errors) {
-			context.throw(500, errors.join('\n'));
-		}
+	if (errors) {
+		context.throw(500, errors.join('\n'));
 	}
-};
-
+}

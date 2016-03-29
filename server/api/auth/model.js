@@ -1,19 +1,16 @@
-'use strict';
-let baseEntity = require('../shared/base-entity');
-let mongoose = require('mongoose');
-let _ = require('lodash');
-let config = require('../../config/config');
+import baseEntity from '../shared/base-entity';
+import mongoose from 'mongoose';
+import _  from 'lodash';
+import config from '../../config/config';
 
-let accountSchema = new mongoose.Schema(_.extend({
+export const AccountModel = mongoose.model('account', new mongoose.Schema(_.extend({
 	github: {
 		id: {type: String, trim: true},
 		email: {type: String, trim: true},
 		login: {type: String, trim: true},
 		avatarUrl: {type: String, trim: true}
 	}
-}, baseEntity));
-
-let accountModel = mongoose.model('account', accountSchema);
+}, baseEntity)));
 
 let tokenSchema = new mongoose.Schema({
 	token: {type: String, trim: true},
@@ -24,8 +21,6 @@ let tokenSchema = new mongoose.Schema({
 		}
 	}
 });
-
 tokenSchema.index({expireAt: 1}, {expireAfterSeconds: 0});
-let tokenModel = mongoose.model('token', tokenSchema);
 
-module.exports = {accountModel, tokenModel};
+export const TokenModel = mongoose.model('token', tokenSchema);

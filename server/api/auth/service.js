@@ -1,10 +1,8 @@
-'use strict';
-let uuid = require('uuid');
-let request = require('co-request');
-let config = require('../../config/config');
-let accountModel = require('./model').accountModel;
-let tokenModel = require('./model').tokenModel;
-let _ = require('lodash');
+import uuid from 'uuid';
+import request from 'co-request';
+import config from '../../config/config';
+import {AccountModel} from './model';
+import {TokenModel} from './model';
 
 function getBearerToken(header, throwException) {
 	let groups = /^\s*(\w+)\s+(\S+)\s*$/.exec(header);
@@ -16,86 +14,84 @@ function getBearerToken(header, throwException) {
 	return tokenId;
 }
 
-module.exports = {
-	oauthGithub: function* () {
-		let params = {
-			code: this.query.code,
-			client_id: '34de227893b92e96f645',
-			client_secret: '5a6250dfcefb1e861d8c761c3948a92a5262e4be',
-			redirect_uri: 'http://127.0.0.1:8080/oauthback.html'
-		};
+export function * oauthGithub() {
+	let params = {
+		code: this.query.code,
+		client_id: '34de227893b92e96f645',
+		client_secret: '5a6250dfcefb1e861d8c761c3948a92a5262e4be',
+		redirect_uri: 'http://127.0.0.1:8080/oauthback.html'
+	};
 
-		// Get access_token
-		let result = yield request.get({
-			url: 'https://github.com/login/oauth/access_token',
-			qs: params,
-			json: true
-		});
+	// Get access_token
+	let result = yield request.get({
+		url: 'https://github.com/login/oauth/access_token',
+		qs: params,
+		json: true
+	});
 
-		//Get user information by access_token
-		result = yield request.get({
-			url: 'https://api.github.com/user',
-			qs: {access_token: result.body.access_token},
-			headers: {'User-Agent': 'Mashuo'},
-			json: true
-		});
+	//Get user information by access_token
+	result = yield request.get({
+		url: 'https://api.github.com/user',
+		qs: {access_token: result.body.access_token},
+		headers: {'User-Agent': 'Mashuo'},
+		json: true
+	});
 
-		let githubProfile = result.body;
+	let githubProfile = result.body;
 
-		// find if this user already registered
-		let account = yield accountModel.findOne({'github.id': githubProfile.id});
-		if (!account) {
-			account = yield new accountModel({
-				github: {
-					id: githubProfile.id,
-					email: githubProfile.email,
-					login: githubProfile.login,
-					avatarUrl: githubProfile.avatar_url
-				}
-			}).save();
-		}
-
-		// If token exists, update the expired time, otherwise create new one
-		let token = yield tokenModel.findOne({accountId: account._id});
-		if (!token) {
-			token = yield new tokenModel({
-				token: uuid.v4(),
-				accountId: account._id
-			}).save();
-		}
-		else {
-			token = yield tokenModel.findOneAndUpdate(
-				{_id: token._id},
-				{
-					expireAt: new Date(new Date().valueOf() + config.defaultTokenTtl * 1000)
-				},
-				{new: true}
-			)
-		}
-
-		this.body = {
-			token: token.token,
-			avatarUrl: account.github.avatarUrl,
-			email: account.github.email,
-			loginName: account.github.login
-		};
-	},
-
-	getAccountInfo: function* () {
-		this.body = {
-			avatarUrl: this.currentUser.github.avatarUrl,
-			email: this.currentUser.github.email,
-			loginName: this.currentUser.github.login
-		}
-	},
-
-	authenticateTokenMiddleware: function* (next) {
-		let tokenInHeader = getBearerToken(this.headers.authorization || this.headers.Authorization, this.throw);
-
-		let token = yield tokenModel.findOne({token: tokenInHeader});
-
-		if (!token) this.throw('Unauthorized', 401);
-		this.currentUser = yield accountModel.findOne({_id: token.accountId});
-		yield next;
+	// find if this user already registered
+	let account = yield AccountModel.findOne({'github.id': githubProfile.id});
+	if (!account) {
+		account = yield new AccountModel({
+			github: {
+				id: githubProfile.id,
+				email: githubProfile.email,
+				login: githubProfile.login,
+				avatarUrl: githubProfile.avatar_url
+			}
+		}).save();
 	}
-};
+
+	// If token exists, update the expired time, otherwise create new one
+	let token = yield TokenModel.findOne({accountId: account._id});
+	if (!token) {
+		token = yield new TokenModel({
+			token: uuid.v4(),
+			accountId: account._id
+		}).save();
+	}
+	else {
+		token = yield TokenModel.findOneAndUpdate(
+			{_id: token._id},
+			{
+				expireAt: new Date(new Date().valueOf() + config.defaultTokenTtl * 1000)
+			},
+			{new: true}
+		)
+	}
+
+	this.body = {
+		token: token.token,
+		avatarUrl: account.github.avatarUrl,
+		email: account.github.email,
+		loginName: account.github.login
+	};
+}
+
+export function * getAccountInfo() {
+	this.body = {
+		avatarUrl: this.currentUser.github.avatarUrl,
+		email: this.currentUser.github.email,
+		loginName: this.currentUser.github.login
+	}
+}
+
+export function* authenticateTokenMiddleware(next) {
+	let tokenInHeader = getBearerToken(this.headers.authorization || this.headers.Authorization, this.throw);
+
+	let token = yield TokenModel.findOne({token: tokenInHeader});
+
+	if (!token) this.throw('Unauthorized', 401);
+	this.currentUser = yield AccountModel.findOne({_id: token.accountId});
+	yield next;
+}

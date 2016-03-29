@@ -1,8 +1,6 @@
-"use strict";
-
 let request = require('supertest-as-promised')(require('../../index').listen());
-let tools = require('../shared/tool.test');
-let expect = require('chai').expect;
+import tools from '../shared/tool.test';
+import {expect} from 'chai';
 
 describe('feedbacks', function() {
 	let courseId;

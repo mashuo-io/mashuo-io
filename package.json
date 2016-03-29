@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --content-base . --history-api-fallback",
     "web-tests": "webpack-dev-server --inline --config webpack-spec.config.js",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register \"server/**/*.test.js\"",
 
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register \"server/**/*.test.js\"",
     "devnode": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node ./server/index.js",
     "prestart": "babel server --out-dir server-dist",
     "start": "node ./server-dist/index.js"

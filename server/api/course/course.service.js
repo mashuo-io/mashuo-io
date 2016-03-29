@@ -15,6 +15,7 @@ module.exports = {
 		};
 
 		if (! body._id) {
+			console.log('filed', fields);
 			let newOne = yield new CourseModel(fields).save();
 			this.body = {_id: newOne._id}
 		} else {

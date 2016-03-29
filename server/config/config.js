@@ -3,7 +3,7 @@
 var path = require("path");
 var _ = require("lodash");
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV || "dev";
+var env = process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 var base = {
 	app: {
@@ -19,11 +19,12 @@ var base = {
 		secretKey: 'mQyFwg53EvU1hsXBbU8ml0hFWVIdCpO7yVUul1Pj',
 		bucket: 'test',
 		domainName: '7xrmd3.com1.z0.glb.clouddn.com'
-	}
+	},
+	likeableRefTypes: ['course', 'comment']
 };
 
 var specific = {
-	dev: {
+	development: {
 		app: {
 			port: 3000,
 			name: "dev"

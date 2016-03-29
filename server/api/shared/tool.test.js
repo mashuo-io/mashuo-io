@@ -7,6 +7,9 @@ let TokenModel = require('../auth/model').tokenModel;
 let co = require('co');
 let uuid = require('uuid');
 
+let app= require('../../index');
+let request = require("supertest-as-promised").agent(app.listen());
+
 var mocha = require('mocha');
 var coMocha = require('co-mocha');
 coMocha(mocha);
@@ -41,5 +44,15 @@ module.exports = {
 
 			return {accountId: account._id, token: token.token};
 		})
+	},
+
+	saveCourse: function * (course) {
+		let a = yield this.mockGithubLogin('g');
+		let token = a.token;
+		return request.post('/api/my-courses')
+		.set('Authorization', `Bearer ${token}`)
+		.send(course)
+		.expect(200)
+		.then(res=>res.body._id);
 	}
 };

@@ -4,6 +4,7 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
+@import "~react-toggle/style.css";
 html, body {
 	widht: 100%;
 	height: 100%;
@@ -17,4 +18,5 @@ html, body {
 @import "./section";
 @import "./video";
 @import "./drop-zone";
+@import "course";
 @import "./react-tags";

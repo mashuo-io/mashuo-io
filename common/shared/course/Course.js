@@ -2,12 +2,12 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {connect} from 'react-redux'
 import {doFetchOneCourse} from './course.action';
-import {Row, Col, Input, Glyphicon} from 'react-bootstrap';
+import {Grid, Row, Col, Input, Glyphicon, Label, Tabs, Tab} from 'react-bootstrap';
 import videojs from 'video.js';
-import "./course.scss";
 import classNames from 'classnames';
 import {LinkContainer} from 'react-router-bootstrap';
 import {push} from 'react-router-redux';
+import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
 
 @connect(
@@ -21,6 +21,13 @@ import {displayDuration} from '../utils/misc';
 	})
 )
 export default class extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			key: 1
+		};
+	}
+
 	componentWillMount() {
 		this.props.doFetch(this.props.params.id);
 	}
@@ -29,6 +36,10 @@ export default class extends React.Component {
 		let player = findDOMNode(this.refs.player);
 		let playlist = findDOMNode(this.refs.playlist);
 		if (player && playlist)	playlist.style.height = `${player.offsetHeight}px`;
+	};
+
+	handleSelect = (key) => {
+		this.setState({key});
 	};
 
 	componentDidMount() {
@@ -59,33 +70,112 @@ export default class extends React.Component {
 			config: {videoDownloadUrl}
 			} = this.props;
 		return (
-			<div id="video">
-				<div className="video-row">
-					<div className="player-col" >
-						<Player src={videos[index].src} poster={videos[index].poster} ref="player" next={this.next} />
-					</div>
-					<div className="playlist-col" ref="playlist" >
-						<div className="auto-play">
-							<Input type="checkbox" label="自动播放"  />
+			<div id="video-wrapper">
+				<div className="video-player">
+					<div className="video-row">
+						<div className="player-col" >
+							<Player src={videos[index].src} poster={videos[index].poster} ref="player" next={this.next} />
 						</div>
-						<div className="course-name">
-							{name}
-						</div>
-						<div className="videos">
-							{
-								videos.map((x, i)=>(
-									<LinkContainer to={this.getVideoUrl(i)} key={i}>
-										<div className={classNames('video', {current: index == i})} >
-											<div className="index">
-												{index == i ? <Glyphicon glyph="play" /> : <span>{i+1}</span>}
+						<div className="playlist-col" ref="playlist" >
+							<div className="auto-play">
+								<Toggle defaultChecked={true} />
+									<span >自动播放</span>
+							</div>
+							<div className="course-name">
+								<h4>{name}</h4>
+								<div className="icon-message-group">
+									<div className="icon-message">
+										<Glyphicon glyph="film" className="icon"/>
+										<span className="message">2段视频</span>
+									</div>
+
+									<div className="icon-message">
+										<Glyphicon glyph="time" className="icon"/>
+										<span className="message">45分钟</span>
+									</div>
+								</div>
+							</div>
+							<div className="videos">
+								{
+									videos.map((x, i)=>(
+										<LinkContainer to={this.getVideoUrl(i)} key={i}>
+											<div className={classNames('video', {current: index == i})} >
+												<div className="index">
+													{index == i ? <Glyphicon glyph="play" /> : <span>{i+1}</span>}
+												</div>
+												<div className="name">
+													<div>
+														{x.name}
+													</div>
+													<div className="icon-message-group">
+														<div className="icon-message">
+															<Glyphicon glyph="time" className="icon"/>
+															<span className="message">{displayDuration(x.duration)}</span>
+														</div>
+														<div className="icon-message">
+															{
+																index == i ?
+																	<span className="message playing">
+																	正在播放
+																</span>
+																	: null
+															}
+														</div>
+													</div>
+												</div>
 											</div>
-											<div className="name">{x.name} {displayDuration(x.duration)}</div>
-										</div>
-									</LinkContainer>
-								))
-							}
+										</LinkContainer>
+									))
+								}
+							</div>
 						</div>
 					</div>
+				</div>
+
+				<div className="video-info">
+						<div className="video-info-content">
+							<h3 className="title">视屏标题</h3>
+							<Glyphicon glyph="time" className="video-labels"/>
+
+							<span className="video-labels">5:09</span>
+							<span className="video-labels">Javascript</span>
+							<span className="video-labels">Webpack</span>
+
+							<p>
+								以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。
+							</p>
+
+							<div className="icon-message-group">
+								<div className="icon-message">
+									<Glyphicon glyph="user" className="icon"/>
+									<span className="message">Ron</span>
+								</div>
+
+								<div className="icon-message">
+									<Glyphicon glyph="expand" className="icon"/>
+									<span className="message">201次</span>
+								</div>
+
+								<div className="icon-message">
+									<Glyphicon glyph="star" className="icon"/>
+									<a href="javascript:;" className="message"><span>收藏</span></a>
+								</div>
+
+								<div className="icon-message pull-right">
+									<a href="javascript:;" className="message"><Glyphicon glyph="thumbs-down"/></a>
+								</div>
+
+								<div className="icon-message pull-right">
+									<a href="javascript:;" className="message"><Glyphicon glyph="thumbs-up"/></a>
+								</div>
+							</div>
+						</div>
+				</div>
+
+				<div className="video-tabs">
+					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container">
+						<Tab eventKey={1} title="评论">Tab 1 content</Tab>
+					</Tabs>
 				</div>
 			</div>
 		)
@@ -150,7 +240,7 @@ class Player extends React.Component {
 	render() {
 		let {poster, src} = this.props;
 		return (
-			<div id="my-video-wrapper" className="player-wrapper video-js vjs-16-9" ref="target"></div>
+			<div id="my-video-wrapper" className="player-wrapper video-js vjs-default-skin vjs-16-9" ref="target"></div>
 		);
 	};
 }

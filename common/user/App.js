@@ -9,24 +9,26 @@ const Main = ()=> (
 
 export default class App extends React.Component {
 	render() {
-        let showBackground = this.props.location.pathname === '/';
+        let isHomePage = this.props.location.pathname === '/';
 		return (
 			<div className="app-container">
                 {
-                    showBackground ? (
+                    isHomePage  ? (null) : (<StyleNavbar showBackground={false}></StyleNavbar>)
+                }
+                {
+                    isHomePage ? (
                         <header>
-                            <StyleNavbar showBackground={showBackground}></StyleNavbar>
+                            <StyleNavbar showBackground={true}></StyleNavbar>
                             <div className="header-content">
                                 <div className="header-content-inner">
                                     <h1>Your Favorite Source of Free Bootstrap Themes</h1>
                                     <hr/>
                                     <p>Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!</p>
-
                                 </div>
                             </div>
                         </header>
                     )
-                        : (<div></div>)
+                        : (null)
                 }
 
 				{this.props.children}

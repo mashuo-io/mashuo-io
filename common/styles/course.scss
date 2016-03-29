@@ -1,0 +1,298 @@
+@import '~video.js/dist/video-js.css';
+@import "videojs-theme";
+$playList-width: 350px;
+$min-width-two-columns: 991px;
+
+$caption-color: #ffffff;
+$description-color: #b8b8b8;
+
+#video-wrapper {
+
+	.video-player {
+		background-color: #292929;
+		padding: 20px 75px 20px 75px;
+		@media screen and (max-width: $min-width-two-columns - 1) {
+			padding: 20px 10px 0 10px;
+		}
+
+		.video-row {
+
+			width: 100%;
+			//background-color:grey;
+			position: relative;
+
+			.player-col {
+				background-color: #292929;
+				padding: 0 0 30px 0;
+				@media screen and (min-width: $min-width-two-columns) {
+					position: static;
+					margin: 0;
+					padding: 0 10px 0 0;
+					top: 33%;
+					bottom: 0;
+					margin-right: $playList-width;
+					overflow: auto;
+					width: auto;
+				}
+
+				.player-wrapper {
+					width: 100%;
+				}
+			}
+
+			.playlist-col {
+				position: relative;
+				background-color: #1F1F1F;
+				max-height: 300px;
+
+				@media screen and (min-width: $min-width-two-columns) {
+					max-height: none;
+					width: $playList-width;
+					height: 100%;
+					//border-left: 1px solid #ddd;
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					right: 0;
+				}
+
+				.auto-play {
+					background-color: #000000;
+					padding: 15px;
+					height: 50px;
+					line-height: 20px;
+					color: $description-color;
+
+					.react-toggle {
+						vertical-align: middle;
+						margin-right: 10px;
+						margin-bottom: 2px;
+					}
+
+					.react-toggle--focus .react-toggle-thumb {
+						box-shadow: none;
+					}
+
+					.react-toggle-track:hover {
+						background-color: darken(#4D4D4D,12%);
+					}
+
+					.react-toggle--checked .react-toggle-track {
+						background-color: #62B2F7;
+
+						&:hover {
+							background-color: darken(#62B2F7, 12%);
+						}
+					}
+
+				}
+
+				.course-name {
+					color: $description-color;
+					padding: 15px;
+					font-size: 16px;
+					line-height: 30px;
+					border-bottom: solid 1px #313131;
+
+					h4 {
+						margin: 0;
+					}
+					.icon-message-group {
+						padding-top: 5px;
+						.icon-message{
+							font-size: 14px;
+							line-height: 14px;
+						}
+					}
+				}
+
+				.videos {
+					color: $description-color;
+					.video {
+						padding: 15px;
+						cursor: pointer;
+						display: flex;
+						display: -webkit-flex; /* Safari */
+						flex-direction: row;
+
+						align-items: center;
+						-webkit-align-items: center;
+
+						.index {
+							width: 20px;
+							padding-right: 30px;
+						}
+
+						.name {
+							.icon-message-group {
+								padding-top: 5px;
+								.icon-message{
+									font-size: 14px;
+									line-height: 14px;
+
+									.message.playing {
+										color: lighten(#62B2F7, 10%);
+									}
+								}
+							}
+
+						}
+
+						&:hover {
+							background-color: #2C3542;
+						}
+
+					}
+				}
+
+			}
+		}
+	}
+
+	.video-info {
+		background-color: #F1F1F1;
+		padding: 20px $playList-width + 75px + 10px 0 75px;
+		@media screen and (max-width: $min-width-two-columns - 1) {
+			padding: 20px 10px 0 10px;
+		}
+
+		.video-info-content {
+			border: 0;
+			background-color: white;
+			box-shadow: 0 1px 2px rgba(0,0,0,.1);
+			box-sizing: border-box;
+			padding: 15px;
+
+			.title {
+				color: #222;
+				word-wrap: break-word;
+			}
+
+			h3 {
+				margin-top: 0;
+			}
+
+			p {
+				margin-top: 10px;
+			}
+
+			.video-labels {
+				display: inline-block;
+				font-size: 15px;
+				line-height: 15px;
+				vertical-align: middle;
+				color: #666666;
+				margin-right: 5px;
+			}
+
+			.icon-message-group {
+				border-top: 1px solid #D3D3D3;
+			}
+
+		}
+	}
+
+	.video-tabs {
+		background-color: #F1F1F1;
+		padding: 20px $playList-width + 75px + 10px 20px 75px;
+		@media screen and (max-width: $min-width-two-columns - 1) {
+			padding: 20px 10px;
+		}
+
+		.video-tab-container {
+			background-color: white;
+			box-shadow: 0 1px 2px rgba(0,0,0,.1);
+			box-sizing: border-box;
+			padding: 15px;
+
+			ul.nav-tabs {
+				border-bottom: 2px solid #D3D3D3;
+
+				li {
+					margin-bottom: -2px;
+
+					a {
+						color: $description-color;
+						margin-right: 0;
+						border-width: 0 0 2px 0;
+						border-radius: 0;
+						border-style: solid;
+						outline: none;
+					}
+
+					&:hover {
+						a {
+							color: #666666;
+							background-color: transparent;
+							border-color: lighten(#62B2F7, 10%);
+						}
+					}
+
+					&.active {
+						a {
+							color: #666666;
+							border-color: #62B2F7;
+							&::after {
+								content: '';
+								background-color: white;
+								display: block;
+								left: 50%;
+								position: absolute;
+								bottom: 0;
+								transform: translate(-50%, 50%) rotate(-45deg);
+								width: 8px;
+								height: 8px;
+								border-right: 2px solid #62B2F7;
+								border-top: 2px solid #62B2F7;
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+	}
+
+	.icon-message-group {
+		padding-top: 10px;
+		.icon-message {
+			display: inline-block;
+			margin-right: 20px;
+			font-size: 16px;
+			line-height: 16px;
+			color: #666666;
+
+			.icon {
+				vertical-align: middle;
+				margin-right: 10px;
+
+				&.glyphicon {
+					top: 0;
+				}
+			}
+
+			.message {
+				vertical-align: middle;
+			}
+
+			a {
+				color: #666666;
+				&:hover {
+					text-decoration: none;
+				}
+			}
+
+		}
+
+	}
+
+
+}
+
+//
+//@media screen and (min-width: $min-width-two-columns) {
+	.video-js .vjs-big-play-button {
+		font-size: 6em;
+	}
+//}

@@ -20,7 +20,7 @@ var base = {
 		bucket: 'test',
 		domainName: '7xrmd3.com1.z0.glb.clouddn.com'
 	},
-	likeableRefTypes: ['course', 'comment']
+	likeableRefTypes: ['course', 'comment', 'video']
 };
 
 var specific = {

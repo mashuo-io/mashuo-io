@@ -1,19 +1,10 @@
-"use strict";
-
-const responseTime = require("koa-response-time");
-const logger = require("koa-logger");
-const compress = require("koa-compress");
-const bodyParser = require("koa-bodyparser");
-const cors = require('kcors');
-
+import responseTime from "koa-response-time";
+import  compress from "koa-compress";
+import  bodyParser from "koa-bodyparser";
+import cors from 'kcors';
 
 module.exports = function(app, config) {
 	app.keys = config.app.keys;
-
-	// if (config.app.env !== "test") {
-	// 	app.use(logger());
-	// }
-	//
 
 	app.use(function *(next) {
 		try {

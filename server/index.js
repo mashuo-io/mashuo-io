@@ -1,12 +1,9 @@
-"use strict";
-
-const fs = require("fs");
-const koa = require("koa");
+import 'babel-polyfill';
+import koa from "koa";
 let router = require('koa-router')();
 const mongoose = require("mongoose");
+import config from "./config/config";
 
-
-const config = require("./config/config");
 console.log('connect to', config.mongo.url);
 mongoose.connect(config.mongo.url, {server: {socketOptions:  {keepAlive: 1}}});
 mongoose.set('debug', config.mongo.debug);

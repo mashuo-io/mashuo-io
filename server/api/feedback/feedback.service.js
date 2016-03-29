@@ -11,11 +11,13 @@ module.exports = {
 			refId: [v.isObjectId, v.required],
 			refType: [v.isIn(config.likeableRefTypes)]
 		}, this.params);
+
 		let feedbacks = yield FeedbackModel.find({refId: this.params.refId, refType: this.params.refType},
 			{ refId:0, createdOn: 0, __v: 0, refType:0})
 		.sort({likes: -1})
-		.populate('user', 'headingImgUrl nickname')
+		.populate('user', 'github.avatarUrl github.login')
 		.lean();
+
 		this.body = {
 			likes: feedbacks.filter(x=>x.type === 'like').map(x=>  _.pick(x, ['_id', 'updatedOn', 'user'])),
 			comments: feedbacks.filter(x=>x.type === 'comment').map(x=>_.omit(x, ['type']))

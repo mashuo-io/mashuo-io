@@ -230,8 +230,8 @@ class Player extends React.Component {
 			player.currentTime(startTime);
 
 			player.on('ended', ()=>{
+				emitEvent('ended');
 				self.props.next();
-				emitEvent('ended')
 			});
 			player.on('seeked', ()=>emitEvent('seeked', {currentTime: player.currentTime()}));
 			player.on('timeupdate', ()=>{

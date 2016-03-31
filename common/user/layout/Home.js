@@ -66,7 +66,7 @@ class VideoItem extends React.Component {
         };
 
         return(
-            <Col md="4" sm="6" className="video-item">
+            <Col md={4} sm={6} className="video-item">
                 <a href="javascript:;" className="video-link" style={bkImageStyle}>
                     <div className="video-hover">
                         <Glyphicon glyph="play-circle" className="video-hover-content"/>

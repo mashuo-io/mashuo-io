@@ -97,9 +97,9 @@ $description-color: #b8b8b8;
 					h4 {
 						margin: 0;
 					}
-					.icon-message-group {
+					.icon-link-group {
 						padding-top: 5px;
-						.icon-message{
+						.icon-text{
 							font-size: 14px;
 							line-height: 14px;
 						}
@@ -124,13 +124,13 @@ $description-color: #b8b8b8;
 						}
 
 						.name {
-							.icon-message-group {
+							.icon-link-group {
 								padding-top: 5px;
-								.icon-message{
+								.icon-text{
 									font-size: 14px;
 									line-height: 14px;
 
-									.message.playing {
+									.text.playing {
 										color: lighten(#62B2F7, 10%);
 									}
 								}
@@ -185,7 +185,7 @@ $description-color: #b8b8b8;
 				margin-right: 5px;
 			}
 
-			.icon-message-group {
+			.icon-link-group {
 				border-top: 1px solid #D3D3D3;
 			}
 
@@ -218,6 +218,7 @@ $description-color: #b8b8b8;
 						border-radius: 0;
 						border-style: solid;
 						outline: none;
+						font-size: 16px;
 					}
 
 					&:hover {
@@ -250,13 +251,57 @@ $description-color: #b8b8b8;
 
 				}
 			}
+
+			.tab-content {
+				padding: 15px 0 15px 15px;
+
+				.comment-wrap {
+					display: flex;
+					display: -webkit-flex; /* Safari */
+					flex-direction: row;
+					margin-bottom: 15px;
+
+					.avatar {
+						width: 40px;
+						height: 40px;
+					}
+
+					.comment-content {
+						width: 100%;
+						margin-left: 15px;
+						.form-group {
+
+							textarea.form-control {
+								resize: vertical;
+								min-height:50px;
+								border-radius: 0;
+								outline: none;
+								@include box-shadow(none);
+							}
+						}
+
+						.comment-text {
+							margin-top: 5px;
+						}
+
+						.icon-link-group {
+							padding-top: 0;
+							.icon-text {
+								color: $description-color;
+								font-size: 14px;
+								line-height: 14px;
+							}
+						}
+					}
+				}
+			}
 		}
 
 	}
 
-	.icon-message-group {
+	.icon-link-group {
 		padding-top: 10px;
-		.icon-message {
+		.icon-text {
 			display: inline-block;
 			margin-right: 20px;
 			font-size: 16px;
@@ -267,17 +312,17 @@ $description-color: #b8b8b8;
 				vertical-align: middle;
 				margin-right: 10px;
 
-				&.glyphicon {
+				.glyphicon {
 					top: 0;
 				}
 			}
 
-			.message {
+			.text {
 				vertical-align: middle;
 			}
 
 			a {
-				color: #666666;
+				color: inherit;
 				&:hover {
 					text-decoration: none;
 				}

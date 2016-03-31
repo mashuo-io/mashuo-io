@@ -261,6 +261,13 @@ $description-color: #b8b8b8;
 					flex-direction: row;
 					margin-bottom: 15px;
 
+					.comment-reply {
+						display: flex;
+						display: -webkit-flex; /* Safari */
+						flex-direction: row;
+						margin-top: 15px;
+					}
+
 					.avatar {
 						width: 40px;
 						height: 40px;
@@ -277,6 +284,10 @@ $description-color: #b8b8b8;
 								border-radius: 0;
 								outline: none;
 								@include box-shadow(none);
+							}
+
+							.btn {
+								margin-left: 15px;
 							}
 						}
 

@@ -155,6 +155,12 @@ export default class extends React.Component {
                                 when="半小时前"
                             />
 
+                            <CommentItem
+                                avatarUrl="../../../assets/video/avatar.jpg"
+                                author="ezhui"
+                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                when="半小时前"
+                            />
 						</Tab>
 					</Tabs>
 				</div>

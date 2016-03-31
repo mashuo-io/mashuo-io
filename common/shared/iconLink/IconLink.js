@@ -53,7 +53,7 @@ export class IconLinkItem extends React.Component {
                 )
             }
             else{
-                Text = (<span className={classNames("message", {[textClassName]: true})}>{text}</span>)
+                Text = (<span className={classNames("text", {[textClassName]: true})}>{text}</span>)
             }
         }
 

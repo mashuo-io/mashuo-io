@@ -9,6 +9,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {push} from 'react-router-redux';
 import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
+import {postEvent} from '../utils/event.service';
 
 @connect(
 	state =>({
@@ -62,6 +63,16 @@ export default class extends React.Component {
 		if (index < videos.length - 1)  push(this.getVideoUrl(index + 1));
 	};
 
+	saveEvent = (type, data) => {
+		let {
+			course: {videos=[], _id: courseId},
+			params: {index = 0}
+		} = this.props;
+		let {_id: videoId} = videos[index];
+
+		postEvent(`video-${type}`, {...data, videoId, courseId});
+	};
+
 	render () {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
@@ -74,7 +85,7 @@ export default class extends React.Component {
 				<div className="video-player">
 					<div className="video-row">
 						<div className="player-col" >
-							<Player src={videos[index].src} poster={videos[index].poster} ref="player" next={this.next} />
+							<Player src={videos[index].src} poster={videos[index].poster} ref="player" next={this.next} emitEvent={this.saveEvent} />
 						</div>
 						<div className="playlist-col" ref="playlist" >
 							<div className="auto-play">
@@ -182,20 +193,25 @@ export default class extends React.Component {
 	}
 };
 
+@connect(state=>({config: state.config}))
 class Player extends React.Component {
 	static defaultProps = {
-		poster: "https://embedwistia-a.akamaihd.net/deliveries/585f692314033b3a850f9a312b2393ee736a183a.jpg?image_crop_resized=640x360"
+		startTime: 0,
+		emitEvent: ()=>{}
 	};
 	static propTypes = {
 		src: PropTypes.string,
 		poster: PropTypes.string,
-		next: PropTypes.func
+		next: PropTypes.func,
+		startTime: PropTypes.number,
+		emitEvent: PropTypes.func
 	};
-	video;
 	player;
+	lastTimeUpdateEmitted = 0;
 
 	componentDidMount() {
-		let {poster, src} = this.props;
+		console.log('mountinggg');
+		let {poster, src, startTime, emitEvent, config} = this.props;
 		let video = document.createElement('video');
 		video.setAttribute('poster', poster);
 		video.setAttribute('class', 'vjs-tech');
@@ -223,17 +239,30 @@ class Player extends React.Component {
 				muteToggle: true
 			}
 		}).ready(function(){
-			self.player = this;
-			this.on('ended', self.props.next)
+			let player = self.player = this;
+			player.currentTime(startTime);
+
+			player.on('ended', ()=>{
+				self.props.next();
+				emitEvent('ended')
+			});
+			player.on('seeked', ()=>emitEvent('seeked', {currentTime: player.currentTime()}));
+			player.on('timeupdate', ()=>{
+				let currentTime = player.currentTime();
+				if ( self.lastTimeUpdateEmitted === 0
+					|| currentTime - self.lastTimeUpdateEmitted > config.intervalVideoTimeUpdate) {
+					self.lastTimeUpdateEmitted = currentTime;
+					emitEvent('timeupdate', {currentTime});
+				}
+			});
 		});
-		this.video = video;
-		this.source = source;
 	}
 
 	componentDidUpdate() {
 		let {poster, src} = this.props;
 		this.player.poster(poster);
 		this.player.src({type: 'video/mp4', src});
+		this.lastTimeUpdateEmitted = 0.1;
 		//this.player.play();
 	}
 

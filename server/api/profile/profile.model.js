@@ -1,20 +1,17 @@
-"use strict";
-let mongoose = require('mongoose');
-let _=require('lodash');
-let Schema = mongoose.Schema;
-let config = require('../../config/config');
-let baseEntity = require('../shared/base-entity');
+import mongoose, {Schema} from 'mongoose';
+import baseEntity from '../shared/base-entity';
 
-let schema = new mongoose.Schema(_.extend({
-
-	watched: {
-		courses:[{type: Schema.Types.ObjectId, ref:'course'}],
-		videos: [{type: Schema.Types.ObjectId}]
-	},
-	liked: {
-		courses: [{type: Schema.Types.ObjectId, ref:'course'}],
-		videos: [{type: Schema.Types.ObjectId}]
-	}
-}, 0));
-
-module.exports = mongoose.model('profile', schema);
+export const CourseWatchHistoryModel = mongoose.model('courseWatchHistory', new mongoose.Schema(Object.assign({
+	user: {type: Schema.Types.ObjectId, ref: 'account'},
+	course: {type: Schema.Types.ObjectId, ref: 'course'},
+	durationWatched: Number,
+	videos: Schema.Types.Mixed
+}, baseEntity)));
+// videos used to be an array like the following, but we change to object in order to convenient update process
+// videos: [
+// 	{
+// 		_id: Schema.Types.ObjectId,
+// 		status: {type: String, enum: ['new', 'watching', 'watched']},
+// 		durationWatched: Number
+// 	}
+// ]

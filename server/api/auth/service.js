@@ -7,8 +7,7 @@ import {TokenModel} from './model';
 function getBearerToken(header, throwException) {
 	let groups = /^\s*(\w+)\s+(\S+)(\s+(\S+)\s*)?$/.exec(header);
 	if (!groups) throwException(401, 'authentication failed, no bearer token found');
-
-	let [, schema, tokenId, clientId] = groups;
+	let [, schema, tokenId, ,clientId] = groups;
 	if (schema !== 'Bearer') throwException(401, 'authentication failed, schema failed, only support Bearer');
 
 	return {tokenId, clientId};
@@ -96,5 +95,15 @@ export function* authenticateTokenMiddleware(next) {
 	if (!this.currentUser) throw('user NOT found', 401);
 
 	this.currentUser.clientId = clientId;
+	yield next;
+}
+
+export function * getTokenMiddleware(next) {
+	let {tokenId, clientId} = getBearerToken(this.headers.authorization || this.headers.Authorization, this.throw);
+
+	let tokenRecord = yield TokenModel.findOne({token: tokenId}).lean();
+	if (tokenRecord) this.currentUser = yield AccountModel.findOne({_id: tokenRecord.accountId}).lean();
+
+	this.currentUser = Object.assign({}, this.currentUser, {clientId});
 	yield next;
 }

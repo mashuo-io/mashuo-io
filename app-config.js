@@ -5,6 +5,7 @@
 		videoUploadUrl: 'http://upload.qiniu.com',
 		videoDownloadUrl: baseDownloadUrl,
 		courseTagUrl: baseDownloadUrl + '/course-tags',
-		courseTags: ['javascript', 'webpack']
+		courseTags: ['javascript', 'webpack'],
+		intervalVideoTimeUpdate: 15,
 	}
 })(window);

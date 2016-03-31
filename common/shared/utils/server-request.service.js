@@ -99,7 +99,7 @@ import {push} from 'react-router-redux';
 import {inject} from './injector';
 
 let appConfig = {};
-inject(state=>({baseUrl: state.config.baseUrl}))(appConfig);
+inject(state=>({baseUrl: state.config.baseUrl, clientId: state.auth.clientId}))(appConfig);
 axios.interceptors.request.use(
 	config => {
 		let isAbsoluteURLRegex = /^(?:\w+:)\/\//;
@@ -109,7 +109,7 @@ axios.interceptors.request.use(
 
 		if (/.json$/.test(config.url) || /.html$/.test(config.url)) return config;
 
-		config.headers['Authorization'] = `Bearer ${localStorage.getItem('Token')}`;
+		config.headers['Authorization'] = `Bearer ${localStorage.getItem('Token')} ${appConfig.props.clientId}`;
 
 		return config;
 	},

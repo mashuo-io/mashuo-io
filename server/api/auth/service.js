@@ -5,13 +5,13 @@ import {AccountModel} from './model';
 import {TokenModel} from './model';
 
 function getBearerToken(header, throwException) {
-	let groups = /^\s*(\w+)\s+(\S+)\s*$/.exec(header);
+	let groups = /^\s*(\w+)\s+(\S+)(\s+(\S+)\s*)?$/.exec(header);
 	if (!groups) throwException(401, 'authentication failed, no bearer token found');
 
-	let schema = groups[1], tokenId = groups[2];
+	let [, schema, tokenId, clientId] = groups;
 	if (schema !== 'Bearer') throwException(401, 'authentication failed, schema failed, only support Bearer');
 
-	return tokenId;
+	return {tokenId, clientId};
 }
 
 export function * oauthGithub() {
@@ -87,11 +87,14 @@ export function * getAccountInfo() {
 }
 
 export function* authenticateTokenMiddleware(next) {
-	let tokenInHeader = getBearerToken(this.headers.authorization || this.headers.Authorization, this.throw);
+	let {tokenId, clientId} = getBearerToken(this.headers.authorization || this.headers.Authorization, this.throw);
 
-	let token = yield TokenModel.findOne({token: tokenInHeader});
+	let tokenRecord = yield TokenModel.findOne({token: tokenId}).lean();
+	if (!tokenRecord) this.throw('Unauthorized', 401);
 
-	if (!token) this.throw('Unauthorized', 401);
-	this.currentUser = yield AccountModel.findOne({_id: token.accountId});
+	this.currentUser = yield AccountModel.findOne({_id: tokenRecord.accountId}).lean();
+	if (!this.currentUser) throw('user NOT found', 401);
+
+	this.currentUser.clientId = clientId;
 	yield next;
 }

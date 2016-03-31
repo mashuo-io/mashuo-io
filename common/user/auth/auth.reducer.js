@@ -1,4 +1,13 @@
+import uuid from 'uuid';
+const CLIENT_ID = 'ClientId';
+let clientId = sessionStorage.getItem(CLIENT_ID);
+if (!clientId) {
+	clientId = uuid.v4();
+	sessionStorage.setItem(CLIENT_ID, clientId);
+};
+
 const authInitialState = {
+	clientId,
     isLoggedIn: false,
     avatarUrl: '',
     email: '',

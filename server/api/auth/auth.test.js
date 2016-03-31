@@ -1,4 +1,4 @@
-import tools from '../shared/tool.test';
+import {mockGithubLogin, cleanDb} from '../shared/tool.test';
 import {expect} from 'chai';
 let request = require('supertest-as-promised')(require('../../index').listen());
 
@@ -6,7 +6,8 @@ describe('auth', () => {
 	let token;
 
 	beforeEach(function *() {
-		let result = yield tools.mockGithubLogin('ron-liu');
+		yield cleanDb();
+		let result = yield mockGithubLogin('ron-liu');
 		token = result.token;
 	});
 

@@ -1,5 +1,5 @@
 let request = require('supertest-as-promised')(require('../../index').listen());
-import tools from '../shared/tool.test';
+import {cleanDb, mockGithubLogin, saveCourse} from '../shared/tool.test';
 import {expect} from 'chai';
 
 describe('feedbacks', function() {
@@ -8,13 +8,13 @@ describe('feedbacks', function() {
 	let accountId1, token1;
 
 	beforeEach(function *() {
-		yield tools.cleanDb();
-		courseId = yield tools.saveCourse({name: 'test', videos: [{name: '1', src: 'http:/fdsa', duration: 100}]});
-		let result = yield tools.mockGithubLogin('ron-liu');
+		yield cleanDb();
+		courseId = yield saveCourse({name: 'test', videos: [{name: '1', src: 'http:/fdsa', duration: 100}]});
+		let result = yield mockGithubLogin('ron-liu');
 		accountId = result.accountId;
 		token = result.token;
 
-		result = yield tools.mockGithubLogin('zhui');
+		result = yield mockGithubLogin('zhui');
 		accountId1 = result.accountId;
 		token1 = result.token;
 	});

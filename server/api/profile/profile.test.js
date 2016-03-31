@@ -1,13 +1,14 @@
-import tools from '../shared/tool.test';
+import {saveCourse, cleanDb, mockGithubLogin, sleep} from '../shared/tool.test';
 import {expect} from 'chai';
 let request = require('supertest-as-promised')(require('../../index').listen());
+import {o} from '../shared/util';
 
-describe.only('profile', () => {
+describe('profile', () => {
 	let accountId, token, courseId, videoId1, videoId2;
 
 	beforeEach(function *() {
-		yield tools.cleanDb();
-		courseId = yield tools.saveCourse({name: 'test', videos: [
+		yield cleanDb();
+		courseId = yield saveCourse({name: 'test', videos: [
 			{name: '1', src: 'http:/1', duration: 100},
 			{name: '2', src: 'http:/2', duration: 150}
 		]});
@@ -16,7 +17,7 @@ describe.only('profile', () => {
 		videoId1 = res.body.videos[0]._id;
 		videoId2 = res.body.videos[1]._id;
 
-		let result = yield tools.mockGithubLogin('ron-liu');
+		let result = yield mockGithubLogin('ron-liu');
 		accountId = result.accountId;
 		token = result.token;
 	});
@@ -34,22 +35,28 @@ describe.only('profile', () => {
 	});
 
 	it('add a watched history should be ok', function * () {
-		yield request.post(`/api/my-profile/watch-history/${courseId}/video/${videoId1}`)
+
+		yield request.post(`/api/events`)
 		.set({Authorization: `Bearer ${token}`})
-		.send({status: 'watched'})
+		.send({
+			type: 'video-ended',
+			data: {courseId, videoId: videoId1}
+		})
 		.expect(200);
 
+		yield sleep(1);
+
 		let history = {
+			course: courseId,
 			progress: 40,
-			videos: [
-				{_id: videoId1, status: 'watched', durationWatched: 0}
-			]
+			durationWatched: 100,
+			videos: o(videoId1, {status: 'watched', durationWatched: 100})
 		};
 
 		yield request.get(`/api/my-profile/watch-histories`)
 		.set({Authorization: `Bearer ${token}`})
 		.expect(200)
-		.expect(res=>expect(res.body[courseId]).to.eql(history));
+		.expect(res=>expect(res.body).to.eql([history]));
 
 		yield request.get(`/api/my-profile/watch-history/${courseId}`)
 		.set({Authorization: `Bearer ${token}`})
@@ -59,22 +66,27 @@ describe.only('profile', () => {
 
 
 	it('add a watch pregress should be ok', function * () {
-		yield request.post(`/api/my-profile/watch-history/${courseId}/video/${videoId1}`)
+		yield request.post(`/api/events`)
 		.set({Authorization: `Bearer ${token}`})
-		.send({status: 'watching', durationWatched: 50})
+		.send({
+			type: 'video-timeupdate',
+			data: {currentTime: 50, courseId, videoId: videoId1}
+		})
 		.expect(200);
 
+		yield sleep(1);
+
 		let history = {
+			course: courseId,
+			durationWatched: 50,
 			progress: 20,
-			videos: [
-				{_id: videoId1, status:'watching', durationWatched: 50}
-			]
+			videos: o(videoId1, {status:'watching', durationWatched: 50})
 		};
 
 		yield request.get(`/api/my-profile/watch-histories`)
 		.set({Authorization: `Bearer ${token}`})
 		.expect(200)
-		.expect(res=>expect(res.body[courseId]).to.eql(history));
+		.expect(res=>expect(res.body).to.eql([history]));
 
 		yield request.get(`/api/my-profile/watch-history/${courseId}`)
 		.set({Authorization: `Bearer ${token}`})

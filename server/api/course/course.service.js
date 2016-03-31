@@ -34,7 +34,7 @@ export function * getMyCourseById() {
 	.lean();
 
 	if (!course) this.throw('Not found', 404);
-	if (course.createdBy.toString() !== this.currentUser.id.toString()) this.throw('Forbidden', 403);
+	if (course.createdBy.toString() !== this.currentUser._id.toString()) this.throw('Forbidden', 403);
 
 	course.tags = course.tags || [];
 	this.body = course;

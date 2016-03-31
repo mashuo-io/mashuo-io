@@ -5,6 +5,7 @@ export const CourseWatchHistoryModel = mongoose.model('courseWatchHistory', new 
 	user: {type: Schema.Types.ObjectId, ref: 'account'},
 	course: {type: Schema.Types.ObjectId, ref: 'course'},
 	durationWatched: Number,
+	progress: Number,
 	videos: Schema.Types.Mixed
 }, baseEntity)));
 // videos used to be an array like the following, but we change to object in order to convenient update process

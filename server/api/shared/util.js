@@ -50,3 +50,9 @@ export function checkRouteError(context, sch, getWhatToValidate, extraValidation
 		context.throw(500, errors.join('\n'));
 	}
 }
+
+export const o = (prop, value) => {
+	let ret = {};
+	ret[prop] = value;
+	return ret;
+};

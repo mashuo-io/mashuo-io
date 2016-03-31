@@ -1,4 +1,4 @@
-import tools from '../shared/tool.test';
+import {cleanDb, mockGithubLogin} from '../shared/tool.test';
 import {expect} from 'chai';
 let request = require('supertest-as-promised')(require('../../index').listen());
 import {EventModel} from './event.model'
@@ -6,8 +6,8 @@ import {EventModel} from './event.model'
 describe('event', () => {
 	let accountId, token;
 	beforeEach(function *() {
-		yield tools.cleanDb();
-		let result = yield tools.mockGithubLogin('ron-liu');
+		yield cleanDb();
+		let result = yield mockGithubLogin('ron-liu');
 		accountId = result.accountId;
 		token = result.token;
 	});

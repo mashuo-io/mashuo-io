@@ -1,19 +1,19 @@
 import {expect} from 'chai';
 let request = require('supertest-as-promised')(require('../../index').listen());
-import tool from '../shared/tool.test';
+import {mockGithubLogin, cleanDb} from '../shared/tool.test';
 
 describe('video', () => {
 	let accountId, token;
 	let accountId1, token1;
 
 	beforeEach(function *() {
-		yield tool.cleanDb();
+		yield cleanDb();
 
-		let result = yield tool.mockGithubLogin('ron-liu');
+		let result = yield mockGithubLogin('ron-liu');
 		accountId = result.accountId;
 		token = result.token;
 
-		result = yield tool.mockGithubLogin('zhui');
+		result = yield mockGithubLogin('zhui');
 		accountId1 = result.accountId;
 		token1 = result.token;
 

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {connect} from 'react-redux'
 import {doFetchOneCourse} from './course.action';
-import {Grid, Row, Col, Input, Glyphicon, Label, Tabs, Tab} from 'react-bootstrap';
+import {Grid, Row, Col, Glyphicon, Label, Tabs, Tab, Image} from 'react-bootstrap';
 import videojs from 'video.js';
 import classNames from 'classnames';
 import {LinkContainer} from 'react-router-bootstrap';
@@ -10,6 +10,8 @@ import {push} from 'react-router-redux';
 import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
 import {postEvent} from '../utils/event.service';
+import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
+import {CommentInput, CommentItem} from '../comment/Comment';
 
 @connect(
 	state =>({
@@ -94,17 +96,10 @@ export default class extends React.Component {
 							</div>
 							<div className="course-name">
 								<h4>{name}</h4>
-								<div className="icon-message-group">
-									<div className="icon-message">
-										<Glyphicon glyph="film" className="icon"/>
-										<span className="message">2段视频</span>
-									</div>
-
-									<div className="icon-message">
-										<Glyphicon glyph="time" className="icon"/>
-										<span className="message">45分钟</span>
-									</div>
-								</div>
+								<IconLinkGroup>
+									<IconLinkItem icon={<Glyphicon glyph="film" />} text="2段视频"></IconLinkItem>
+									<IconLinkItem icon={<Glyphicon glyph="time" />} text="45分钟"></IconLinkItem>
+								</IconLinkGroup>
 							</div>
 							<div className="videos">
 								{
@@ -115,24 +110,14 @@ export default class extends React.Component {
 													{index == i ? <Glyphicon glyph="play" /> : <span>{i+1}</span>}
 												</div>
 												<div className="name">
-													<div>
-														{x.name}
-													</div>
-													<div className="icon-message-group">
-														<div className="icon-message">
-															<Glyphicon glyph="time" className="icon"/>
-															<span className="message">{displayDuration(x.duration)}</span>
-														</div>
-														<div className="icon-message">
-															{
-																index == i ?
-																	<span className="message playing">
-																	正在播放
-																</span>
-																	: null
-															}
-														</div>
-													</div>
+													<div>{x.name}</div>
+													<IconLinkGroup>
+														<IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(x.duration)}></IconLinkItem>
+														{
+															index == i ?
+																<IconLinkItem text="正在播放" textClassName="playing"></IconLinkItem> : null
+														}
+													</IconLinkGroup>
 												</div>
 											</div>
 										</LinkContainer>
@@ -156,36 +141,38 @@ export default class extends React.Component {
 								以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。
 							</p>
 
-							<div className="icon-message-group">
-								<div className="icon-message">
-									<Glyphicon glyph="user" className="icon"/>
-									<span className="message">Ron</span>
-								</div>
+							<IconLinkGroup>
+								<IconLinkItem icon={<Glyphicon glyph="user" />} text="Ron"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="expand" />} text="201次"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
+								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-down" />} ></IconLinkItem>
+								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} ></IconLinkItem>
+							</IconLinkGroup>
 
-								<div className="icon-message">
-									<Glyphicon glyph="expand" className="icon"/>
-									<span className="message">201次</span>
-								</div>
-
-								<div className="icon-message">
-									<Glyphicon glyph="star" className="icon"/>
-									<a href="javascript:;" className="message"><span>收藏</span></a>
-								</div>
-
-								<div className="icon-message pull-right">
-									<a href="javascript:;" className="message"><Glyphicon glyph="thumbs-down"/></a>
-								</div>
-
-								<div className="icon-message pull-right">
-									<a href="javascript:;" className="message"><Glyphicon glyph="thumbs-up"/></a>
-								</div>
-							</div>
 						</div>
 				</div>
 
 				<div className="video-tabs">
 					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container">
-						<Tab eventKey={1} title="评论">Tab 1 content</Tab>
+						<Tab eventKey={1} title="评论">
+                            <CommentInput
+                                avatarUrl="../../../assets/video/avatar.jpg"
+                            />
+
+                            <CommentItem
+                                avatarUrl="../../../assets/video/avatar.jpg"
+                                author="ezhui"
+                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                when="半小时前"
+                            />
+
+                            <CommentItem
+                                avatarUrl="../../../assets/video/avatar.jpg"
+                                author="ezhui"
+                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                when="半小时前"
+                            />
+						</Tab>
 					</Tabs>
 				</div>
 			</div>

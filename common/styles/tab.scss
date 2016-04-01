@@ -18,7 +18,22 @@
 			a {
 				color: #666666;
 				background-color: transparent;
-				border-color: lighten($tab-border-color, 10%);
+				border-color: lighten($tab-border-color, 20%);
+
+				&::after {
+					content: '';
+					background-color: white;
+					display: block;
+					left: 50%;
+					position: absolute;
+					bottom: 0;
+					transform: translate(-50%, 50%) rotate(-45deg);
+					width: 8px;
+					height: 8px;
+					border-right: 2px solid lighten($tab-border-color, 20%);
+					border-top: 2px solid lighten($tab-border-color, 20%);
+				}
+
 			}
 		}
 

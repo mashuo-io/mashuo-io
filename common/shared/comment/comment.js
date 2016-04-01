@@ -78,6 +78,10 @@ export class CommentItem extends React.Component {
 
     onCancelReply = () => {
         this.setState({openReplyForm: false});
+        if( this.props.notifyClickReply ){
+            this.props.notifyClickReply(this);
+        }
+
     };
 
     render() {

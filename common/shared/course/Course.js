@@ -79,7 +79,7 @@ export default class extends React.Component {
 	render () {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
-			course: {name, videos=[], _id, duration, tags, createdBy: { github: {login: author}}},
+			course: {name, videos=[], _id, duration, tags =[], createdBy: { github: {login: author}}},
 			params: {index = 0},
 			config: {videoDownloadUrl}
 			} = this.props;
@@ -98,7 +98,9 @@ export default class extends React.Component {
 							</div>
 							<div className="course-name">
 								<h4>{name}</h4>
-								<Tags tags={tags}/>
+                                <IconLinkGroup>
+                                    {tags.map(t => <IconLinkItem className="tags" text={t}></IconLinkItem>)}
+                                </IconLinkGroup>
 								<IconLinkGroup>
 									<IconLinkItem icon={<Glyphicon glyph="film" />} text={`${videos.length}段视频`}></IconLinkItem>
 									<IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(duration)}></IconLinkItem>

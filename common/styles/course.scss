@@ -105,6 +105,10 @@ $description-color: #b8b8b8;
 						.icon-text{
 							font-size: 14px;
 							line-height: 14px;
+
+							&.tags {
+								margin-right: 10px;
+							}
 						}
 					}
 				}

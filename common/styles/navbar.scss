@@ -203,14 +203,16 @@
 			margin: 9px 10px;
 		}
 		> li > a {
+			background-color: white;
 			@include transition(all 0.2s linear);
 			color: gray;
 			&:hover,
 			&:focus {
+				background-color: white;
 				@include transition(all 0.2s linear);
 
 				color: gray;
-				background-color: white;
+
 				padding-left: 27px;
 			}
 		}

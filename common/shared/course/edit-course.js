@@ -6,7 +6,9 @@ import {doFetchOneMyCourse, doSaveMyCourse} from './course.action';
 import {FileUploader, getInitProgressState, progressStateChanged, Uploading} from '../utils/qiniu-uploader';
 import DropZone from 'react-dropzone';
 import {WithContext as ReactTags} from 'react-tag-input';
+import {Tags} from './tags';
 import './edit-course.scss';
+
 
 const video_filed = ['name', 'src', 'size', 'duration'];
 export const fields = [
@@ -161,9 +163,7 @@ export default class extends React.Component {
 					</Input>
 
 					<Input label="相关技术" wrapperClassName="wrapper">
-						{
-							(tags || []).map(x=><img src={`${config.courseTagUrl}/${x.text}.svg` } className="tag-img" />)
-						}
+						<Tags tags={tags} />
 						<ReactTags tags={tags}
 						           suggestions= {config.courseTags}
 						           handleDelete={i=>tagsField.onChange([...tags.slice(0, i), ...tags.slice(i + 1)])}

@@ -11,7 +11,8 @@ export const CourseModel = mongoose.model('course', new Schema(_.extend({
 				name: String,
 				src: String,
 				poster: String,
-				duration: Number
+				duration: Number,
+				timesWatched: { type: Number, default: 0}
 			}
 		],
 		coverImageUrl: String,

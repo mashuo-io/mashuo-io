@@ -3,6 +3,18 @@ import {CourseWatchHistoryModel} from './profile.model';
 import {CourseModel} from '../course/course.model';
 import {o} from '../shared/util';
 
+subscribe('video-times', function * ({courseId, videoId}) {
+	yield CourseModel.findOneAndUpdate(
+		{ _id: courseId, 'videos._id': videoId},
+		{
+			$inc: {
+				'videos.$.timesWatched' : 1
+			}
+		}
+	);
+});
+
+
 subscribe('video-ended', function * (data) {
 	console.log('video-ended');
 	yield calculateHistory('video-ended', data);

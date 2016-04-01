@@ -50,5 +50,6 @@ export function * getCourses() {
 export function * getCourse() {
 	this.body = yield CourseModel
 	.findOne({_id: this.params.id})
+	.populate('createdBy', 'github.avatarUrl github.login')
 	.lean();
 }

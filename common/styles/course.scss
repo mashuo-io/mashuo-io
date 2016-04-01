@@ -7,7 +7,10 @@ $caption-color: #ffffff;
 $description-color: #b8b8b8;
 
 #video-wrapper {
-
+	.tag-img {
+		width: 30px;
+		height: 30px;
+	}
 	.video-player {
 		background-color: #292929;
 		padding: 20px 75px 20px 75px;

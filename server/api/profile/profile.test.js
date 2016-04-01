@@ -93,4 +93,25 @@ describe('profile', () => {
 		.expect(200)
 		.expect(res=>expect(res.body).to.eql(history));
 	});
+
+	it('times watched should be ok', function * () {
+		yield request.post(`/api/events`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({
+			type: 'video-times',
+			data: {courseId, videoId: videoId1}
+		})
+		.expect(200);
+
+		yield sleep(10);
+
+		yield request.get(`/api/courses/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>{
+			let videos = res.body.videos;
+			let video = videos.find(x=> x._id == videoId1);
+			expect(video.timesWatched).to.eql(1)
+		});
+	});
 });

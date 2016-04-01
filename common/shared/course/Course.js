@@ -12,6 +12,7 @@ import {displayDuration} from '../utils/misc';
 import {postEvent} from '../utils/event.service';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {CommentInput, CommentItem} from '../comment/Comment';
+import {Tags} from './tags';
 
 @connect(
 	state =>({
@@ -78,10 +79,11 @@ export default class extends React.Component {
 	render () {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
-			course: {name, videos=[], _id},
+			course: {name, videos=[], _id, duration, tags, createdBy: { github: {login: author}}},
 			params: {index = 0},
 			config: {videoDownloadUrl}
 			} = this.props;
+		let currentVideo = videos[index];
 		return (
 			<div id="video-wrapper">
 				<div className="video-player">
@@ -96,9 +98,10 @@ export default class extends React.Component {
 							</div>
 							<div className="course-name">
 								<h4>{name}</h4>
+								<Tags tags={tags}/>
 								<IconLinkGroup>
-									<IconLinkItem icon={<Glyphicon glyph="film" />} text="2段视频"></IconLinkItem>
-									<IconLinkItem icon={<Glyphicon glyph="time" />} text="45分钟"></IconLinkItem>
+									<IconLinkItem icon={<Glyphicon glyph="film" />} text={`${videos.length}段视频`}></IconLinkItem>
+									<IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(duration)}></IconLinkItem>
 								</IconLinkGroup>
 							</div>
 							<div className="videos">
@@ -130,20 +133,16 @@ export default class extends React.Component {
 
 				<div className="video-info">
 						<div className="video-info-content">
-							<h3 className="title">视屏标题</h3>
+							<h3 className="title">{currentVideo.name}</h3>
 							<Glyphicon glyph="time" className="video-labels"/>
-
-							<span className="video-labels">5:09</span>
-							<span className="video-labels">Javascript</span>
-							<span className="video-labels">Webpack</span>
-
+							<span className="video-labels">{displayDuration(currentVideo.duration)}</span>
 							<p>
 								以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。
 							</p>
 
 							<IconLinkGroup>
-								<IconLinkItem icon={<Glyphicon glyph="user" />} text="Ron"></IconLinkItem>
-								<IconLinkItem icon={<Glyphicon glyph="expand" />} text="201次"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="user" />} text={author}></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="expand" />} text={`${currentVideo.timesWatched}次`}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
 								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-down" />} ></IconLinkItem>
 								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} ></IconLinkItem>
@@ -195,6 +194,7 @@ class Player extends React.Component {
 	};
 	player;
 	lastTimeUpdateEmitted = 0;
+	status = 'init';
 
 	componentDidMount() {
 		console.log('mountinggg');
@@ -228,10 +228,16 @@ class Player extends React.Component {
 		}).ready(function(){
 			let player = self.player = this;
 			player.currentTime(startTime);
+			player.on('play', ()=>{
+				console.log('play triggered');
+				if (self.status === 'ended' || self.status === 'init') emitEvent('times');
+				self.status = 'playing';
+			});
 
 			player.on('ended', ()=>{
 				emitEvent('ended');
-				self.props.next();
+				self.status = 'ended';
+				//self.props.next();
 			});
 			player.on('seeked', ()=>emitEvent('seeked', {currentTime: player.currentTime()}));
 			player.on('timeupdate', ()=>{
@@ -242,6 +248,7 @@ class Player extends React.Component {
 					emitEvent('timeupdate', {currentTime});
 				}
 			});
+			//player.play();
 		});
 	}
 
@@ -250,7 +257,8 @@ class Player extends React.Component {
 		this.player.poster(poster);
 		this.player.src({type: 'video/mp4', src});
 		this.lastTimeUpdateEmitted = 0.1;
-		//this.player.play();
+		this.player.play();
+		this.ended = false;
 	}
 
 	render() {

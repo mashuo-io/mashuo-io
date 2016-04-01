@@ -27,10 +27,6 @@ export class StyleNavbar extends React.Component {
 				<Navbar.Collapse>
 					<Nav pullRight>
                         <LinkContainer to="/courses">
-                            <NavItem >我想说</NavItem>
-                        </LinkContainer>
-
-                        <LinkContainer to="/courses">
                             <NavItem >最新视频</NavItem>
                         </LinkContainer>
 						<AuthButton />

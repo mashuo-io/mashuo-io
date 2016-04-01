@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import {Grid, Row, Col, Glyphicon, Label, Tabs, Tab, Image} from 'react-bootstrap';
+import {Col, Glyphicon} from 'react-bootstrap';
+import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 
-export class VideoItem extends React.Component {
+export class VideoListItem extends React.Component {
     render() {
-        const {imgUrl} = this.props;
+        const {imgUrl, title, numberOfVideos, totalTime} = this.props;
 
         let bkImageStyle = {
             backgroundImage: 'url(' + imgUrl + ')'
@@ -19,10 +20,13 @@ export class VideoItem extends React.Component {
                 </a>
                 <div className="video-caption">
                     <h4>Round Icons</h4>
-                    <p className="text-muted">Graphic Design</p>
+                    <IconLinkGroup>
+                        <IconLinkItem text="三段视频" icon={<Glyphicon glyph="film" />} ></IconLinkItem>
+                        <IconLinkItem text="35分钟" icon={<Glyphicon glyph="time" />} ></IconLinkItem>
+                    </IconLinkGroup>
+
                 </div>
             </Col>
-
         )
     }
 }

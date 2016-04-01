@@ -194,6 +194,9 @@ $description-color: #b8b8b8;
 
 			.icon-link-group {
 				border-top: 1px solid #D3D3D3;
+				.icon-text {
+					color: $description-color;
+				}
 			}
 
 		}

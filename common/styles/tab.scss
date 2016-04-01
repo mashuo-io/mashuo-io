@@ -18,14 +18,14 @@
 			a {
 				color: #666666;
 				background-color: transparent;
-				border-color: lighten(#62B2F7, 10%);
+				border-color: lighten($tab-border-color, 10%);
 			}
 		}
 
 		&.active {
 			a {
 				color: #666666;
-				border-color: #62B2F7;
+				border-color: $tab-border-color;
 
 				&:hover {
 					//border: none;
@@ -41,8 +41,8 @@
 					transform: translate(-50%, 50%) rotate(-45deg);
 					width: 8px;
 					height: 8px;
-					border-right: 2px solid #62B2F7;
-					border-top: 2px solid #62B2F7;
+					border-right: 2px solid $tab-border-color;
+					border-top: 2px solid $tab-border-color;
 				}
 			}
 		}

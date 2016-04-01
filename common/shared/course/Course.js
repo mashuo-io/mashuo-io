@@ -157,7 +157,7 @@ export default class extends React.Component {
 				</div>
 
 				<div className="video-tabs">
-					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container">
+					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container nav-tabs-stylish">
 						<Tab eventKey={1} title="评论">
                             <CommentContainer>
                                 <CommentInput

@@ -7,6 +7,7 @@ import CourseList from '../shared/course/course-list';
 import Course from '../shared/course/course';
 import MyCourse from '../shared/course/my-course-list';
 import EditCourse from '../shared/course/edit-course';
+import MyFavorite from '../shared/favorite/favorite';
 
 module.exports = (
 	<Route path="/" component={App}>
@@ -17,5 +18,6 @@ module.exports = (
 		<Route path="my-course/new" component={EditCourse} />
 		<Route path="my-course/edit/:id" component={EditCourse} />
 		<Route path="my-courses" component={MyCourse} />
+		<Route path="my-favorite" component={MyFavorite} />
 	</Route>
 );

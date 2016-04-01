@@ -149,6 +149,7 @@ export default class extends React.Component {
 								<IconLinkItem icon={<Glyphicon glyph="user" />} text={author}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="expand" />} text={`${currentVideo.timesWatched}次`}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序"></IconLinkItem>
 								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} text="99"></IconLinkItem>
 							</IconLinkGroup>
 

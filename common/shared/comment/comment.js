@@ -61,16 +61,23 @@ export class CommentItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showReply: false
+            openReplyForm: false
         }
     }
 
     onReply = () => {
-        this.setState({showReply: true});
+        if( this.state.openReplyForm ){
+            return;
+        }
+
+        this.setState({openReplyForm: true});
+        if( this.props.notifyClickReply ){
+            this.props.notifyClickReply(this);
+        }
     };
 
     onCancelReply = () => {
-        this.setState({showReply: false});
+        this.setState({openReplyForm: false});
     };
 
     render() {
@@ -78,7 +85,7 @@ export class CommentItem extends React.Component {
 
         let ReplyElement = null;
 
-        if( this.state.showReply ){
+        if( this.state.openReplyForm ){
             ReplyElement = (
                 <div className="comment-reply">
                     <div className="avatar">
@@ -115,6 +122,43 @@ export class CommentItem extends React.Component {
                     {ReplyElement}
 
                 </div>
+            </div>
+        )
+    }
+}
+
+export class CommentContainer extends React.Component {
+    onHandleCommentItemReplyClicked(child) {
+        let commentFormWillOpen = !child.state.openReplyForm;      // At this point, the open state is not updated yet. Which means if current open is false, it will be opened
+
+        if( commentFormWillOpen ){
+            if( this.commentFormOpendItem ){
+                this.commentFormOpendItem.setState({ openReplyForm: !this.commentFormOpendItem.state.openReplyForm});
+            }
+            this.commentFormOpendItem = child;
+        }
+        else {
+            this.commentFormOpendItem = null;
+        }
+    }
+
+    render() {
+        const parent = this;
+
+        const children = React.Children.map(this.props.children, function (c, index) {
+            if( c.type === CommentItem){
+                return React.cloneElement(c, {
+                    notifyClickReply: parent.onHandleCommentItemReplyClicked.bind(parent)
+                });
+            }
+            else {
+                return c;
+            }
+        });
+
+        return (
+            <div>
+                {children}
             </div>
         )
     }

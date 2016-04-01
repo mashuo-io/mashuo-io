@@ -11,7 +11,7 @@ import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
 import {postEvent} from '../utils/event.service';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
-import {CommentInput, CommentItem} from '../comment/Comment';
+import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
 import {Tags} from './tags';
 
 @connect(
@@ -159,23 +159,25 @@ export default class extends React.Component {
 				<div className="video-tabs">
 					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container">
 						<Tab eventKey={1} title="评论">
-                            <CommentInput
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                            />
+                            <CommentContainer>
+                                <CommentInput
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                />
 
-                            <CommentItem
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                                author="ezhui"
-                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                when="半小时前"
-                            />
+                                <CommentItem
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                    author="ezhui"
+                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                    when="半小时前"
+                                />
 
-                            <CommentItem
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                                author="ezhui"
-                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                when="半小时前"
-                            />
+                                <CommentItem
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                    author="ezhui"
+                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                    when="半小时前"
+                                />
+                            </CommentContainer>
 						</Tab>
 					</Tabs>
 				</div>

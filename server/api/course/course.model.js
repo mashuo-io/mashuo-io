@@ -9,10 +9,12 @@ export const CourseModel = mongoose.model('course', new Schema(_.extend({
 		videos: [
 			{
 				name: String,
+				description: String,
 				src: String,
 				poster: String,
 				duration: Number,
-				timesWatched: { type: Number, default: 0}
+				timesWatched: { type: Number, default: 0},
+				codeUrl: String
 			}
 		],
 		coverImageUrl: String,

@@ -6,11 +6,10 @@ import {doFetchOneMyCourse, doSaveMyCourse} from './course.action';
 import {FileUploader, getInitProgressState, progressStateChanged, Uploading} from '../utils/qiniu-uploader';
 import DropZone from 'react-dropzone';
 import {WithContext as ReactTags} from 'react-tag-input';
-import {Tags} from './tags';
 import './edit-course.scss';
 
 
-const video_filed = ['name', 'src', 'size', 'duration'];
+const video_filed = ['name', 'src', 'size', 'duration', 'codeUrl', 'description'];
 export const fields = [
 	'_id',
 	'name',
@@ -63,22 +62,34 @@ class Video extends React.Component {
 	render() {
 		const {
 			index,
-			fields: {name},
+			fields: {name, description, codeUrl},
 			values: {size, src}
 			} = this.props;
 		return (
-			<Row >
-				<Col sm={1}><span>#{index + 1}</span></Col>
-				<Col sm={5}><Input type="text"  placeholder="说明" {...name}/></Col>
-				<Col sm={4}><Uploading {...this.state} uploadedUrl={src} /></Col>
-				<Col sm={2}>
-					<ButtonGroup>
-						<OverlayTrigger placement="top" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
-							<Button href="javascript:" onClick={()=>this.props.delete(index)}><Glyphicon glyph="trash" /></Button>
-						</OverlayTrigger>
-					</ButtonGroup>
-				</Col>
-			</Row>
+			<div>
+				<Row >
+					<Col sm={1}><span>#{index + 1}</span></Col>
+					<Col sm={5}><Input type="text"  placeholder="说明" {...name}/></Col>
+					<Col sm={4}><Uploading {...this.state} uploadedUrl={src} /></Col>
+					<Col sm={2}>
+						<ButtonGroup>
+							<OverlayTrigger placement="top" overlay={ <Tooltip id={`del-${this.props.index}`}>删除</Tooltip>}>
+								<Button href="javascript:" onClick={()=>this.props.delete(index)}><Glyphicon glyph="trash" /></Button>
+							</OverlayTrigger>
+						</ButtonGroup>
+					</Col>
+				</Row>
+				<Row>
+					<Col smOffset={1} sm={11}>
+						<Input type="textarea" placeholder="说明" {...description} />
+					</Col>
+				</Row>
+				<Row>
+					<Col smOffset={1} sm={11}>
+						<Input type="text" placeholder="代码Url" {...codeUrl} />
+					</Col>
+				</Row>
+			</div>
 		)
 	}
 }
@@ -163,7 +174,6 @@ export default class extends React.Component {
 					</Input>
 
 					<Input label="相关技术" wrapperClassName="wrapper">
-						<Tags tags={tags} />
 						<ReactTags tags={tags}
 						           suggestions= {config.courseTags}
 						           handleDelete={i=>tagsField.onChange([...tags.slice(0, i), ...tags.slice(i + 1)])}

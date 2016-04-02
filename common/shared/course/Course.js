@@ -136,23 +136,17 @@ export default class extends React.Component {
 				<div className="video-info">
 						<div className="video-info-content">
 							<h3 className="title">{currentVideo.name}</h3>
-
                             <IconLinkGroup>
                                 <IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(currentVideo.duration)}></IconLinkItem>
                             </IconLinkGroup>
-
-							<p>
-								以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。
-							</p>
-
+							<p>{currentVideo.description}</p>
 							<IconLinkGroup>
 								<IconLinkItem icon={<Glyphicon glyph="user" />} text={author}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="expand" />} text={`${currentVideo.timesWatched}次`}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
-								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序" iconUrl={currentVideo.codeUrl} textUrl={currentVideo.codeUrl} ></IconLinkItem>
 								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} text="99"></IconLinkItem>
 							</IconLinkGroup>
-
 						</div>
 				</div>
 

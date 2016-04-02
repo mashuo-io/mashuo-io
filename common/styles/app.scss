@@ -10,13 +10,16 @@ html, body {
 	height: 100%;
 }
 
-@import "./mixins";
-@import "./header";
-@import "./navbar";
-@import "./button";
-@import "./glyphicon";
-@import "./section";
-@import "./video";
-@import "./drop-zone";
+@import "mixins";
+@import "header";
+@import "navbar";
+@import "button";
+@import "glyphicon";
+@import "section";
+@import "videoListItem";
+@import "drop-zone";
 @import "course";
-@import "./react-tags";
+@import "react-tags";
+@import "icon-link";
+@import "favorite";
+@import "tab";

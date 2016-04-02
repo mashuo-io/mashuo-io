@@ -79,21 +79,28 @@
 		}
 	}
 
-	.nav {
-		>li {
-			a {
-				max-height: 60px;
-				font-weight: 400;
-				letter-spacing: 1px;
-				color: white;
-				&:hover,
-				&:focus,
-				&.avtive{
+	.navbar-collapse {
+		ul.navbar-nav {
+			margin-top: 0;
+			margin-bottom: 0;
+			> li {
+				>a {
+					text-align: left;
+					max-height: 60px;
+					font-weight: 400;
+					letter-spacing: 1px;
 					color: white;
+					&:hover,
+					&:focus,
+					&.avtive{
+						color: white;
+					}
 				}
 			}
 		}
 	}
+
+
 	.navbar-nav>.active>a {
 		border-radius: 0;
 		color: $brand-primary;
@@ -157,6 +164,16 @@
 }
 
 .no-background-image.navbar-default {
+
+	.container-fluid {
+		padding-left: 0;
+	}
+
+	.navbar-header {
+		background-color: white;
+		padding-left: 15px;
+	}
+
 	@media(min-width:768px) {
 		.container-fluid {
 			padding-right: 0;
@@ -170,7 +187,22 @@
 	}
 
 	.navbar-collapse {
+		margin-left: 0;
 		background-color: white;
+
+		>ul.navbar-nav {
+			margin-top: 0;
+			margin-bottom: 0;
+			> li {
+				>a {
+					color: $font-dark;
+				}
+
+				@media(max-width: $screen-sm-max) {
+					border: none;
+				}
+			}
+		}
 	}
 
 
@@ -187,11 +219,14 @@
 				color: $font-dark;
 
 				&:hover,
-				&:focus,
 				&.avtive {
 					color: $font-dark;
 					background-color: #F5F5F5;
 					border-radius: 0;
+				}
+
+				&:focus{
+					color: $font-dark;
 				}
 			}
 		}
@@ -203,14 +238,16 @@
 			margin: 9px 10px;
 		}
 		> li > a {
+			background-color: white;
 			@include transition(all 0.2s linear);
 			color: gray;
 			&:hover,
 			&:focus {
+				background-color: white;
 				@include transition(all 0.2s linear);
 
 				color: gray;
-				background-color: white;
+
 				padding-left: 27px;
 			}
 		}

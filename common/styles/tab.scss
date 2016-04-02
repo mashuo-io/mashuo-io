@@ -1,0 +1,65 @@
+.nav-tabs-stylish ul.nav-tabs {
+	border-bottom: 1px solid #D3D3D3;
+
+	li {
+		margin-bottom: -1px;
+
+		a, a:hover, a:focus {
+			color: $description-color;
+			margin-right: 0;
+			border-width: 0 0 2px 0;
+			border-radius: 0;
+			border-style: solid;
+			outline: none;
+			font-size: 16px;
+		}
+
+		&:hover {
+			a {
+				color: #666666;
+				background-color: transparent;
+				border-color: lighten($tab-border-color, 20%);
+
+				&::after {
+					content: '';
+					background-color: white;
+					display: block;
+					left: 50%;
+					position: absolute;
+					bottom: 0;
+					transform: translate(-50%, 50%) rotate(-45deg);
+					width: 8px;
+					height: 8px;
+					border-right: 2px solid lighten($tab-border-color, 20%);
+					border-top: 2px solid lighten($tab-border-color, 20%);
+				}
+
+			}
+		}
+
+		&.active {
+			a {
+				color: #666666;
+				border-color: $tab-border-color;
+
+				&:hover {
+					//border: none;
+				}
+
+				&::after {
+					content: '';
+					background-color: white;
+					display: block;
+					left: 50%;
+					position: absolute;
+					bottom: 0;
+					transform: translate(-50%, 50%) rotate(-45deg);
+					width: 8px;
+					height: 8px;
+					border-right: 2px solid $tab-border-color;
+					border-top: 2px solid $tab-border-color;
+				}
+			}
+		}
+	}
+}

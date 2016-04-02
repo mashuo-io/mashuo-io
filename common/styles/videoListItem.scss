@@ -44,9 +44,10 @@
 		max-width: 400px;
 		margin: 0 auto;
 		background-color: white;
-		text-align: center;
+		text-align: left;
 		padding: 25px;
 		h4 {
+			color: $description-color;
 			text-transform: none;
 			margin: 0;
 		}
@@ -56,10 +57,17 @@
 			font-size: 16px;
 			margin: 0;
 		}
+
+		.icon-link-group {
+			padding-top: 10px;
+			.icon-text {
+				color: $description-color;
+				font-size: 14px;
+				line-height: 14px;
+			}
+		}
+
 	}
-}
-* {
-	z-index: 2;
 }
 
 @media(min-width:767px) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Glyphicon, Grid, Row, Col, Image} from 'react-bootstrap';
-import classNames from 'classnames'
+import classNames from 'classnames';
+import {VideoListItem} from '../../shared/videoListItem/VideoListItem';
 
 
 class StackGlyphicon extends React.Component {
@@ -57,30 +58,7 @@ class SectionColumn extends React.Component {
     }
 }
 
-class VideoItem extends React.Component {
-    render() {
-        const {imgUrl} = this.props;
 
-        let bkImageStyle = {
-            backgroundImage: 'url(' + imgUrl + ')'
-        };
-
-        return(
-            <Col md={4} sm={6} className="video-item">
-                <a href="javascript:;" className="video-link" style={bkImageStyle}>
-                    <div className="video-hover">
-                        <Glyphicon glyph="play-circle" className="video-hover-content"/>
-                    </div>
-                </a>
-                <div className="video-caption">
-                    <h4>Round Icons</h4>
-                    <p className="text-muted">Graphic Design</p>
-                </div>
-            </Col>
-
-        )
-    }
-}
 
 class VideoList extends React.Component {
     render() {
@@ -89,15 +67,15 @@ class VideoList extends React.Component {
             <section id="video-list" className="bg-light-gray">
                 <Grid>
                     <Row>
-                        <VideoItem imgUrl="assets/video/dreams-preview.png"/>
-                        <VideoItem imgUrl="assets/video/escape-preview.png"/>
-                        <VideoItem imgUrl="assets/video/golden-preview.png"/>
-                        <VideoItem imgUrl="assets/video/treehouse-preview.png"/>
-                        <VideoItem imgUrl="assets/video/roundicons-free.png"/>
-                        <VideoItem imgUrl="assets/video/startup-framework-preview.png"/>
-                        <VideoItem imgUrl="assets/video/escape-preview.png"/>
-                        <VideoItem imgUrl="assets/video/golden-preview.png"/>
-                        <VideoItem imgUrl="assets/video/treehouse-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/dreams-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/escape-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/golden-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/treehouse-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/roundicons-free.png"/>
+                        <VideoListItem imgUrl="assets/video/startup-framework-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/escape-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/golden-preview.png"/>
+                        <VideoListItem imgUrl="assets/video/treehouse-preview.png"/>
                     </Row>
                 </Grid>
             </section>

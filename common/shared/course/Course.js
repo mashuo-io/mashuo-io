@@ -11,7 +11,7 @@ import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
 import {postEvent} from '../utils/event.service';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
-import {CommentInput, CommentItem} from '../comment/Comment';
+import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
 import {Tags} from './tags';
 
 @connect(
@@ -79,7 +79,7 @@ export default class extends React.Component {
 	render () {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
-			course: {name, videos=[], _id, duration, tags, createdBy: { github: {login: author}}},
+			course: {name, videos=[], _id, duration, tags =[], createdBy: { github: {login: author}}},
 			params: {index = 0},
 			config: {videoDownloadUrl}
 			} = this.props;
@@ -98,7 +98,9 @@ export default class extends React.Component {
 							</div>
 							<div className="course-name">
 								<h4>{name}</h4>
-								<Tags tags={tags}/>
+                                <IconLinkGroup>
+                                    {tags.map(t => <IconLinkItem className="tags" text={t}></IconLinkItem>)}
+                                </IconLinkGroup>
 								<IconLinkGroup>
 									<IconLinkItem icon={<Glyphicon glyph="film" />} text={`${videos.length}段视频`}></IconLinkItem>
 									<IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(duration)}></IconLinkItem>
@@ -134,8 +136,11 @@ export default class extends React.Component {
 				<div className="video-info">
 						<div className="video-info-content">
 							<h3 className="title">{currentVideo.name}</h3>
-							<Glyphicon glyph="time" className="video-labels"/>
-							<span className="video-labels">{displayDuration(currentVideo.duration)}</span>
+
+                            <IconLinkGroup>
+                                <IconLinkItem icon={<Glyphicon glyph="time" />} text={displayDuration(currentVideo.duration)}></IconLinkItem>
+                            </IconLinkGroup>
+
 							<p>
 								以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。以下一组图片是前些年拍摄的居庸关附近京张铁路老图，很多机车、列车都已不再经由此处。对比之间，也感受到岁月的变迁。正可谓年年岁岁花相似，岁岁年年人不同。在我看来，摄影除了美，更大的价值便是记录那些不为人关注的历史与变迁。
 							</p>
@@ -144,33 +149,35 @@ export default class extends React.Component {
 								<IconLinkItem icon={<Glyphicon glyph="user" />} text={author}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="expand" />} text={`${currentVideo.timesWatched}次`}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
-								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-down" />} ></IconLinkItem>
-								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} ></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序"></IconLinkItem>
+								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} text="99"></IconLinkItem>
 							</IconLinkGroup>
 
 						</div>
 				</div>
 
 				<div className="video-tabs">
-					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container">
+					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container nav-tabs-stylish">
 						<Tab eventKey={1} title="评论">
-                            <CommentInput
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                            />
+                            <CommentContainer>
+                                <CommentInput
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                />
 
-                            <CommentItem
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                                author="ezhui"
-                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                when="半小时前"
-                            />
+                                <CommentItem
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                    author="ezhui"
+                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                    when="半小时前"
+                                />
 
-                            <CommentItem
-                                avatarUrl="../../../assets/video/avatar.jpg"
-                                author="ezhui"
-                                text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                when="半小时前"
-                            />
+                                <CommentItem
+                                    avatarUrl="../../../assets/video/avatar.jpg"
+                                    author="ezhui"
+                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
+                                    when="半小时前"
+                                />
+                            </CommentContainer>
 						</Tab>
 					</Tabs>
 				</div>

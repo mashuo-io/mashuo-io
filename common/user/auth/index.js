@@ -88,6 +88,10 @@ class AuthButton extends React.Component {
                     <LinkContainer to="/my-courses">
                         <MenuItem eventKey={3.1}>我的视频</MenuItem>
                     </LinkContainer>
+                    <LinkContainer to="/my-favorite/1">
+                        <MenuItem eventKey={3.2}>我的收藏</MenuItem>
+                    </LinkContainer>
+
                     <MenuItem divider />
                     <MenuItem eventKey={3.2} onClick={this.props.onLogout}>退出登录</MenuItem>
                 </NavImageDropdown>

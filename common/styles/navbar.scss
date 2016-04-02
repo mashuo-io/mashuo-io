@@ -53,9 +53,7 @@
 		margin: 0;
 		padding-left: 20px;
 
-		@media(min-width:768px) {
-			height: 60px;
-		}
+		height: 60px;
 
 	}
 
@@ -163,7 +161,7 @@
 	@include transition(opacity 1s ease-in-ease-out);
 }
 
-.no-background-image.navbar-default {
+.not-home-page.navbar-default {
 
 	.container-fluid {
 		padding-left: 0;

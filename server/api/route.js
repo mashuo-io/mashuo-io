@@ -25,7 +25,7 @@ router.get('/:refType/:refId/feedbacks-statistics', authenticateTokenMiddleware,
 router.post('/:refType/:refId/feedbacks/:type', authenticateTokenMiddleware, saveFeedback);
 router.del('/:refType/:refId/feedbacks/:_id', authenticateTokenMiddleware, delFeedback);
 
-//profile
+//course history
 router.get('/my-profile/watch-histories', authenticateTokenMiddleware, getMyWatchHistories);
 router.get('/my-profile/watch-history/:courseId', authenticateTokenMiddleware, getMyWatchHistoryById);
 

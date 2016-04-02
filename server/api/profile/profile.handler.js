@@ -17,11 +17,7 @@ subscribe('video-togglefavorite', function * ({user, courseId, videoId}){
 subscribe('video-times', function * ({courseId, videoId}) { // 计算 video的播放次数
 	yield CourseModel.findOneAndUpdate(
 		{ _id: courseId, 'videos._id': videoId},
-		{
-			$inc: {
-				'videos.$.timesWatched' : 1
-			}
-		}
+		{ $inc: { 'videos.$.timesWatched' : 1 } }
 	);
 });
 

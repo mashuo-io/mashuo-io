@@ -5,6 +5,12 @@ import {exchangeTokenByCode, logout,findTokenAndLogin, oauthReturn} from './auth
 import {LinkContainer} from 'react-router-bootstrap';
 
 class NavImageDropdown extends React.Component {
+    static propTypes = {
+        noCaret: React.PropTypes.bool,
+        img: React.PropTypes.node.isRequired,
+        ...Dropdown.propTypes
+    };
+
     render() {
         let { children, img, noCaret, title, ...props } = this.props;
         return (
@@ -25,17 +31,21 @@ class NavImageDropdown extends React.Component {
     }
 }
 
-NavImageDropdown.propTypes = {
-    noCaret: React.PropTypes.bool,
-    img: React.PropTypes.node.isRequired,
-    ...Dropdown.propTypes
-};
-
-class AuthButton extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
+@connect(
+    state =>({
+        isLoggedIn: state.auth.isLoggedIn,
+        email: state.auth.email,
+        loginName: state.auth.loginName,
+        avatarUrl: state.auth.avatarUrl
+    }),
+    dispatch=>({
+        onExchangeTokenByCode: (code) => {dispatch(exchangeTokenByCode(code))},
+        onLogout: () => {dispatch(logout())},
+        onMount: () => {dispatch(findTokenAndLogin())},
+        onOauthReturn: (data) => {dispatch(oauthReturn(data))}
+    })
+)
+export default class AuthButton extends React.Component {
     componentDidMount(){
         this.props.onMount();
     }
@@ -65,15 +75,6 @@ class AuthButton extends React.Component {
 
     render() {
         window.thisAuth = this;
-
-        //window.setCode = function(code){
-        //    window.focus();
-        //
-        //    if( window.thisAuth){
-        //        window.thisAuth.props.onExchangeTokenByCode(code);
-        //    }
-        //};
-
         window.setResponse = function(res) {
             window.focus();
 
@@ -82,8 +83,8 @@ class AuthButton extends React.Component {
             }
         };
 
-        if ( this.props.isLoggedIn ){
-            return (
+        return this.props.isLoggedIn
+            ? (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
                     <LinkContainer to="/my-courses">
                         <MenuItem eventKey={3.1}>我的视频</MenuItem>
@@ -96,35 +97,12 @@ class AuthButton extends React.Component {
                     <MenuItem eventKey={3.2} onClick={this.props.onLogout}>退出登录</MenuItem>
                 </NavImageDropdown>
             )
-        }else {
-            return (
-                <NavItem >
-                    <Button bsStyle="success" bsSize="small" onClick={this.openLogin}>
-                        <Glyphicon glyph="user" />&nbsp;通过Github登录
-                    </Button>
-                </NavItem>
+            : (
+                    <NavItem >
+                        <Button bsStyle="success" bsSize="small" onClick={this.openLogin}>
+                            <Glyphicon glyph="user" />&nbsp;通过Github登录
+                        </Button>
+                    </NavItem>
             )
-        }
-
     }
 }
-
-const stateToProps = function(state) {
-    return {
-        isLoggedIn: state.auth.isLoggedIn,
-        email: state.auth.email,
-        loginName: state.auth.loginName,
-        avatarUrl: state.auth.avatarUrl
-    }
-};
-
-const dispatchToProps = function(dispatch) {
-    return {
-        onExchangeTokenByCode: (code) => {dispatch(exchangeTokenByCode(code))},
-        onLogout: () => {dispatch(logout())},
-        onMount: () => {dispatch(findTokenAndLogin())},
-        onOauthReturn: (data) => {dispatch(oauthReturn(data))}
-    }
-};
-
-export default connect(stateToProps, dispatchToProps)(AuthButton)

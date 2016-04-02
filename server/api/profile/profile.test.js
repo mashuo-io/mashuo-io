@@ -103,7 +103,7 @@ describe('profile', () => {
 		})
 		.expect(200);
 
-		yield sleep(10);
+		yield sleep(1);
 
 		yield request.get(`/api/courses/${courseId}`)
 		.set({Authorization: `Bearer ${token}`})
@@ -114,4 +114,75 @@ describe('profile', () => {
 			expect(video.timesWatched).to.eql(1)
 		});
 	});
+
+	it('before toggle favorite should be ok', function *() {
+		let favorite = {
+			course: courseId,
+			videos: {}
+		};
+
+		yield request.get(`/api/my-profile/favorites/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>{
+			expect(res.body).to.eql(favorite);
+		});
+	});
+
+	it('toggle favorite should be ok', function *() {
+		yield request.post(`/api/events`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({
+			type: 'video-togglefavorite',
+			data: {courseId, videoId: videoId1}
+		})
+		.expect(200);
+
+		yield sleep(1);
+
+		let favorite = {
+			course: courseId,
+			videos: o(videoId1, true)
+		};
+
+		yield request.get(`/api/my-profile/favorites/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>{
+			expect(res.body).to.eql(favorite);
+		});
+	});
+
+	it('toggle favorite twice should be ok', function *() {
+		yield request.post(`/api/events`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({
+			type: 'video-togglefavorite',
+			data: {courseId, videoId: videoId1}
+		})
+		.expect(200);
+
+		yield request.post(`/api/events`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({
+			type: 'video-togglefavorite',
+			data: {courseId, videoId: videoId1}
+		})
+		.expect(200);
+
+		yield sleep(1);
+
+		let favorite = {
+			course: courseId,
+			videos: o(videoId1, false)
+		};
+
+		yield request.get(`/api/my-profile/favorites/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>{
+			expect(res.body).to.eql(favorite);
+		});
+	});
+
 });

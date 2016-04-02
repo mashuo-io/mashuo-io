@@ -38,7 +38,7 @@ export class IconLinkItem extends React.Component {
         if ( icon ) {
             if( iconUrl || onIconClick ) {
                 Icon = (
-                    <a className={iconClasses} href={iconUrl ? iconUrl : "javascript:;"} onClick={onIconClick}>{icon}</a>
+                    <a className={iconClasses} href={iconUrl ? iconUrl : "javascript:;"} target="_blank" onClick={onIconClick}>{icon}</a>
                 )
             }
             else{
@@ -49,7 +49,7 @@ export class IconLinkItem extends React.Component {
         if ( text ) {
             if( textUrl || onTextClick ) {
                 Text = (
-                    <a className={textClasses} href={textUrl ? textUrl : "javascript:;"} onClick={onTextClick}><span>{text}</span></a>
+                    <a className={textClasses} href={textUrl ? textUrl : "javascript:;"} target="_blank" onClick={onTextClick}><span>{text}</span></a>
                 )
             }
             else{

@@ -3,7 +3,7 @@ import {getCourses, getCourse, saveMyCourse, getMyCourses, getMyCourseById} from
 import {authenticateTokenMiddleware, oauthGithub, getAccountInfo, getTokenMiddleware} from './auth/service';
 import qiniu from './qiniu/qiniu.service';
 import {getFeedbacks, getFeedbackStatics, saveFeedback, delFeedback} from './feedback/feedback.service';
-import {getMyWatchHistories, getMyWatchHistoryById, setMyWatchHistory} from './profile/profile.service';
+import {getMyFavorites, getMyFavoriteById, getMyWatchHistories, getMyWatchHistoryById} from './profile/profile.service';
 import {saveEvent} from './event/event.service';
 
 router.get('/', function *(){this.body= 'hello'});
@@ -28,6 +28,10 @@ router.del('/:refType/:refId/feedbacks/:_id', authenticateTokenMiddleware, delFe
 //profile
 router.get('/my-profile/watch-histories', authenticateTokenMiddleware, getMyWatchHistories);
 router.get('/my-profile/watch-history/:courseId', authenticateTokenMiddleware, getMyWatchHistoryById);
+
+//favorite
+router.get('/my-profile/favorites', authenticateTokenMiddleware, getMyFavorites);
+router.get('/my-profile/favorites/:courseId', authenticateTokenMiddleware, getMyFavoriteById);
 
 //event
 router.post('/events', getTokenMiddleware, saveEvent);

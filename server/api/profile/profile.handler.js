@@ -1,9 +1,20 @@
 import {subscribe} from '../shared/bus';
-import {CourseWatchHistoryModel} from './profile.model';
+import {CourseWatchHistoryModel, FavoriteCourseModel} from './profile.model';
 import {CourseModel} from '../course/course.model';
 import {o} from '../shared/util';
 
-subscribe('video-times', function * ({courseId, videoId}) {
+subscribe('video-togglefavorite', function * ({user, courseId, videoId}){
+	yield FavoriteCourseModel.update(
+		{user, course: courseId},
+		{
+			$inc: o(`videos.${videoId}`, 1),
+			$setOnInsert: {user, course: courseId, createdOn: new Date, updatedOn: new Date}
+		},
+		{upsert: true}
+	)
+});
+
+subscribe('video-times', function * ({courseId, videoId}) { // 计算 video的播放次数
 	yield CourseModel.findOneAndUpdate(
 		{ _id: courseId, 'videos._id': videoId},
 		{
@@ -13,7 +24,6 @@ subscribe('video-times', function * ({courseId, videoId}) {
 		}
 	);
 });
-
 
 subscribe('video-ended', function * (data) {
 	console.log('video-ended');

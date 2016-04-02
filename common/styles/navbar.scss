@@ -80,11 +80,11 @@
 	}
 
 	.navbar-collapse {
-		ul {
+		ul.navbar-nav {
 			margin-top: 0;
 			margin-bottom: 0;
 			> li {
-				a {
+				>a {
 					text-align: left;
 					max-height: 60px;
 					font-weight: 400;
@@ -190,10 +190,13 @@
 		margin-left: 0;
 		background-color: white;
 
-		ul {
+		>ul.navbar-nav {
 			margin-top: 0;
 			margin-bottom: 0;
 			> li {
+				>a {
+					color: $font-dark;
+				}
 
 				@media(max-width: $screen-sm-max) {
 					border: none;

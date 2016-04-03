@@ -14,10 +14,10 @@ export class StyleNavbar extends React.Component {
 	render() {
         let classes = classNames( this.props.className, {
             "hidden": this.props.hide,
-            "no-background-image": !this.props.showBackground
+            "not-home-page": !this.props.showBackground
         } );
 		return (
-			<Navbar fixedTop={false} fluid className = {classes}>
+			<Navbar fixedTop={!this.props.showBackground} fluid className = {classes}>
 				<Navbar.Header>
 					<Navbar.Brand>
 						<LinkContainer to="/"><a >码说</a></LinkContainer>

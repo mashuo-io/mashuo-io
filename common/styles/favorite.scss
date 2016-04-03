@@ -1,19 +1,30 @@
 #favorite {
-	background-color: #F1F1F1;
-	padding: 20px  150px;
+	// Don't change the following 'min-height' style
+	// The container component('ContentWrapper') will set min-height automatically to maximum height available excluding header/footer, etc
+	min-height: inherit;
+
+	// The following styles can be set as required.
+	background-color: white;
+	margin: 20px 20px 30px 20px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	box-sizing: border-box;
+	padding: 60px;
+
+
 	@media screen and (max-width: $min-width-two-columns - 1) {
-		padding: 20px 10px;
+		//padding: 20px 10px;
 	}
 
-	.content-wrapper {
-		border: 0;
-		background-color: white;
-		box-shadow: 0 1px 2px rgba(0,0,0,.1);
-		box-sizing: border-box;
-		padding: 15px;
-
-		.video-list-container {
-			padding: 30px;
-		}
-	}
+	//.content-wrapper {
+	//	border: 0;
+	//	background-color: white;
+	//	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	//	box-sizing: border-box;
+	//	padding: 15px;
+	//	height: 100%;
+	//
+	//	.video-list-container {
+	//		padding: 30px;
+	//	}
+	//}
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleNavbar} from './layout/Header.js';
 import Footer from './layout/Footer.js';
 import '../styles/app.scss';
+import MainContentWrapper from './layout/ContentWrapper';
 
 const Main = ()=> (
 	<h2>main page</h2>
@@ -31,7 +32,9 @@ export default class App extends React.Component {
                         : (null)
                 }
 
-				{this.props.children}
+                <MainContentWrapper>
+				    {this.props.children}
+                </MainContentWrapper>
 			</div>
 		)
 	}

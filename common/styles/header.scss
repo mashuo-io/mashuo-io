@@ -1,6 +1,17 @@
 div#app, div.app-container {
-	height: inherit;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	overflow: scroll;
+
 	background-color: $brand-background;
+
+
+	.main-content-wrapper {
+		position: absolute;
+		margin-top: 60px;
+		width: 100%;
+	}
 }
 
 hr {

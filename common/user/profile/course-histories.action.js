@@ -4,7 +4,7 @@ import {arrayToObj} from '../../shared/utils/misc';
 export const loadCourseHistories = () => dispatch => {
 	axios.get('/my-profile/watch-histories')
 	.then(res=>res.data)
-	.then(arrayToObj)
+	.then(data => arrayToObj(data, 'course'))
 	.then(data=>dispatch(courseHistoriesLoaded(data)));
 };
 

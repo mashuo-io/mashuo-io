@@ -1,18 +1,19 @@
 import generateReducer from '../../shared/utils/reducer-generator';
-import {o} from '../../shared/utils/misc';
-import {fromJS} from 'immutable';
 
-let initState = fromJS({});
+let initState = {};
 
 export  default generateReducer('COURSE_HISTORIES', {
 
-	LOADED: (state, action) => fromJS(action.courseHistories),
+	LOADED: (state, action) => action.courseHistories || {},
 
 	VIDEO_CHANGED: (state, {courseId, videoId, status, durationWatched}) => {
-		let temp = state.withMutations(x=>x.set(courseId, x.get(courseId, fromJS({courseId, durationWatched:0, videos:{}})))
-			.setIn([courseId, 'videos', videoId], fromJS({status, durationWatched})));
 
-		let videos = temp.getIn([courseId, 'videos']);
-		return temp.setIn([courseId, 'durationWatched'], videos.reduce((ret, item)=>ret + item.get('durationWatched'),0));
+		let courseHistory = state[courseId] || {durationWatched:0, videos:{}};
+		let newVideos = Object.assign({}, courseHistory.videos, {[videoId]: {status, durationWatched}});
+		let newCourseHistory = {
+			durationWatched: Object.keys(newVideos).reduce((ret, key)=> ret + newVideos[key].durationWatched, 0),
+			videos: newVideos
+		};
+		return Object.assign({}, state, {[courseId]: newCourseHistory});
 	}
 }, initState);

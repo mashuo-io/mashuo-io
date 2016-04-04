@@ -13,6 +13,7 @@ import {postEvent} from '../utils/event.service';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
 import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.action';
+import {courseHistoryVideoChanged} from '../../user/profile/course-histories.action';
 
 @connect(
 	(state, ownProps) =>{
@@ -20,13 +21,15 @@ import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.ac
 		return {
 			course: state.publicCourse.course,
 			courseFavorite: state.courseFavorites[courseId] || {},
+			courseHistory: state.courseHistories[courseId] || {durationWatched:0, videos:{}},
 			config: state.config
 		};
 	},
-	(dispatch, ownProps) => ({
+	dispatch => ({
 		doFetch: id => dispatch(doFetchOneCourse(id)),
 		push: url => dispatch(push(url)),
-		toggleFavorite: (courseId, videoId) => dispatch(courseFavoriteVideoToggled({courseId, videoId}))
+		toggleFavorite: (courseId, videoId) => dispatch(courseFavoriteVideoToggled({courseId, videoId})),
+		changeHistory: ({courseId, videoId, status, durationWatched}) => dispatch(courseHistoryVideoChanged({courseId, videoId, status, durationWatched}))
 	})
 )
 export default class extends React.Component {
@@ -85,10 +88,11 @@ export default class extends React.Component {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
 			course: {name, videos=[], _id, duration, tags =[], createdBy: { github: {login: author}}},
-			courseFavorite,
+			courseFavorite, courseHistory,
 			params: {index = 0},
 			config: {videoDownloadUrl},
-			toggleFavorite
+			toggleFavorite,
+			changeHistory
 			} = this.props;
 		let currentVideo = videos[index];
 		return (
@@ -96,7 +100,10 @@ export default class extends React.Component {
 				<div className="video-player">
 					<div className="video-row">
 						<div className="player-col" >
-							<Player src={videos[index].src} poster={videos[index].poster} ref="player" next={this.next} emitEvent={this.saveEvent} />
+							<Player src={currentVideo.src} poster={currentVideo.poster} ref="player"
+							        next={this.next} emitEvent={this.saveEvent} startTime={(courseHistory.videos[currentVideo._id] || {}).durationWatched}
+							        changeVideoHistory = {({status, durationWatched})=>changeHistory({courseId: _id, videoId: currentVideo._id, status, durationWatched})}
+							/>
 						</div>
 						<div className="playlist-col" ref="playlist" >
 							<div className="auto-play">
@@ -190,18 +197,23 @@ export default class extends React.Component {
 	}
 };
 
-@connect(state=>({config: state.config}))
+@connect(
+	state=>({config: state.config})
+)
 class Player extends React.Component {
 	static defaultProps = {
 		startTime: 0,
-		emitEvent: ()=>{}
+		emitEvent: ()=>{},
+		changeVideoHistory: ()=>{}
 	};
 	static propTypes = {
+		config: PropTypes.object,
 		src: PropTypes.string,
 		poster: PropTypes.string,
 		next: PropTypes.func,
 		startTime: PropTypes.number,
-		emitEvent: PropTypes.func
+		emitEvent: PropTypes.func,
+		changeVideoHistory: PropTypes.func
 	};
 	player;
 	lastTimeUpdateEmitted = 0;
@@ -209,7 +221,7 @@ class Player extends React.Component {
 
 	componentDidMount() {
 		console.log('mountinggg');
-		let {poster, src, startTime, emitEvent, config} = this.props;
+		let {poster, src, startTime, emitEvent, config, changeVideoHistory} = this.props;
 		let video = document.createElement('video');
 		video.setAttribute('poster', poster);
 		video.setAttribute('class', 'vjs-tech');
@@ -238,6 +250,7 @@ class Player extends React.Component {
 			}
 		}).ready(function(){
 			let player = self.player = this;
+			console.log('stttttt', self.props, startTime);
 			player.currentTime(startTime);
 			player.on('play', ()=>{
 				if (self.status === 'ended' || self.status === 'init') emitEvent('times');
@@ -247,6 +260,7 @@ class Player extends React.Component {
 			player.on('ended', ()=>{
 				emitEvent('ended');
 				self.status = 'ended';
+				changeVideoHistory({status: 'watched', durationWatched: player.duration()});
 				//self.props.next();
 			});
 			player.on('seeked', ()=>emitEvent('seeked', {currentTime: player.currentTime()}));
@@ -256,6 +270,7 @@ class Player extends React.Component {
 					|| currentTime - self.lastTimeUpdateEmitted > config.intervalVideoTimeUpdate) {
 					self.lastTimeUpdateEmitted = currentTime;
 					emitEvent('timeupdate', {currentTime});
+					changeVideoHistory({status: 'watching', durationWatched: currentTime});
 				}
 			});
 			//player.play();
@@ -263,18 +278,23 @@ class Player extends React.Component {
 	}
 
 	componentDidUpdate() {
-		let {poster, src} = this.props;
-		this.player.poster(poster);
-		this.player.src({type: 'video/mp4', src});
-		this.lastTimeUpdateEmitted = 0.1;
-		this.player.play();
-		this.ended = false;
+		if (!this.player) return;
+		let {poster, src, startTime} = this.props;
+
+		console.log('did update', this.props);
+
+		if (this.player.currentSrc() !== src) {
+			this.player.poster(poster);
+			this.player.src({type: 'video/mp4', src});
+			this.lastTimeUpdateEmitted = 0.1;
+			this.player.play();
+			this.ended = false;
+		}
+		console.log('comparing', startTime, this.player.currentTime());
+		if (startTime > this.player.currentTime() ) this.player.currentTime(startTime);
 	}
 
-	render() {
-		let {poster, src} = this.props;
-		return (
-			<div id="my-video-wrapper" className="player-wrapper video-js vjs-default-skin vjs-16-9" ref="target"></div>
-		);
-	};
+	render = () => (
+		<div id="my-video-wrapper" className="player-wrapper video-js vjs-default-skin vjs-16-9" ref="target"></div>
+	);
 }

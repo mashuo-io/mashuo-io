@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import reducer from './course-histories.reducer';
 import * as actions from './course-histories.action';
-import {testReducerUsingImmutableJs} from '../../shared/utils/tools.spec';
+import {testReducer} from '../../shared/utils/tools.spec';
 
 let cases = [
 	{
@@ -18,6 +18,6 @@ let cases = [
 
 describe('course-histories', ()=>{
 	it('test reducer', () => {
-		testReducerUsingImmutableJs(reducer, cases);
+		testReducer(reducer, cases);
 	});
 });

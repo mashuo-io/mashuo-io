@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
 export class IconLinkGroup extends React.Component{
@@ -13,7 +13,7 @@ export class IconLinkGroup extends React.Component{
 
 export class IconLinkItem extends React.Component {
     render() {
-        const {icon, text, iconUrl, onIconClick, textUrl, onTextClick, textClassName, iconClassName, itemClassName} = this.props;
+        const {icon, text, iconUrl, onIconClick, textUrl, onTextClick, textClassName, iconClassName, itemClassName, activeIcon} = this.props;
         let textClasses, iconClasses, itemClasses;
         let Icon = null, Text = null;
 
@@ -28,12 +28,10 @@ export class IconLinkItem extends React.Component {
             iconClasses = classNames("icon", {[iconClassName]: true})
         }
         else {
-            iconClasses = classNames("icon", {});
+            iconClasses = classNames("icon", {active: activeIcon});
         }
 
         itemClasses = classNames(this.props.className, {["icon-text"]: true});
-
-
 
         if ( icon ) {
             if( iconUrl || onIconClick ) {
@@ -67,12 +65,14 @@ export class IconLinkItem extends React.Component {
 }
 
 IconLinkItem.propTypes = {
-    icon: React.PropTypes.element,
-    text: React.PropTypes.string,
-    iconUrl: React.PropTypes.string,
-    textUrl: React.PropTypes.string,
-    onIconClick: React.PropTypes.func,
-    onTextClick: React.PropTypes.func,
-    iconClassName: React.PropTypes.string,
-    textClassName: React.PropTypes.string
+    icon: PropTypes.element,
+    text: PropTypes.string,
+	activeIcon: PropTypes.bool,
+	activeText: PropTypes.bool,
+    iconUrl: PropTypes.string,
+    textUrl: PropTypes.string,
+    onIconClick: PropTypes.func,
+    onTextClick: PropTypes.func,
+    iconClassName: PropTypes.string,
+    textClassName: PropTypes.string
 };

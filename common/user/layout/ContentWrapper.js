@@ -22,7 +22,7 @@ export default class MainContentWrapper extends React.Component {
         // Exclude footer height if need.
         this.setState({
             style: {
-                'min-height': `${winHeight - 62 - childrenMargin }px`
+                minHeight: `${winHeight - 62 - childrenMargin }px`
             }
         });
     };

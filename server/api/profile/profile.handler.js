@@ -3,7 +3,7 @@ import {CourseWatchHistoryModel, FavoriteCourseModel} from './profile.model';
 import {CourseModel} from '../course/course.model';
 import {o} from '../shared/util';
 
-subscribe('video-togglefavorite', function * ({user, courseId, videoId}){
+subscribe('video-favoriteToggled', function * ({user, courseId, videoId}){
 	yield FavoriteCourseModel.update(
 		{user, course: courseId},
 		{

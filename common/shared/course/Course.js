@@ -12,20 +12,21 @@ import {displayDuration} from '../utils/misc';
 import {postEvent} from '../utils/event.service';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
-import {Tags} from './tags';
+import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.action';
 
 @connect(
 	(state, ownProps) =>{
 		let {params: {id: courseId}} = ownProps;
 		return {
 			course: state.publicCourse.course,
-			courseFavorite: state.courseFavorites[courseId],
+			courseFavorite: state.courseFavorites[courseId] || {},
 			config: state.config
 		};
 	},
-	dispatch => ({
+	(dispatch, ownProps) => ({
 		doFetch: id => dispatch(doFetchOneCourse(id)),
-		push: url => dispatch(push(url))
+		push: url => dispatch(push(url)),
+		toggleFavorite: (courseId, videoId) => dispatch(courseFavoriteVideoToggled({courseId, videoId}))
 	})
 )
 export default class extends React.Component {
@@ -70,7 +71,7 @@ export default class extends React.Component {
 		if (index < videos.length - 1)  push(this.getVideoUrl(index + 1));
 	};
 
-	saveEvent = (type, data) => {
+	saveEvent = (type, data = {}) => {
 		let {
 			course: {videos=[], _id: courseId},
 			params: {index = 0}
@@ -84,8 +85,10 @@ export default class extends React.Component {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
 			course: {name, videos=[], _id, duration, tags =[], createdBy: { github: {login: author}}},
+			courseFavorite,
 			params: {index = 0},
-			config: {videoDownloadUrl}
+			config: {videoDownloadUrl},
+			toggleFavorite
 			} = this.props;
 		let currentVideo = videos[index];
 		return (
@@ -103,7 +106,7 @@ export default class extends React.Component {
 							<div className="course-name">
 								<h4>{name}</h4>
                                 <IconLinkGroup>
-                                    {tags.map(t => <IconLinkItem className="tags" text={t}></IconLinkItem>)}
+                                    {tags.map(t => <IconLinkItem key={t} className="tags" text={t}></IconLinkItem>)}
                                 </IconLinkGroup>
 								<IconLinkGroup>
 									<IconLinkItem icon={<Glyphicon glyph="film" />} text={`${videos.length}段视频`}></IconLinkItem>
@@ -147,7 +150,10 @@ export default class extends React.Component {
 							<IconLinkGroup>
 								<IconLinkItem icon={<Glyphicon glyph="user" />} text={author}></IconLinkItem>
 								<IconLinkItem icon={<Glyphicon glyph="expand" />} text={`${currentVideo.timesWatched}次`}></IconLinkItem>
-								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏"></IconLinkItem>
+								<IconLinkItem icon={<Glyphicon glyph="star" />} text="收藏" activeIcon={courseFavorite[currentVideo._id]} onIconClick={()=>{
+									this.saveEvent('favoriteToggled');
+									toggleFavorite(_id, currentVideo._id);
+								}} />
 								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序" iconUrl={currentVideo.codeUrl} textUrl={currentVideo.codeUrl} ></IconLinkItem>
 								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} text="99"></IconLinkItem>
 							</IconLinkGroup>

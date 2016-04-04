@@ -1,13 +1,14 @@
 import generateReducer from '../../shared/utils/reducer-generator';
-import {o} from '../../shared/utils/misc';
-import {Map, fromJS} from 'immutable';
 
-let initState = fromJS({});
+let initState = {};
 
 export  default generateReducer('COURSE_FAVORITES', {
 
-	LOADED: (state, action) => fromJS(action.courseFavorites),
+	LOADED: (state, action) => action.courseFavorites,
 
-	VIDEO_TOGGLED: (state, {courseId, videoId}) =>
-		state.updateIn([courseId, 'videos', videoId], false, v=>!v)
+	VIDEO_TOGGLED: (state, {courseId, videoId}) => {
+		let courseFavorite = state[courseId] || {};
+		let newCourseFavorite = Object.assign({}, courseFavorite, {[videoId]: !courseFavorite[videoId]});
+		return Object.assign({}, state, {[courseId]: newCourseFavorite});
+	}
 }, initState);

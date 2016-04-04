@@ -14,8 +14,7 @@ export const displayDuration = (s, level) => {
 	return displayDuration( s / 60, level + 1) ;
 };
 
-export const arrayToObj = array => array.reduce((ret, item) => {
-	let {_id, ...itemWithoutId} = item;
-	ret[_id] = itemWithoutId;
-	return ret;
+export const arrayToObj = (array, idName="_id") => array.reduce((ret, item) => {
+	let {[idName]:id, ...itemWithoutId} = item;
+	return Object.assign(ret, {[id]: itemWithoutId});
 }, {});

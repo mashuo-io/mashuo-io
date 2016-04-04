@@ -4,7 +4,11 @@ import {arrayToObj} from '../../shared/utils/misc';
 export const loadcourseFavorites = () => dispatch => {
 	axios.get('/my-profile/favorites')
 	.then(res=>res.data)
-	.then(arrayToObj)
+	.then(data=>arrayToObj(data, 'course'))
+	.then(data=>Object.keys(data).reduce((ret, key)=> {
+		ret[key] = data[key].videos;
+		return ret;
+	}, {}))
 	.then(data=>dispatch(courseFavoritesLoaded(data)));
 };
 

@@ -13,6 +13,11 @@ let cases = [
 		before: {'01': {durationWatched: 10, videos: {'a': {durationWatched: 10, status: 'watching'}}}},
 		action: actions.courseHistoryVideoChanged({courseId: '01', videoId: 'a', status: 'watching', durationWatched: 20}),
 		after: {'01': {durationWatched: 20, videos: {'a': {durationWatched: 20, status: 'watching'}}}}
+	},
+	{
+		before: {'01': {durationWatched: 10, videos: {'a': {durationWatched: 10, status: 'watching'}}}},
+		action: actions.courseHistoryVideoChanged({courseId: '01', videoId: 'b', status: 'watching', durationWatched: 20}),
+		after: {'01': {durationWatched: 30, videos: {'a': {durationWatched: 10, status: 'watching'}, 'b': {durationWatched: 20, status: 'watching'}}}}
 	}
 ];
 

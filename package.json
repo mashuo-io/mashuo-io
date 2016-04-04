@@ -31,7 +31,6 @@
     "compass-mixins": "^0.12.7",
     "css-element-queries": "^0.3.2",
     "font-awesome": "^4.5.0",
-    "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.1",
     "kcors": "^1.0.1",
     "koa": "^1.2.0",

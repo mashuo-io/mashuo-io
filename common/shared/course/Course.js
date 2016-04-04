@@ -84,6 +84,12 @@ export default class extends React.Component {
 		postEvent(`video-${type}`, {...data, videoId, courseId});
 	};
 
+	changeVideoHistory = ({status, durationWatched}) => {
+		let {changeHistory, course: {_id: courseId, videos}, params: {index=0}} = this.props;
+		let {_id: videoId} = videos[index];
+		changeHistory({courseId, videoId, status, durationWatched});
+	};
+
 	render () {
 		if (!this.props.course) return <div>Loading</div>;
 		let {
@@ -95,6 +101,7 @@ export default class extends React.Component {
 			changeHistory
 			} = this.props;
 		let currentVideo = videos[index];
+		console.log('rendering', index, currentVideo);
 		return (
 			<div id="video-wrapper">
 				<div className="video-player">
@@ -102,7 +109,7 @@ export default class extends React.Component {
 						<div className="player-col" >
 							<Player src={currentVideo.src} poster={currentVideo.poster} ref="player"
 							        next={this.next} emitEvent={this.saveEvent} startTime={(courseHistory.videos[currentVideo._id] || {}).durationWatched}
-							        changeVideoHistory = {({status, durationWatched})=>changeHistory({courseId: _id, videoId: currentVideo._id, status, durationWatched})}
+							        changeVideoHistory = {this.changeVideoHistory}
 							/>
 						</div>
 						<div className="playlist-col" ref="playlist" >
@@ -266,8 +273,7 @@ class Player extends React.Component {
 			player.on('seeked', ()=>emitEvent('seeked', {currentTime: player.currentTime()}));
 			player.on('timeupdate', ()=>{
 				let currentTime = player.currentTime();
-				if ( self.lastTimeUpdateEmitted === 0
-					|| currentTime - self.lastTimeUpdateEmitted > config.intervalVideoTimeUpdate) {
+				if ( currentTime - self.lastTimeUpdateEmitted > config.intervalVideoTimeUpdate) {
 					self.lastTimeUpdateEmitted = currentTime;
 					emitEvent('timeupdate', {currentTime});
 					changeVideoHistory({status: 'watching', durationWatched: currentTime});
@@ -286,7 +292,8 @@ class Player extends React.Component {
 		if (this.player.currentSrc() !== src) {
 			this.player.poster(poster);
 			this.player.src({type: 'video/mp4', src});
-			this.lastTimeUpdateEmitted = 0.1;
+			this.lastTimeUpdateEmitted = 0;
+			this.player.currentTime(0);
 			this.player.play();
 			this.ended = false;
 		}

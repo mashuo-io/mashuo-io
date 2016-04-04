@@ -13,3 +13,9 @@ export const displayDuration = (s, level) => {
 	if (s <= 30 || level >= 2) return `${s}${timeLevel[level]}`;
 	return displayDuration( s / 60, level + 1) ;
 };
+
+export const arrayToObj = array => array.reduce((ret, item) => {
+	let {_id, ...itemWithoutId} = item;
+	ret[_id] = itemWithoutId;
+	return ret;
+}, {});

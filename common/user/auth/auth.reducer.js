@@ -1,6 +1,8 @@
-import uuid from 'uuid';
+import generateReducer from '../../shared/utils/reducer-generator';
+import {o} from '../../shared/utils/misc';
 
 // added clientId to auth state, in order to allow user have a client identification in event sent to server before login in.
+import uuid from 'uuid';
 const CLIENT_ID = 'ClientId';
 let clientId = sessionStorage.getItem(CLIENT_ID);
 if (!clientId) {
@@ -8,24 +10,21 @@ if (!clientId) {
 	sessionStorage.setItem(CLIENT_ID, clientId);
 }
 
-const authInitialState = {
+let initialState = {
 	clientId,
-    isLoggedIn: false,
-    avatarUrl: '',
-    email: '',
-    loginName: ''
+	isLoggedIn: false,
+	avatarUrl: '',
+	email: '',
+	loginName: ''
 };
 
-export default function(state = authInitialState, action) {
-    if ( !action ) return state;
-	let {avatarUrl, email, loginName, type} = action;
-
-    switch(type) {
-        case 'OAUTH.LOGGED_IN':
-            return Object.assign({}, state, {isLoggedIn: true, avatarUrl, email, loginName});
-        case 'OAUTH.LOGGED_OUT':
-            return Object.assign({}, state, {isLoggedIn: false});
-        default:
-             return state;
-    }
-}
+export default generateReducer('OAUTH', {
+	LOGGED_IN: (state, action) => Object.assign({}, state, {isLoggedIn: true, ...action}),
+	LOGGED_OUT: (state, action) => Object.assign({}, state, {isLoggedIn: false}),
+	COURSE_FAVORITES_LOADED: (state, action) => Object.assign({}, state, {courseFavorites: action.courseFavorites}),
+	COURSE_FAVORITE_VIDEO_TOGGLED: (state, {courseId, videoId}) => {
+		let courseFavorite = state.courseFavorites[courseId];
+		courseFavorite.videos = Object.assign({}, courseFavorite.videos, o(videoId, !courseFavorite.videos[videoId]));
+		return state;
+	}
+}, initialState);

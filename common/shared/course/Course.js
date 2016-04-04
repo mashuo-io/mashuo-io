@@ -15,10 +15,14 @@ import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
 import {Tags} from './tags';
 
 @connect(
-	state =>({
-		course: state.publicCourse.course,
-		config: state.config
-	}),
+	(state, ownProps) =>{
+		let {params: {id: courseId}} = ownProps;
+		return {
+			course: state.publicCourse.course,
+			courseFavorite: state.courseFavorites[courseId],
+			config: state.config
+		};
+	},
 	dispatch => ({
 		doFetch: id => dispatch(doFetchOneCourse(id)),
 		push: url => dispatch(push(url))
@@ -230,7 +234,6 @@ class Player extends React.Component {
 			let player = self.player = this;
 			player.currentTime(startTime);
 			player.on('play', ()=>{
-				console.log('play triggered');
 				if (self.status === 'ended' || self.status === 'init') emitEvent('times');
 				self.status = 'playing';
 			});

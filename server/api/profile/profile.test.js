@@ -48,7 +48,6 @@ describe('profile', () => {
 
 		let history = {
 			course: courseId,
-			progress: 40,
 			durationWatched: 100,
 			videos: o(videoId1, {status: 'watched', durationWatched: 100})
 		};
@@ -79,7 +78,6 @@ describe('profile', () => {
 		let history = {
 			course: courseId,
 			durationWatched: 50,
-			progress: 20,
 			videos: o(videoId1, {status:'watching', durationWatched: 50})
 		};
 

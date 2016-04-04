@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --content-base . --history-api-fallback",
-    "web-tests": "webpack-dev-server --inline --config webpack-spec.config.js",
+    "web-tests": "webpack-dev-server --inline --config webpack-spec.config.js --port 9000",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register \"server/**/*.test.js\"",
     "devnode": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node ./server/index.js",
     "prestart": "babel server --out-dir server-dist",
@@ -31,6 +31,7 @@
     "compass-mixins": "^0.12.7",
     "css-element-queries": "^0.3.2",
     "font-awesome": "^4.5.0",
+    "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.1",
     "kcors": "^1.0.1",
     "koa": "^1.2.0",

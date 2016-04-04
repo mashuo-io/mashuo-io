@@ -1,5 +1,6 @@
 import axios from '../../shared/utils/server-request.service';
-import {browserHistory} from 'react-router'
+import {loadCourseHistories} from '../profile/course-histories.action';
+import {loadcourseFavorites} from '../profile/course-favorites.action';
 
 export function loggedOut() {
     return {type: 'OAUTH.LOGGED_OUT'};
@@ -20,13 +21,19 @@ export const findTokenAndLogin = () => dispatch => {
 		axios.get('/auth/account')
 		.then(response=>response.data)
 		.then(data => dispatch(loggedIn(data.avatarUrl, data.email, data.loginName)))
+		.then(()=>getProfiles(dispatch));
 	}
 };
 
-export function oauthReturn({status, data: {avatarUrl, email, loginName, token}}) {
-    if( status === 200) {
-        localStorage.setItem('Token', token);
-        return {type: 'OAUTH.LOGGED_IN', avatarUrl, email, loginName};
-    }
-    return {type:''};
-}
+export const oauthReturn = ({status, data: {avatarUrl, email, loginName, token}}) => dispatch => {
+    if( status !== 200) return {type:''};
+    localStorage.setItem('Token', token);
+	dispatch(loggedIn(avatarUrl, email, loginName));
+
+	getProfiles(dispatch);
+};
+
+const getProfiles = dispatch => {
+	dispatch(loadcourseFavorites());
+	dispatch(loadCourseHistories());
+};

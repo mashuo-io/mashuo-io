@@ -11,7 +11,7 @@ export const CourseWatchHistoryModel = mongoose.model('courseWatchHistory', new 
 // videos used to be an array, but we change to object in order to convenient update process
 // videos: {
 //
-// 		`Schema.Types.ObjectId`: {
+// 		`videoId`: {
 //          status: {type: String, enum: ['new', 'watching', 'watched']},
 //          durationWatched: Number
 //      },

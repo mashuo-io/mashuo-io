@@ -48,6 +48,14 @@ class NavImageDropdown extends React.Component {
 export default class AuthButton extends React.Component {
     componentDidMount(){
         this.props.onMount();
+	    window.thisAuth = this;
+	    window.setResponse = function(res) {
+		    window.focus();
+
+		    if( window.thisAuth){
+			    window.thisAuth.props.onOauthReturn(res);
+		    }
+	    };
     }
 
     openLogin(){
@@ -58,7 +66,6 @@ export default class AuthButton extends React.Component {
                     ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
                 }
             }
-
             return ret.join("&");
         }
 
@@ -72,17 +79,7 @@ export default class AuthButton extends React.Component {
         window.open(loginUrl,'_blank','width=400,height=400,scrollbars=1');
     }
 
-
     render() {
-        window.thisAuth = this;
-        window.setResponse = function(res) {
-            window.focus();
-
-            if( window.thisAuth){
-                window.thisAuth.props.onOauthReturn(res);
-            }
-        };
-
         return this.props.isLoggedIn
             ? (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">

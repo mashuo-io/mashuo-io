@@ -1,4 +1,4 @@
-import {displayBytes, displayDuration} from './misc';
+import {displayBytes, displayDuration, arrayToObj} from './misc';
 import {expect} from 'chai';
 
 describe('misc', ()=>{
@@ -24,4 +24,18 @@ describe('misc', ()=>{
 		expect(displayDuration(60*60*10)).to.eql('10小时');
 		expect(displayDuration(60*60*26)).to.eql('26小时');
 	});
+
+	it('array to obj', ()=> {
+		let array = [
+			{_id: 'a', v: 'aa'},
+			{_id: 'b', v: 'bb'},
+			{_id: 'c', v: 'cc'}
+		];
+
+		expect(arrayToObj(array)).to.eql({
+			a: {v:'aa'},
+			b: {v:'bb'},
+			c: {v:'cc'}
+		});
+	})
 });

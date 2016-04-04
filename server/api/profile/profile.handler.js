@@ -54,7 +54,6 @@ function * calculateHistory(type, {user, videoId, courseId, currentTime}) {
 		{
 			$set: {
 				durationWatched,
-				progress: Math.round(durationWatched * 100 / course.duration)
 			}
 		});
 }

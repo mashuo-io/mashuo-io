@@ -98,19 +98,31 @@ export function * saveFeedback() {
 export function * delFeedback() {
 	checkRouteError(this, {
 		refId: [v.isObjectId, v.required],
-		refType: [v.isIn(config.likeableRefTypes)]
-	}, this.params);
+		refType: [v.isIn(config.likeableRefTypes), v.required],
+		feedbackType: [v.isIn(['like', 'comment']), v.required],
+		_id: v.isObjectId
+	}, this.params, r=> {
+		let errs = [];
+		if (!r.feedbackType === 'comment' && !r._id) errs.push('Must provide _id when deleting comment');
+		return errs;
+	});
+	let {refId, refType, feedbackType, _id} = this.params;
+	let deletingLike = feedbackType === 'like';
 
-	let f = yield FeedbackModel.findOne({refId: this.params.refId, refType: this.params.refType, _id: this.params._id});
+	let f = deletingLike
+		? yield FeedbackModel.findOne({refId, refType, type: 'like'})
+		: yield FeedbackModel.findOne({refId, refType, _id});
 	if (!f) this.throw('Cannot find the record', 500);
 	if (f.user.toString() !== this.currentUser._id.toString()) this.throw('Cannot delete others feedback', 403);
 
-	let result = yield FeedbackModel.remove({refId: this.params.refId, refType: this.params.refType, _id: this.params._id, user: this.currentUser._id});
+	let result = deletingLike
+		? yield FeedbackModel.remove({refId, refType, type: 'like', user: this.currentUser._id})
+		: yield FeedbackModel.remove({refId, refType, _id, user: this.currentUser._id});
 	if ( result.result.n <= 0) this.throw('Cannot find the record', 500);
 
-	if (this.params.refType === 'comment') {
+	if (refType === 'comment') {
 		yield FeedbackModel.update({
-			_id: this.params.refId,
+			_id: refId,
 			type: 'comment'
 		}, {$inc: {likes: -1}});
 	}

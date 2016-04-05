@@ -23,7 +23,7 @@ router.get('/auth/github', oauthGithub);
 router.get('/:refType/:refId/feedbacks/:feedbackType?', authenticateTokenMiddleware, getFeedbacks);
 router.get('/:refType/:refId/feedbacks-statistics/:feedbackType?', authenticateTokenMiddleware, getFeedbackStatics);
 router.post('/:refType/:refId/feedbacks/:type', authenticateTokenMiddleware, saveFeedback);
-router.del('/:refType/:refId/feedbacks/:_id', authenticateTokenMiddleware, delFeedback);
+router.del('/:refType/:refId/feedbacks/:feedbackType/:_id?', authenticateTokenMiddleware, delFeedback);
 
 //my profiles
 router.get('/my-profile/watch-histories', authenticateTokenMiddleware, getMyWatchHistories);

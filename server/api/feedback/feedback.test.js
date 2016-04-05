@@ -19,6 +19,26 @@ describe('feedbacks', function() {
 		token1 = result.token;
 	});
 
+	it('delete like without gaven feedback id', function *() {
+		yield request
+		.post(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+
+		yield request
+		.del(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200)
+		.expect(res=>expect(res.body.done).to.be.true);
+
+		yield request.get(`/api/course/${courseId}/feedbacks-statistics/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body).to.eql(0));
+	});
+
 	it ('for get feedbacks and feedbacks statistics, it is allowed to get like or comment only', function *() {
 		yield request
 		.post(`/api/course/${courseId}/feedbacks/like`)
@@ -104,7 +124,7 @@ describe('feedbacks', function() {
 		.expect(res=>feedbackId = res.body._id);
 
 		yield request
-		.del(`/api/course/${courseId}/feedbacks/${feedbackId}`)
+		.del(`/api/course/${courseId}/feedbacks/like/${feedbackId}`)
 		.set({Authorization: `Bearer ${token}`})
 		.send()
 		.expect(200)
@@ -128,7 +148,7 @@ describe('feedbacks', function() {
 		.expect(res=>feedbackId = res.body._id);
 
 		yield request
-		.del(`/api/course/${courseId}/feedbacks/${feedbackId}`)
+		.del(`/api/course/${courseId}/feedbacks/like/${feedbackId}`)
 		.set({Authorization: `Bearer ${token1}`})
 		.send()
 		.expect(403);
@@ -228,7 +248,7 @@ describe('feedbacks', function() {
 		.expect(res=>feedbackLikeId = res.body._id);
 
 		yield request
-		.del(`/api/comment/${feedbackId}/feedbacks/` + feedbackLikeId)
+		.del(`/api/comment/${feedbackId}/feedbacks/like/${feedbackLikeId}`)
 		.set({Authorization: `Bearer ${token}`})
 		.expect(200);
 

@@ -22,6 +22,18 @@ describe('profile', () => {
 		token = result.token;
 	});
 
+	it('get my likes should work', function *() {
+		yield request.post(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+
+		yield request.get(`/api/my-profile/likes`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body).to.eql([{refType: 'course', refId: courseId}]));
+	});
+
 	it('get profile before creation should be ok', function * () {
 		yield request.get(`/api/my-profile/watch-histories`)
 		.set({Authorization: `Bearer ${token}`})

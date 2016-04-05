@@ -1,6 +1,7 @@
 import {CourseWatchHistoryModel, FavoriteCourseModel} from './profile.model';
 import './profile.handler';
 import _ from 'lodash';
+import {FeedbackModel} from '../feedback/feedback.model';
 
 export function * getMyWatchHistories() {
 	let histories = yield CourseWatchHistoryModel.find({user: this.currentUser._id}).lean();
@@ -24,6 +25,10 @@ export function * getMyFavoriteById () {
 	let favorite = (yield FavoriteCourseModel.findOne({user: this.currentUser._id, course: courseId}).lean())
 		|| {course: courseId, videos: {}};
 	this.body = correctFavorite(cleanUp(favorite));
+}
+
+export function* getMyLikes() {
+	this.body = yield FeedbackModel.find({type:'like', user: this.currentUser._id}, {_id:0, refType:1, refId: 1}).lean();
 }
 
 const cleanUp = x=>_.omit(x, ['__v', '_id', 'createdOn', 'updatedOn', 'user']);

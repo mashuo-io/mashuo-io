@@ -101,7 +101,6 @@ export default class extends React.Component {
 			changeHistory
 			} = this.props;
 		let currentVideo = videos[index];
-		console.log('rendering', index, currentVideo);
 		return (
 			<div id="video-wrapper">
 				<div className="video-player">
@@ -227,7 +226,6 @@ class Player extends React.Component {
 	status = 'init';
 
 	componentDidMount() {
-		console.log('mountinggg');
 		let {poster, src, startTime, emitEvent, config, changeVideoHistory} = this.props;
 		let video = document.createElement('video');
 		video.setAttribute('poster', poster);
@@ -257,7 +255,6 @@ class Player extends React.Component {
 			}
 		}).ready(function(){
 			let player = self.player = this;
-			console.log('stttttt', self.props, startTime);
 			player.currentTime(startTime);
 			player.on('play', ()=>{
 				if (self.status === 'ended' || self.status === 'init') emitEvent('times');
@@ -287,8 +284,6 @@ class Player extends React.Component {
 		if (!this.player) return;
 		let {poster, src, startTime} = this.props;
 
-		console.log('did update', this.props);
-
 		if (this.player.currentSrc() !== src) {
 			this.player.poster(poster);
 			this.player.src({type: 'video/mp4', src});
@@ -297,7 +292,6 @@ class Player extends React.Component {
 			this.player.play();
 			this.ended = false;
 		}
-		console.log('comparing', startTime, this.player.currentTime());
 		if (startTime > this.player.currentTime() ) this.player.currentTime(startTime);
 	}
 

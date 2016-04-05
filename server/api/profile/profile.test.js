@@ -131,7 +131,7 @@ describe('profile', () => {
 		yield request.post(`/api/events`)
 		.set({Authorization: `Bearer ${token}`})
 		.send({
-			type: 'video-togglefavorite',
+			type: 'video-favoriteToggled',
 			data: {courseId, videoId: videoId1}
 		})
 		.expect(200);
@@ -155,7 +155,7 @@ describe('profile', () => {
 		yield request.post(`/api/events`)
 		.set({Authorization: `Bearer ${token}`})
 		.send({
-			type: 'video-togglefavorite',
+			type: 'video-favoriteToggled',
 			data: {courseId, videoId: videoId1}
 		})
 		.expect(200);
@@ -163,7 +163,7 @@ describe('profile', () => {
 		yield request.post(`/api/events`)
 		.set({Authorization: `Bearer ${token}`})
 		.send({
-			type: 'video-togglefavorite',
+			type: 'video-favoriteToggled',
 			data: {courseId, videoId: videoId1}
 		})
 		.expect(200);

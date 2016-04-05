@@ -25,11 +25,19 @@ export function * getFeedbacks() {
 export function * getFeedbackStatics() {
 	checkRouteError(this, {
 		refId: [v.isObjectId, v.required],
-		refType: [v.isIn(config.likeableRefTypes)]
+		refType: [v.isIn(config.likeableRefTypes), v.required],
+		feedbackType: [v.isIn(['like', 'comment'])]
 	}, this.params);
+	let {refId, refType, feedbackType} = this.params;
+
+	if (feedbackType) {
+		this.body = yield FeedbackModel.count({type: feedbackType, refId, refType},{ _id: 1});
+		return;
+	}
+
 	this.body = {
-		likes: yield FeedbackModel.count({type: 'like', refId: this.params.refId, refType: this.params.refType},{ _id: 1}),
-		comments: yield FeedbackModel.count({type: 'comment', refId: this.params.refId, refType: this.params.refType},{ _id: 1})
+		likes: yield FeedbackModel.count({type: 'like', refId, refType},{ _id: 1}),
+		comments: yield FeedbackModel.count({type: 'comment', refId, refType},{ _id: 1})
 	}
 }
 

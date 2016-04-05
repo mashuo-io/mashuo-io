@@ -7,19 +7,27 @@ import _ from 'lodash';
 export function * getFeedbacks() {
 	checkRouteError(this, {
 		refId: [v.isObjectId, v.required],
-		refType: [v.isIn(config.likeableRefTypes)]
+		refType: [v.isIn(config.likeableRefTypes), v.required],
+		feedbackType: v.isIn(['like', 'comment'])
 	}, this.params);
-
-	let feedbacks = yield FeedbackModel.find({refId: this.params.refId, refType: this.params.refType},
+	let {refId, refType, feedbackType} = this.params;
+	let feedbacks = yield FeedbackModel.find(
+		Object.assign({refId, refType}, feedbackType ? {type: feedbackType} : {}),
 		{ refId:0, createdOn: 0, __v: 0, refType:0})
 	.sort({likes: -1})
 	.populate('user', 'github.avatarUrl github.login')
 	.lean();
+	feedbacks = feedbacks.map(x=> x.type === 'like' ? _.pick(x, ['_id', 'updatedOn', 'user', 'type']) : x);
+
+	if (feedbackType) {
+		this.body = feedbacks.map(omitType);
+		return;
+	}
 
 	this.body = {
-		likes: feedbacks.filter(x=>x.type === 'like').map(x=>  _.pick(x, ['_id', 'updatedOn', 'user'])),
-		comments: feedbacks.filter(x=>x.type === 'comment').map(x=>_.omit(x, ['type']))
-	}
+		likes: feedbacks.filter(x=>x.type === 'like').map(omitType),
+		comments: feedbacks.filter(x=>x.type === 'comment').map(omitType)
+	};
 }
 
 export function * getFeedbackStatics() {
@@ -29,7 +37,6 @@ export function * getFeedbackStatics() {
 		feedbackType: [v.isIn(['like', 'comment'])]
 	}, this.params);
 	let {refId, refType, feedbackType} = this.params;
-
 	if (feedbackType) {
 		this.body = yield FeedbackModel.count({type: feedbackType, refId, refType},{ _id: 1});
 		return;
@@ -110,3 +117,5 @@ export function * delFeedback() {
 
 	this.body = {done: true};
 }
+
+const omitType = x=> _.omit(x, ['type']);

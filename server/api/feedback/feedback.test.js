@@ -19,6 +19,24 @@ describe('feedbacks', function() {
 		token1 = result.token;
 	});
 
+	it ('for get feedbacks and feedbacks statistics, it is allowed to get like or comment only', function *() {
+		yield request
+		.post(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+		
+		yield request.get(`/api/course/${courseId}/feedbacks-statistics/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body).to.eql(1));
+
+		yield request.get(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body).to.have.length(1));
+	});
+
 	it('like should work', function *() {
 		yield request
 		.post(`/api/course/${courseId}/feedbacks/like`)

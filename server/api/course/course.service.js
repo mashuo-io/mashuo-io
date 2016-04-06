@@ -56,6 +56,12 @@ export function * getCourse() {
 	.lean();
 
 	let courseFeedBackStat = yield FeedbackStatModel.findOne({refType: 'course', refId: _id}, {_id: 0, likes:1, comments: 1}).lean();
+	let videosFeedBackStat = yield FeedbackStatModel.find({refType: 'video', refId: {$in: course.videos.map(x=>x._id)}}, {_id: 0, refId: 1, likes:1, comments: 1}).lean();
+	
+	course.videos.forEach(x=> {
+		let {likes, comments} = videosFeedBackStat.find(y=>y.refId.toString() === x._id.toString()) || {likes: 0, comments: 0};
+		Object.assign(x, {likes, comments});
+	});
 
 	this.body = Object.assign(course, courseFeedBackStat);
 }

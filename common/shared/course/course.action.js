@@ -62,6 +62,8 @@ export const doFetchOneCourse = (courseId) => dispatch => {
 	.then(res=>res.data)
 	.then(data=> {
 		dispatch(loadCourse(data));
+		dispatch(mergeLikes([{ refId:data._id, refType:'course', count:data.likes}]));
+		dispatch(mergeLikes(data.videos.map(x=>({refType:'video', refId: x._id, count: x.likes}))));
 		dispatch(setDone('COURSE'));
 	});
 };

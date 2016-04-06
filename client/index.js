@@ -12,6 +12,7 @@ import {connectStore} from '../common/shared/utils/injector';
 import auth from '../common/user/auth/auth.reducer';
 import courseHistories from '../common/user/profile/course-histories.reducer';
 import courseFavorites from '../common/user/profile/course-favorites.reducer';
+import myLikes from '../common/user/profile/my-likes.reducer';
 import config from '../common/shared/config/config.reducer';
 import {loadConfig} from '../common/shared/config/config.action';
 import publicCourseList from '../common/shared/course/public-course-list.reducer';
@@ -23,6 +24,7 @@ const reducer = combineReducers({
 	auth,
 	courseHistories,
 	courseFavorites,
+	myLikes,
 	publicCourseList,
 	publicCourse,
 	myCourse,

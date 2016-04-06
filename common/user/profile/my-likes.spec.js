@@ -11,17 +11,17 @@ let cases = [
 	},
 	{
 		before: {[`course/01`]: true, [`comment/02`]: true},
-		action: actions.myLikeChanged({refType: `course`, refId: '01', like: false}),
+		action: actions.myLikeChanged({refType: `course`, refId: '01', doLike: false}),
 		after: {[`comment/02`]: true}
 	},
 	{
 		before: {[`course/01`]: true, [`comment/02`]: true},
-		action: actions.myLikeChanged({refType: `course`, refId: '02', like: false}),
+		action: actions.myLikeChanged({refType: `course`, refId: '02', doLike: false}),
 		after: {[`course/01`]: true, [`comment/02`]: true}
 	},
 	{
 		before: {[`comment/02`]: true},
-		action: actions.myLikeChanged({refType: `course`, refId: '01', like: true}),
+		action: actions.myLikeChanged({refType: `course`, refId: '01', doLike: true}),
 		after: {[`course/01`]: true, [`comment/02`]: true}
 	}
 ];

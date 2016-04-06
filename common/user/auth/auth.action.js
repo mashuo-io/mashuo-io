@@ -1,6 +1,7 @@
 import axios from '../../shared/utils/server-request.service';
 import {loadCourseHistories} from '../profile/course-histories.action';
 import {loadcourseFavorites} from '../profile/course-favorites.action';
+import {loadMyLikes} from '../profile/my-likes.action';
 
 export function loggedOut() {
     return {type: 'OAUTH.LOGGED_OUT'};
@@ -36,4 +37,5 @@ export const oauthReturn = ({status, data: {avatarUrl, email, loginName, token}}
 const getProfiles = dispatch => {
 	dispatch(loadcourseFavorites());
 	dispatch(loadCourseHistories());
+	dispatch(loadMyLikes());
 };

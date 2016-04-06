@@ -14,6 +14,7 @@ import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
 import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.action';
 import {courseHistoryVideoChanged} from '../../user/profile/course-histories.action';
+import {Like} from '../like/Like';
 
 @connect(
 	(state, ownProps) =>{
@@ -168,7 +169,7 @@ export default class extends React.Component {
 									toggleFavorite(_id, currentVideo._id);
 								}} />
 								<IconLinkItem icon={<Glyphicon glyph="share-alt" />} text="源程序" iconUrl={currentVideo.codeUrl} textUrl={currentVideo.codeUrl} ></IconLinkItem>
-								<IconLinkItem className="pull-right" icon={<Glyphicon glyph="thumbs-up" />} text="99"></IconLinkItem>
+								<Like className="pull-right" refType="video" refId={currentVideo._id} />
 							</IconLinkGroup>
 						</div>
 				</div>

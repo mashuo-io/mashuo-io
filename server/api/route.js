@@ -9,7 +9,7 @@ import {saveEvent} from './event/event.service';
 router.get('/', function *(){this.body= 'hello'});
 
 router.get('/courses', getCourses);
-router.get('/courses/:id', getCourse);
+router.get('/courses/:_id', getCourse);
 router.post('/my-courses', authenticateTokenMiddleware, saveMyCourse);
 router.get('/my-courses', authenticateTokenMiddleware, getMyCourses);
 router.get('/my-courses/:id', authenticateTokenMiddleware, getMyCourseById);

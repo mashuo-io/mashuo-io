@@ -1,4 +1,5 @@
 import {CourseModel} from './course.model';
+import {FeedbackStatModel} from '../feedback/feedback.model';
 
 export function * saveMyCourse() {
 	let {body} = this.request;
@@ -48,8 +49,13 @@ export function * getCourses() {
 }
 
 export function * getCourse() {
-	this.body = yield CourseModel
-	.findOne({_id: this.params.id})
+	let {_id} = this.params;
+	let course = yield CourseModel
+	.findOne({_id})
 	.populate('createdBy', 'github.avatarUrl github.login')
 	.lean();
+
+	let courseFeedBackStat = yield FeedbackStatModel.findOne({refType: 'course', refId: _id}, {_id: 0, likes:1, comments: 1}).lean();
+
+	this.body = Object.assign(course, courseFeedBackStat);
 }

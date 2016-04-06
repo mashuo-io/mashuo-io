@@ -1,5 +1,5 @@
 let request = require('supertest-as-promised')(require('../../index').listen());
-import {cleanDb, mockGithubLogin, saveCourse} from '../shared/tool.test';
+import {cleanDb, mockGithubLogin, saveCourse, sleep} from '../shared/tool.test';
 import {expect} from 'chai';
 
 describe('feedbacks', function() {
@@ -17,6 +17,66 @@ describe('feedbacks', function() {
 		result = yield mockGithubLogin('zhui');
 		accountId1 = result.accountId;
 		token1 = result.token;
+	});
+
+	it('create/del like will increase/decrease likes in that refType aggregate', function *() {
+		yield request
+		.post(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+
+		sleep(1);
+
+		yield request.get(`/api/courses/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body.likes).to.eql(1));
+
+		yield request
+		.del(`/api/course/${courseId}/feedbacks/like`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+
+		sleep(1);
+
+		yield request.get(`/api/courses/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body.likes).to.eql(0));
+
+	});
+
+	it('create/del comment will increase/decrease likes in that refType aggregate', function *() {
+		let feedbackId;
+		yield request
+		.post(`/api/course/${courseId}/feedbacks/comment`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({comment: 'good'})
+		.expect(200)
+		.expect(res=>feedbackId = res.body._id);
+
+		sleep(1);
+
+		yield request.get(`/api/courses/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body.comments).to.eql(1));
+
+		yield request
+		.del(`/api/course/${courseId}/feedbacks/comment/${feedbackId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.send()
+		.expect(200);
+
+		sleep(1);
+
+		yield request.get(`/api/courses/${courseId}`)
+		.set({Authorization: `Bearer ${token}`})
+		.expect(200)
+		.expect(res=>expect(res.body.comments).to.eql(0));
+
 	});
 
 	it('delete like without gaven feedback id', function *() {

@@ -2,6 +2,7 @@ import {initialize} from 'redux-form';
 import axios from '../utils/server-request.service';
 import {fields} from './edit-course';
 import {goBack} from 'react-router-redux';
+import {mergeLikes} from '../like/likes.action';
 
 export const setDoing = (prefix) => ({
 		type: `${prefix}.SET_DOING`
@@ -58,8 +59,9 @@ export const doFetchOneMyCourse = (courseId) => dispatch => {
 export const doFetchOneCourse = (courseId) => dispatch => {
 	dispatch(setDoing('COURSE'));
 	axios.get(`/courses/${courseId}`)
-	.then(response=> {
-		dispatch(loadCourse(response.data));
+	.then(res=>res.data)
+	.then(data=> {
+		dispatch(loadCourse(data));
 		dispatch(setDone('COURSE'));
 	});
 };

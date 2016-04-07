@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {toggleReplyForm} from './comments.action';
 import {getRefKey} from '../utils/misc';
 import {CommentForm} from './CommentForm';
+import {TimeAgo} from '../utils/TimeAgo';
 
 @connect(
 	(state, ownProps) => ({ replyFormOpened: (state.comments[getRefKey(ownProps)] || {}).active === ownProps._id }),
@@ -32,7 +33,7 @@ export class CommentItem extends React.Component {
 	componentWillUnmount = () => clearInterval(this.interval);
 
 	render() {
-		const {avatarUrl, author, text, _id, replyFormOpened, toggle, refType, refId} = this.props;
+		const {avatarUrl, author, text, _id, replyFormOpened, toggle, refType, refId, updatedOn} = this.props;
 
 		return (
 			<div className="comment-wrap">
@@ -51,7 +52,7 @@ export class CommentItem extends React.Component {
 					</div>
 
 					<IconLinkGroup>
-						<IconLinkItem text={this.state.timeAgo} />
+						<IconLinkItem text={<TimeAgo date={updatedOn} />} />
 						<IconLinkItem text="回复" icon={<Glyphicon glyph="send" />} onTextClick={toggle} />
 						<Like refType="comment" refId={_id} />
 					</IconLinkGroup>

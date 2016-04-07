@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {doFetchPublicCourses} from './course.action';
 import {Table} from 'react-bootstrap';
-import TimeAgo from '../utils/TimeAgo';
+import {TimeAgo} from '../utils/TimeAgo';
 import {Link} from 'react-router';
 import {displayDuration} from '../utils/misc';
 

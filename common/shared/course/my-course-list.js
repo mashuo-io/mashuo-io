@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {doFetchMyCourses} from './course.action';
 import {Table, Button} from 'react-bootstrap';
 import {push} from 'react-router-redux';
-import TimeAgo from '../utils/TimeAgo';
+import {TimeAgo} from '../utils/TimeAgo';
 
 @connect(
 	state => state.myCourse,

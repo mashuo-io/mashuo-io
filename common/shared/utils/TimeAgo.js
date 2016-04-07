@@ -1,25 +1,27 @@
-import React from 'react';
-import TimeAgo from 'react-timeago';
+import React, {PropTypes} from 'react';
+import {timeAgo} from '../utils/misc';
 
-let translate = {
-	second: '秒',
-	minute: '分钟',
-	hour: '小时',
-	day: '天',
-	week: '周',
-	month: '个月',
-	year: '年'
-};
+export class TimeAgo extends React.Component {
+	static propTypes= {
+		date: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.instanceOf(Date)
+		]).isRequired
+	};
 
-let formatter = (value, unit, suffix) => {
-	if (unit === 'second') return '刚刚';
+	componentWillMount = () => {
+		let {date} = this.props;
+		date = new Date(date);
+		if ((new Date).getTime() - date.getTime() > 1000 * 3600 * 24) return;
 
-	return `${value}${translate[unit]}前`;
-};
+		const func = () =>this.setState({timeAgo: timeAgo(date)});
+		func();
+		this.interval = setInterval(func, 1000* 60);
+	};
+	componentWillUnmount = () => {
+		if (this.interval)	clearInterval(this.interval);
+	};
 
-export default (props) => (
-	<TimeAgo date={props.date}
-	         formatter={formatter}
-	         minPeriod={3 * 60 * 1000}
-	/>
-)
+	render =()=><span>{this.state.timeAgo}</span>
+
+}

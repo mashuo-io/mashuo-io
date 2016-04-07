@@ -1,19 +1,19 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {connect} from 'react-redux'
-import {doFetchOneCourse} from './course.action';
-import {Grid, Row, Col, Glyphicon, Label, Tabs, Tab, Image} from 'react-bootstrap';
+import {doFetchOneCourse} from './course.action.js';
+import {Glyphicon, Tabs, Tab} from 'react-bootstrap';
 import videojs from 'video.js';
 import classNames from 'classnames';
 import {LinkContainer} from 'react-router-bootstrap';
 import {push} from 'react-router-redux';
 import Toggle from 'react-toggle';
 import {displayDuration} from '../utils/misc';
-import {postEvent} from '../utils/event.service';
+import {postEvent} from '../utils/event.service.js';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
-import {CommentInput, CommentItem, CommentContainer} from '../comment/Comment';
-import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.action';
-import {courseHistoryVideoChanged} from '../../user/profile/course-histories.action';
+import {CommentContainer} from '../comment';
+import {courseFavoriteVideoToggled} from '../../user/profile/course-favorites.action.js';
+import {courseHistoryVideoChanged} from '../../user/profile/course-histories.action.js';
 import {Like} from '../like/Like';
 
 @connect(
@@ -34,12 +34,7 @@ import {Like} from '../like/Like';
 	})
 )
 export default class extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			key: 1
-		};
-	}
+	state = {key: 1};
 
 	componentWillMount() {
 		this.props.doFetch(this.props.params.id);
@@ -97,9 +92,7 @@ export default class extends React.Component {
 			course: {name, videos=[], _id, duration, tags =[], createdBy: { github: {login: author}}},
 			courseFavorite, courseHistory,
 			params: {index = 0},
-			config: {videoDownloadUrl},
 			toggleFavorite,
-			changeHistory
 			} = this.props;
 		let currentVideo = videos[index];
 		return (
@@ -177,25 +170,7 @@ export default class extends React.Component {
 				<div className="video-tabs">
 					<Tabs activeKey={this.state.key} onSelect={this.handleSelect} className="video-tab-container nav-tabs-stylish">
 						<Tab eventKey={1} title="评论">
-                            <CommentContainer>
-                                <CommentInput
-                                    avatarUrl="../../../assets/video/avatar.jpg"
-                                />
-
-                                <CommentItem
-                                    avatarUrl="../../../assets/video/avatar.jpg"
-                                    author="ezhui"
-                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                    when="半小时前"
-                                />
-
-                                <CommentItem
-                                    avatarUrl="../../../assets/video/avatar.jpg"
-                                    author="ezhui"
-                                    text="2009年9月14日，文昌卫星发射中心建设工程举行开工典礼，历经7年建设，目前该工程基本竣工。据报道，该发射中心现已具备发射长征五号系列火箭与长征七号运载火箭的能力。"
-                                    when="半小时前"
-                                />
-                            </CommentContainer>
+                            <CommentContainer refType="video" refId={currentVideo._id} />
 						</Tab>
 					</Tabs>
 				</div>

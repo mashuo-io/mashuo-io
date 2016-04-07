@@ -4,7 +4,7 @@ import Auth from './auth';
 import {Home} from './layout/Home';
 import {Route, IndexRoute} from 'react-router';
 import CourseList from '../shared/course/course-list';
-import Course from '../shared/course/course';
+import Course from '../shared/course/Course';
 import MyCourse from '../shared/course/my-course-list';
 import EditCourse from '../shared/course/edit-course';
 import MyFavorite from '../shared/favorite/favorite';

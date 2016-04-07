@@ -91,7 +91,8 @@ export function * saveFeedback() {
 		comment: requestBody.comment
 	}).save();
 
-	this.body = {_id: newFeedback._id};
+	let {github: {avatarUrl, login}} = this.currentUser;
+	this.body = _.omit(Object.assign(newFeedback.toObject(), {user: {github: {avatarUrl, login}}}), ['type', '__v', 'createdOn', 'refId', 'refType']);
 
 	publish('feedback-changed', {refType, refId, feedbackType, mode: 'add'})
 }
@@ -125,5 +126,3 @@ export function * delFeedback() {
 
 	publish('feedback-changed', {refType, refId, feedbackType, mode: 'remove'})
 }
-
-const omitType = x=> _.omit(x, ['type']);

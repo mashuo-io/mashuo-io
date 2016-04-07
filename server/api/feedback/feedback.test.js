@@ -19,6 +19,21 @@ describe('feedbacks', function() {
 		token1 = result.token;
 	});
 
+	it('post comment should return the new object', function *() {
+		yield request
+		.post(`/api/course/${courseId}/feedbacks/comment`)
+		.set({Authorization: `Bearer ${token}`})
+		.send({comment:'hi'})
+		.expect(200)
+		.expect(res=>expect(res.body).to.have.property('_id'))
+		.expect(res=>expect(res.body).to.have.property('user'))
+		.expect(res=>expect(res.body.user.github).to.have.property('avatarUrl'))
+		.expect(res=>expect(res.body.user.github).to.have.property('login'))
+		.expect(res=>expect(res.body).to.have.property('updatedOn'))
+		.expect(res=>expect(res.body).to.have.property('comment'));
+
+	});
+
 	it('create/del like will increase/decrease likes in that refType aggregate', function *() {
 		yield request
 		.post(`/api/course/${courseId}/feedbacks/like`)

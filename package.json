@@ -82,6 +82,7 @@
     "chai": "^3.5.0",
     "co-mocha": "^1.1.2",
     "css-loader": "^0.23.1",
+    "deep-freeze": "0.0.1",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",

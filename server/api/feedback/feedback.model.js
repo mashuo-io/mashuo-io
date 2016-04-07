@@ -9,7 +9,6 @@ export const FeedbackModel = mongoose.model('feedback', new Schema(_.extend({
 	type: {type:String, trim: true, enum: ['comment', 'like']},
 	comment: {type:String, trim:true},
 	user: {type: Schema.Types.ObjectId, ref:'account'}
-	// likes: {type: Number, default: 0}
 }, baseEntity)));
 
 export const FeedbackStatModel = mongoose.model('feedbackStat', new Schema(_.extend({

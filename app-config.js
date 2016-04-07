@@ -7,5 +7,6 @@
 		courseTagUrl: baseDownloadUrl + '/course-tags',
 		courseTags: ['javascript', 'webpack'],
 		intervalVideoTimeUpdate: 15,
+		defaultAvatarUrl: "../../../assets/video/avatar.jpg"
 	}
 })(window);

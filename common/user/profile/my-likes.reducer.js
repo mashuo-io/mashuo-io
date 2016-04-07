@@ -12,7 +12,8 @@ export  default generateReducer('MY_LIKES', {
 
 		let {[key]:x, ...deleted} = state;
 		return deleted;
-	}
+	},
+	CLEAN: state => initState
 }, initState);
 
 export const getKey = ({refType, refId}) => `${refType}/${refId}`;

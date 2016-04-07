@@ -7,13 +7,13 @@ import {Glyphicon} from 'react-bootstrap';
 @connect(
 	(state, {refType, refId})=>({
 		doLike: state.myLikes[`${refType}/${refId}`],
-		count: state.likes[`${refType}/${refId}`]
+		count: state.likes[`${refType}/${refId}`],
+		isLoggedIn: state.auth.isLoggedIn
 	}),
 	(dispatch, {refType, refId})=>({
 		issueLike: doLike=> dispatch(issueLike({refType, refId, doLike}))
 	})
 )
-
 export class Like extends IconLinkItem {
 	static defaultProps = {
 		doLike: false,
@@ -28,7 +28,13 @@ export class Like extends IconLinkItem {
 	};
 
 	render = ()=> {
-		let {count, doLike, issueLike} = this.props;
-		return (<IconLinkItem {...this.props} onIconClick = {()=>issueLike(!doLike)}  activeIcon={doLike} icon={<Glyphicon glyph="thumbs-up" />} text={count.toString()}/>);
+		let {count, doLike, issueLike, isLoggedIn} = this.props;
+		return (
+			<IconLinkItem
+				onIconClick = {isLoggedIn ? ()=> issueLike(!doLike) : undefined}
+			    activeIcon={doLike} icon={<Glyphicon glyph="thumbs-up" />} text={count.toString()}
+				{...this.props}
+			/>
+		);
 	}
 }

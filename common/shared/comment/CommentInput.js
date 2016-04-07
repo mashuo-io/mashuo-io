@@ -31,7 +31,7 @@ export class CommentInput extends React.Component {
 				<div className="avatar">
 					<Image src={auth.avatarUrl || defaultAvatarUrl} responsive circle />
 				</div>
-				<CommentForm refType={refType} refId={refId} form={`comment-${getRefKey({refType, refId})}`} />
+				<CommentForm formKey="new" refType={refType} refId={refId} form={`comment-${getRefKey({refType, refId})}`} />
 			</div>
 		)
 	}

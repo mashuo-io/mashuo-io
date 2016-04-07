@@ -19,6 +19,14 @@ export const commentAdded = ({comment, refType, refId, _id, user, updatedOn}) =>
 	type: 'COMMENTS.ADDED',comment, refType, refId, _id, user, updatedOn
 });
 
-export const addComment = ({comment, refType, refId}) => dispatch =>
+export const toggleReplyForm = ({refType, refId, _id}) => ({
+	type: 'COMMENTS.TOGGLE_REPLY_FORM', refType, refId, _id
+});
+
+export const addComment = ({comment, refType, refId, replyId}, after) => dispatch =>
 	axios.post(`/${refType}/${refId}/feedbacks/comment`, {comment})
-	.then(({data: {user, updatedOn}})=> dispatch(commentAdded({comment, refType, refId, user, updatedOn})));
+	.then(({data: {user, updatedOn, _id}})=> {
+		dispatch(commentAdded({comment, refType, refId, user, updatedOn, _id}));
+		dispatch(toggleReplyForm({refType, refId, _id: replyId}));
+		after();
+	});

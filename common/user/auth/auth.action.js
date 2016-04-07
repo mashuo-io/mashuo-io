@@ -1,7 +1,7 @@
 import axios from '../../shared/utils/server-request.service';
 import {loadCourseHistories} from '../profile/course-histories.action';
 import {loadcourseFavorites} from '../profile/course-favorites.action';
-import {loadMyLikes} from '../profile/my-likes.action';
+import {loadMyLikes, clean} from '../profile/my-likes.action';
 
 export function loggedOut() {
     return {type: 'OAUTH.LOGGED_OUT'};
@@ -11,9 +11,10 @@ export function loggedIn(avatarUrl, email, loginName) {
     return {type: 'OAUTH.LOGGED_IN', avatarUrl, email, loginName};
 }
 
-export function logout(){
+export const logout = () => dispatch => {
     localStorage.removeItem('Token');
-    return loggedOut();
+    dispatch(loggedOut());
+	dispatch(clean());
 }
 
 export const findTokenAndLogin = () => dispatch => {

@@ -20,8 +20,8 @@ router.get('/auth/account', authenticateTokenMiddleware, getAccountInfo);
 router.get('/auth/github', oauthGithub);
 
 //feedback
-router.get('/:refType/:refId/feedbacks/:feedbackType?', authenticateTokenMiddleware, getFeedbacks);
-router.get('/:refType/:refId/feedbacks-statistics/:feedbackType?', authenticateTokenMiddleware, getFeedbackStatics);
+router.get('/:refType/:refId/feedbacks/:feedbackType?', getFeedbacks);
+router.get('/:refType/:refId/feedbacks-statistics/:feedbackType?', getFeedbackStatics);
 router.post('/:refType/:refId/feedbacks/:type', authenticateTokenMiddleware, saveFeedback);
 router.del('/:refType/:refId/feedbacks/:feedbackType/:_id?', authenticateTokenMiddleware, delFeedback);
 

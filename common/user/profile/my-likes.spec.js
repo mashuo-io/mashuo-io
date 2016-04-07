@@ -23,6 +23,11 @@ let cases = [
 		before: {[`comment/02`]: true},
 		action: actions.myLikeChanged({refType: `course`, refId: '01', doLike: true}),
 		after: {[`course/01`]: true, [`comment/02`]: true}
+	},
+	{
+		before: {[`comment/02`]: true},
+		action: actions.clean(),
+		after: {}
 	}
 ];
 

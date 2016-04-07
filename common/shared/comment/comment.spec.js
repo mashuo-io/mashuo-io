@@ -24,14 +24,16 @@ let cases = [
 				}
 		]}),
 		after: {
-			['course/01']: [
-				{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA',  updatedOn},
-				{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB',  updatedOn}
-			]
+			['course/01']: {
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA',  updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB',  updatedOn}
+				]
+			}
 		}
 	},
 	{
-		before: {['course/02']: []},
+		before: {['course/02']: {comments: []}},
 		action: actions.commentsLoaded({
 			refType:'course', refId: '01', comments: [
 				{
@@ -42,17 +44,21 @@ let cases = [
 				}
 			]}),
 		after: {
-			['course/02']: [],
-			['course/01']: [
-				{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA',  updatedOn}
-			]
+			['course/02']: {comments: []},
+			['course/01']: {
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA',  updatedOn}
+				]
+			}
 		}
 	},
 	{
 		before: {
-			['course/01']: [
-				{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn}
-			]
+			['course/01']: {
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn}
+				]
+			}
 		},
 		action: actions.commentAdded({
 			refType:'course', refId: '01', _id:'c', comment: 'best', updatedOn, user: {
@@ -60,10 +66,74 @@ let cases = [
 			}
 		}),
 		after: {
-			['course/01']: [
-				{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
-				{_id: 'c', comment: 'best', avatarUrl:'http://c.jpg', author:'userC', updatedOn}
-			]
+			['course/01']: {
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'c', comment: 'best', avatarUrl:'http://c.jpg', author:'userC', updatedOn}
+				]
+			}
+		}
+	},
+	{
+		before: {
+			['course/01']: {
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
+		},
+		action: actions.toggleReplyForm({ refType:'course', refId: '01', _id:'a' }),
+		after: {
+			['course/01']: {
+				active: 'a',
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
+		}
+	},
+	{
+		before: {
+			['course/01']: {
+				active: 'a',
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
+		},
+		action: actions.toggleReplyForm({ refType:'course', refId: '01', _id:'a' }),
+		after: {
+			['course/01']: {
+				active: null,
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
+		}
+	},
+	{
+		before: {
+			['course/01']: {
+				active: 'a',
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
+		},
+		action: actions.toggleReplyForm({ refType:'course', refId: '01', _id:'b' }),
+		after: {
+			['course/01']: {
+				active: 'b',
+				comments: [
+					{_id: 'a', comment: 'good', avatarUrl:'http://a.jpg', author:'userA', updatedOn},
+					{_id: 'b', comment: 'better', avatarUrl:'http://b.jpg', author:'userB', updatedOn}
+				]
+			}
 		}
 	}
 ];

@@ -5,11 +5,25 @@ let initialState = {};
 
 export default generateReducer('COMMENTS', {
 	LOADED: (state, {refType, refId, comments}) => Object.assign({}, state, {
-		[getRefKey({refType, refId})]: comments.map(({_id, user:{github}, comment, updatedOn})=>({_id, comment, avatarUrl: github.avatarUrl, author: github.login, updatedOn}))
+		[getRefKey({refType, refId})]: {
+			comments: comments.map(({_id, user:{github}, comment, updatedOn})=>({_id, comment, avatarUrl: github.avatarUrl, author: github.login, updatedOn}))
+		}
 	}),
 	ADDED: (state, {refType, refId, _id, comment, user:{github}, updatedOn}) =>{
 		let key = getRefKey({refType, refId});
-		let comments = state[key] || [];
-		return Object.assign({}, state, {[key]: [...comments, {_id, comment, avatarUrl: github.avatarUrl, author: github.login, updatedOn}]});
+		let commentsObj = state[key] || {comments: []};
+		let newCommentObj = Object.assign({}, commentsObj, {
+			comments: [...commentsObj.comments, {_id, comment, avatarUrl: github.avatarUrl, author: github.login, updatedOn}]
+		});
+
+		return Object.assign({}, state, {[key]: newCommentObj});
+	},
+	TOGGLE_REPLY_FORM: (state, {refType, refId, _id}) => {
+		let key = getRefKey({refType, refId});
+		let commentsObj = state[key] || {comments: []};
+		let newCommentsObj = Object.assign({}, commentsObj, {
+			active: (commentsObj.active || '').toString() === _id.toString() ? null : _id
+		});
+		return Object.assign({}, state, {[key]: newCommentsObj});
 	}
 }, initialState);

@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
-import {CommentItem, CommentInput} from './index';
+import {CommentItem, CommentForm} from './index';
 import {connect} from 'react-redux';
 import {getRefKey} from '../utils/misc';
 import {loadComments} from './comments.action';
 
 @connect(
 	(state, ownProps) => ({
-		comments: state.comments[getRefKey(ownProps)]
+		comments: (state.comments[getRefKey(ownProps)] || {}).comments
 	}),
 	(dispatch, ownProps) => ({
 		load: ()=>dispatch(loadComments(ownProps))
@@ -19,21 +19,6 @@ export class CommentContainer extends React.Component {
 		comments: PropTypes.array,
 		load: PropTypes.func
 	};
-
-	onHandleCommentItemReplyClicked(child) {
-		let commentFormWillOpen = !child.state.openReplyForm;      // At this point, the open state is not updated yet. Which means if current open is false, it will be opened
-
-		if (commentFormWillOpen) {
-			if (this.commentFormOpendItem) {
-				this.commentFormOpendItem.setState({openReplyForm: !this.commentFormOpendItem.state.openReplyForm});
-			}
-			this.commentFormOpendItem = child;
-		}
-		else {
-			this.commentFormOpendItem = null;
-		}
-	}
-
 
 	getComments = () => {
 		let {comments, load} = this.props;
@@ -48,24 +33,14 @@ export class CommentContainer extends React.Component {
 	}
 
 	render() {
-		const parent = this;
-
-		const children = React.Children.map(this.props.children, function (c, index) {
-			if (c.type === CommentItem) {
-				return React.cloneElement(c, {
-					notifyClickReply: parent.onHandleCommentItemReplyClicked.bind(parent)
-				});
-			}
-			else {
-				return c;
-			}
-		});
-
 		let {comments=[], refType, refId} = this.props;
 		let refKey = getRefKey({refType, refId});
 		return (
-			<div>
-				<CommentInput refType = {refType} refId = {refId} />
+			<div >
+				<CommentForm className="comment-wrap"
+					formKey="new" form={`comment-${refKey}`}
+					{...this.props}
+				/>
 				{comments.map(c=><CommentItem
 					key={c._id}
 					avatarUrl={c.avatarUrl}

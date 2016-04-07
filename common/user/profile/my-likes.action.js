@@ -8,3 +8,5 @@ export const loadMyLikes = () => dispatch =>
 export const myLikesLoaded = likes => ({type: 'MY_LIKES.LOADED', likes});
 
 export const myLikeChanged = ({refType, refId, doLike}) => ({type: 'MY_LIKES.CHANGED', refType, refId, doLike});
+
+export const clean = () => ({type: 'MY_LIKES.CLEAN'});

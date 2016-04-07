@@ -1,68 +1,38 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {Image, Glyphicon, Input, ButtonInput, Button} from 'react-bootstrap';
 import {timeAgo} from '../utils/misc';
 import {Like} from '../like/Like';
+import {connect} from 'react-redux';
+import {toggleReplyForm} from './comments.action';
+import {getRefKey} from '../utils/misc';
+import {CommentForm} from './CommentForm';
 
+@connect(
+	(state, ownProps) => ({ replyFormOpened: (state.comments[getRefKey(ownProps)] || {}).active === ownProps._id }),
+	(dispatch, ownProps) => ({ toggle: () => dispatch(toggleReplyForm(ownProps)) })
+)
 export class CommentItem extends React.Component {
 	static propTypes = {
-		avatarUrl: React.PropTypes.string,
-		text: React.PropTypes.string,
-		author: React.PropTypes.string,
-		updatedOn: React.PropTypes.string,
-		_id: React.PropTypes.string.isRequired
-	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			openReplyForm: false
-		}
-	}
-
-	onReply = () => {
-		if (this.state.openReplyForm) {
-			return;
-		}
-
-		this.setState({openReplyForm: true});
-		if (this.props.notifyClickReply) {
-			this.props.notifyClickReply(this);
-		}
-	};
-
-	onCancelReply = () => {
-		this.setState({openReplyForm: false});
-		if (this.props.notifyClickReply) {
-			this.props.notifyClickReply(this);
-		}
-
+		avatarUrl: PropTypes.string.isRequired,
+		text: PropTypes.string.isRequired,
+		author: PropTypes.string.isRequired,
+		updatedOn: PropTypes.string.isRequired,
+		_id: PropTypes.string.isRequired,
+		refType: PropTypes.string.isRequired,
+		refId: PropTypes.string.isRequired
 	};
 
 	componentWillMount = () => {
 		let {updatedOn} = this.props;
 		const func = () =>this.setState({timeAgo: timeAgo(updatedOn)});
-		this.interval = setInterval(func, 1000* 60);
 		func();
+		this.interval = setInterval(func, 1000* 60);
 	};
 	componentWillUnmount = () => clearInterval(this.interval);
 
 	render() {
-		const {avatarUrl, author, text, when, _id} = this.props;
-
-		let ReplyElement = null;
-
-		if (this.state.openReplyForm) {
-			ReplyElement = (
-				<div className="comment-reply">
-					<div className="avatar">
-						<Image src={avatarUrl} responsive circle />
-					</div>
-
-					<CommentForm showCancelButton onCancel={this.onCancelReply}/>
-				</div>
-			)
-		}
+		const {avatarUrl, author, text, _id, replyFormOpened, toggle, refType, refId} = this.props;
 
 		return (
 			<div className="comment-wrap">
@@ -82,11 +52,15 @@ export class CommentItem extends React.Component {
 
 					<IconLinkGroup>
 						<IconLinkItem text={this.state.timeAgo} />
-						<IconLinkItem text="回复" icon={<Glyphicon glyph="send" />} onTextClick={this.onReply} />
+						<IconLinkItem text="回复" icon={<Glyphicon glyph="send" />} onTextClick={toggle} />
 						<Like refType="comment" refId={_id} />
 					</IconLinkGroup>
 
-					{ReplyElement}
+					<CommentForm className="comment-reply"
+						formKey={_id} onCancel={toggle} showCancelButton
+						form={`comment-${getRefKey({refType, refId})}`}
+						{...this.props}
+					/>
 
 				</div>
 			</div>

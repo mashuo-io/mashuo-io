@@ -15,9 +15,12 @@ export const displayDuration = (s, level, options ={displaySoon:'马上', postfi
 	return displayDuration( s / 60, level + 1, options) ;
 };
 
-export const timeAgo = dateTime => displayDuration(
-	(new Date().getTime() - dateTime.getTime()) / 1000, undefined, {displaySoon: '刚刚', postfix: '前'}
-);
+export const timeAgo = dateTime => {
+	dateTime = new Date(dateTime);
+	return displayDuration(
+		(new Date().getTime() - dateTime.getTime()) / 1000, undefined, {displaySoon: '刚刚', postfix: '前'}
+	);
+};
 
 
 export const arrayToObj = (array, idName="_id") => array.reduce((ret, item) => {

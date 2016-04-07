@@ -1,16 +1,16 @@
 import React from 'react';
-import {} from './CommentForm';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {Image, Glyphicon, Input, ButtonInput, Button} from 'react-bootstrap';
 import {timeAgo} from '../utils/misc';
-
+import {Like} from '../like/Like';
 
 export class CommentItem extends React.Component {
 	static propTypes = {
 		avatarUrl: React.PropTypes.string,
 		text: React.PropTypes.string,
 		author: React.PropTypes.string,
-		updatedOn: React.PropTypes.instanceOf(Date)
+		updatedOn: React.PropTypes.string,
+		_id: React.PropTypes.string.isRequired
 	};
 
 	constructor(props) {
@@ -41,12 +41,14 @@ export class CommentItem extends React.Component {
 
 	componentWillMount = () => {
 		let {updatedOn} = this.props;
-		this.interval = setInterval(() => this.setState({timeAgo: timeAgo(updatedOn)}), 1000* 60);
+		const func = () =>this.setState({timeAgo: timeAgo(updatedOn)});
+		this.interval = setInterval(func, 1000* 60);
+		func();
 	};
 	componentWillUnmount = () => clearInterval(this.interval);
 
 	render() {
-		const {avatarUrl, author, text, when} = this.props;
+		const {avatarUrl, author, text, when, _id} = this.props;
 
 		let ReplyElement = null;
 
@@ -54,7 +56,7 @@ export class CommentItem extends React.Component {
 			ReplyElement = (
 				<div className="comment-reply">
 					<div className="avatar">
-						<Image src={avatarUrl} responsive circle></Image>
+						<Image src={avatarUrl} responsive circle />
 					</div>
 
 					<CommentForm showCancelButton onCancel={this.onCancelReply}/>
@@ -65,12 +67,12 @@ export class CommentItem extends React.Component {
 		return (
 			<div className="comment-wrap">
 				<div className="avatar">
-					<Image src={avatarUrl} responsive circle></Image>
+					<Image src={avatarUrl} responsive circle />
 				</div>
 
 				<div className="comment-content">
 					<IconLinkGroup>
-						<IconLinkItem text={author}></IconLinkItem>
+						<IconLinkItem text={author} />
 					</IconLinkGroup>
 
 
@@ -79,10 +81,9 @@ export class CommentItem extends React.Component {
 					</div>
 
 					<IconLinkGroup>
-						<IconLinkItem text={this.state.timeAgo}></IconLinkItem>
-						<IconLinkItem text="回复" icon={<Glyphicon glyph="send" />}
-						              onTextClick={this.onReply}></IconLinkItem>
-						<IconLinkItem text="赞" icon={<Glyphicon glyph="heart" />}></IconLinkItem>
+						<IconLinkItem text={this.state.timeAgo} />
+						<IconLinkItem text="回复" icon={<Glyphicon glyph="send" />} onTextClick={this.onReply} />
+						<Like refType="comment" refId={_id} />
 					</IconLinkGroup>
 
 					{ReplyElement}

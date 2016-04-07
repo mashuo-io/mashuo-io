@@ -1,9 +1,13 @@
 import axios from '../utils/server-request.service';
+import {mergeLikes} from '../like/likes.action';
 
 export const loadComments = ({refType, refId}) => dispatch =>
 	axios.get(`/${refType}/${refId}/feedbacks/comment`)
 	.then(x=>x.data)
-	.then(data=> dispatch(commentsLoaded({comments:data, refType, refId})));
+	.then(data=> {
+		dispatch(commentsLoaded({comments:data, refType, refId}));
+		dispatch(mergeLikes(data.map(x=>({refType:'comment', refId: x._id, count: x.likes}))));
+	});
 
 
 export const commentsLoaded = ({comments, refType, refId}) => ({

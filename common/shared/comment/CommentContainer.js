@@ -67,12 +67,14 @@ export class CommentContainer extends React.Component {
 			<div>
 				<CommentInput refType = {refType} refId = {refId} />
 				{comments.map(c=><CommentItem
+					key={c._id}
 					avatarUrl={c.avatarUrl}
 					author={c.author}
 					text={c.comment}
 					updatedOn={c.updatedOn}
 				    refType = {refType}
 				    refId = {refId}
+				    _id = {c._id}
 				/>)}
 			</div>
 		)

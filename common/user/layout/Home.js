@@ -87,31 +87,19 @@ export class Home extends React.Component{
     render () {
         return (
             <div>
-                {/*<section className="bg-primary" id="banner">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-8 col-lg-offset-2 text-center">
-                                <h2 className="section-heading">最前沿的WEB和APP开发技术</h2>
-                                <h2 className="section-heading">编码秀视频培训</h2>
-                                <hr className="light"/>
-                                <p className="text-faded">开发任务如此繁重，新技术蜂拥而至，听码说轻松学习新技能</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>*/}
                 <section id="services">
                     <div className="container">
                         {/*<SectionHeader title="Services" subTitle="Lorem ipsum dolor sit amet consectetur." />*/}
                         <div className="row text-center">
-                            <SectionColumn title="最前沿" text="将陆续推出以下课程：react, angular2, es6, webpack, ionic, react native...">
+                            <SectionColumn title="最前沿" text="将陆续推出以下课程：react, angular2, es6, webpack, ionic mobile, react native...">
                                 <StackGlyphicon icon="link" color="white" bkColor="#62B2F7" size="50px"/>
                             </SectionColumn>
 
-                            <SectionColumn title="让代码说话" text="市场上充斥了拿PPT说个没完的培训，花了大把时间听完还不知道怎么开始，码说让代码说话，直接领略代码之美，美丽不用PPT来转载。">
+                            <SectionColumn title="让代码说话" text="码说让代码说话，直接展现代码之美，美丽不用PPT转载。">
                                 <StackGlyphicon icon="tower" color="white" bkColor="#62B2F7" size="50px"/>
                             </SectionColumn>
 
-                            <SectionColumn title="每天五分钟" text="开发任务如此繁重，新技术蜂拥而至，码说帮你轻松掌握新技能, 码说知道你很忙，所以不废话，一个课程通常由若干个五分钟视频组成，每天五分钟就能学到一个小技巧，大半个小时能掌握一门技术。">
+                            <SectionColumn title="每天五分钟" text="新技术层出不穷，每天五分钟帮你轻松掌握新技能。">
                                 <StackGlyphicon icon="grain" color="white" bkColor="#62B2F7" size="50px"/>
                             </SectionColumn>
                         </div>

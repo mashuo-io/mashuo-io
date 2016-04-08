@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
 import {Image, Glyphicon, Input, ButtonInput, Button} from 'react-bootstrap';
-import {timeAgo} from '../utils/misc';
 import {Like} from '../like/Like';
 import {connect} from 'react-redux';
 import {toggleReplyForm} from './comments.action';
@@ -23,14 +22,6 @@ export class CommentItem extends React.Component {
 		refType: PropTypes.string.isRequired,
 		refId: PropTypes.string.isRequired
 	};
-
-	componentWillMount = () => {
-		let {updatedOn} = this.props;
-		const func = () =>this.setState({timeAgo: timeAgo(updatedOn)});
-		func();
-		this.interval = setInterval(func, 1000* 60);
-	};
-	componentWillUnmount = () => clearInterval(this.interval);
 
 	render() {
 		const {avatarUrl, author, text, _id, replyFormOpened, toggle, refType, refId, updatedOn} = this.props;

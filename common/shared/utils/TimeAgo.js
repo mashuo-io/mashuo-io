@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react';
 import {timeAgo} from '../utils/misc';
 
 export class TimeAgo extends React.Component {
+	state={};
+
 	static propTypes= {
 		date: PropTypes.oneOfType([
 			PropTypes.string,
@@ -12,10 +14,10 @@ export class TimeAgo extends React.Component {
 	componentWillMount = () => {
 		let {date} = this.props;
 		date = new Date(date);
-		if ((new Date).getTime() - date.getTime() > 1000 * 3600 * 24) return;
 
 		const func = () =>this.setState({timeAgo: timeAgo(date)});
 		func();
+		if ((new Date).getTime() - date.getTime() > 1000 * 3600 * 24) return;
 		this.interval = setInterval(func, 1000* 60);
 	};
 	componentWillUnmount = () => {

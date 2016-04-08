@@ -22,7 +22,7 @@ export default generateReducer('COMMENTS', {
 		let key = getRefKey({refType, refId});
 		let commentsObj = state[key] || {comments: []};
 		let newCommentsObj = Object.assign({}, commentsObj, {
-			active: (commentsObj.active || '').toString() === _id.toString() ? null : _id
+			active: commentsObj.active === _id ? null : _id
 		});
 		return Object.assign({}, state, {[key]: newCommentsObj});
 	}

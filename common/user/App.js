@@ -22,9 +22,9 @@ export default class App extends React.Component {
                             <StyleNavbar showBackground={true}></StyleNavbar>
                             <div className="header-content">
                                 <div className="header-content-inner">
-                                    <h1>Your Favorite Source of Free Bootstrap Themes</h1>
+                                    <h1>分享你的知识, 让代码说话</h1>
                                     <hr/>
-                                    <p>Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!</p>
+                                    <p>一个前沿WEB技术短视频学习工厂</p>
                                 </div>
                             </div>
                         </header>

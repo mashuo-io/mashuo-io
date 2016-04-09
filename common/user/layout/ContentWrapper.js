@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 
 // This component works as a wrapper of content page, it will extends the content page's height as much as possible, excluding
-// navbar,footer etc. The content page much preserve the min-height style as 'inherit'
+// navbar,footer etc. The content page must preserve the min-height style as 'inherit'
 // Presumably the content page should be the only child, no other siblings.
 export default class MainContentWrapper extends React.Component {
     state = {
@@ -22,7 +22,7 @@ export default class MainContentWrapper extends React.Component {
         // Exclude footer height if need.
         this.setState({
             style: {
-                minHeight: `${winHeight - 62 - childrenMargin }px`
+                'minHeight': `${winHeight - 62 - childrenMargin }px`
             }
         });
     };

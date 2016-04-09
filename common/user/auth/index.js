@@ -83,10 +83,10 @@ export default class AuthButton extends React.Component {
         return this.props.isLoggedIn
             ? (
                 <NavImageDropdown eventKey={3} img={this.props.avatarUrl} title={this.props.loginName} id="basic-nav-dropdown">
-                    <LinkContainer to="/my-courses">
+                    <LinkContainer to="/my-video/publish">
                         <MenuItem eventKey={3.1}>我的视频</MenuItem>
                     </LinkContainer>
-                    <LinkContainer to="/my-favorite/1">
+                    <LinkContainer to="/my-video/favorite">
                         <MenuItem eventKey={3.2}>我的收藏</MenuItem>
                     </LinkContainer>
 

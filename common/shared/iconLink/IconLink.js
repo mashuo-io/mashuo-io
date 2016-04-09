@@ -14,7 +14,10 @@ export class IconLinkGroup extends React.Component{
 export class IconLinkItem extends React.Component {
 	static propTypes = {
 		icon: PropTypes.element,
-		text: PropTypes.string,
+		text: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.element
+        ]),
 		activeIcon: PropTypes.bool,
 		activeText: PropTypes.bool,
 		iconUrl: PropTypes.string,
@@ -22,11 +25,12 @@ export class IconLinkItem extends React.Component {
 		onIconClick: PropTypes.func,
 		onTextClick: PropTypes.func,
 		iconClassName: PropTypes.string,
-		textClassName: PropTypes.string
+		textClassName: PropTypes.string,
+        hideMe: PropTypes.bool
 	};
 
 	render() {
-        const {icon, text, iconUrl, onIconClick, textUrl, onTextClick, textClassName, iconClassName, itemClassName, activeIcon} = this.props;
+        const {icon, text, iconUrl, onIconClick, textUrl, onTextClick, textClassName, iconClassName, itemClassName, activeIcon, hideMe} = this.props;
         let textClasses, iconClasses, itemClasses;
         let Icon = null, Text = null;
 
@@ -34,7 +38,7 @@ export class IconLinkItem extends React.Component {
             textClasses = classNames("text", {[textClassName]: true})
         }
         else {
-            iconClasses = classNames("text", {});
+            textClasses = classNames("text", {});
         }
 
         if( iconClassName ){
@@ -44,7 +48,7 @@ export class IconLinkItem extends React.Component {
             iconClasses = classNames("icon", {active: activeIcon});
         }
 
-        itemClasses = classNames(this.props.className, {["icon-text"]: true});
+        itemClasses = classNames(this.props.className, {["icon-text"]: true, ["hide-me"]: hideMe});
 
         if ( icon ) {
             if( iconUrl || onIconClick ) {
@@ -53,7 +57,7 @@ export class IconLinkItem extends React.Component {
                 )
             }
             else{
-                Icon = (<span className={classNames("icon", {[iconClassName]: true})}>{icon}</span>)
+                Icon = (<span className={iconClasses}>{icon}</span>)
             }
         }
 
@@ -64,7 +68,7 @@ export class IconLinkItem extends React.Component {
                 )
             }
             else{
-                Text = (<span className={classNames("text", {[textClassName]: true})}>{text}</span>)
+                Text = (<span className={textClasses}>{text}</span>)
             }
         }
 

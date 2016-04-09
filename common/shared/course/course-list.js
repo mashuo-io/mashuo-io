@@ -3,8 +3,11 @@ import {connect} from 'react-redux';
 import {doFetchPublicCourses} from './course.action';
 import {Table} from 'react-bootstrap';
 import {TimeAgo} from '../utils/TimeAgo';
-import {Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 import {displayDuration} from '../utils/misc';
+import {IconLinkGroup, IconLinkItem} from '../iconLink/IconLink';
+import {Col, Row, Glyphicon} from 'react-bootstrap';
+import {VideoItem} from '../VideoItem/VideoItem';
 
 @connect(
 	state=> state.publicCourseList,
@@ -20,27 +23,24 @@ export default class extends React.Component {
 	}
 	render() {
 		return (
-			<div className="container-fluid">
-				<h1>最新视频</h1>
-				<Table striped hover radius>
-					<thead>
-					<tr>
-						<th>名称</th>
-						<th>时长</th>
-						<th>上传时间</th>
-					</tr>
-					</thead>
-					<tbody>
-					{ (this.props.courses || []).map(x=> (
-						<tr key={x._id}>
-							<td><Link to={`/course/${x._id}`}>{x.name}</Link></td>
-							<td>{displayDuration(x.duration)}</td>
-							<td><TimeAgo date={x.createdOn} /></td>
-						</tr>
+			<div id="latest-video">
+				<h3>最新视频</h3>
+				<Row className="video-list-container">
+					{ (this.props.courses || []).map( (x, i)=> (
+						<VideoItem
+							key={i}
+							link={`/course/${x._id}`}
+							title={x.name}
+							createdOn={x.createdOn}
+							duration={displayDuration(x.duration)}
+							videoCount={x.videos.length}
+							imageUrl={x.coverImageUrl}
+						/>
+
 					))}
-					</tbody>
-				</Table>
+				</Row>
 			</div>
 		);
 	}
 }
+

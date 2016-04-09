@@ -18,6 +18,6 @@ module.exports = (
 		<Route path="my-course/new" component={EditCourse} />
 		<Route path="my-course/edit/:id" component={EditCourse} />
 		<Route path="my-courses" component={MyCourse} />
-		<Route path="my-favorite(/:tabSelect)" component={MyFavorite} />
+		<Route path="my-video(/:tabSelect)" component={MyFavorite} />
 	</Route>
 );

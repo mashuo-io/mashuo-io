@@ -1,7 +1,7 @@
 import React from 'react';
 import {Glyphicon, Grid, Row, Col, Image} from 'react-bootstrap';
 import classNames from 'classnames';
-import {VideoListItem} from '../../shared/videoListItem/VideoListItem';
+import {VideoItem} from '../../shared/VideoItem/VideoItem';
 
 
 class StackGlyphicon extends React.Component {
@@ -67,15 +67,15 @@ class VideoList extends React.Component {
             <section id="video-list" className="bg-light-gray">
                 <Grid>
                     <Row>
-                        <VideoListItem imgUrl="assets/video/dreams-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/escape-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/golden-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/treehouse-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/roundicons-free.png"/>
-                        <VideoListItem imgUrl="assets/video/startup-framework-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/escape-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/golden-preview.png"/>
-                        <VideoListItem imgUrl="assets/video/treehouse-preview.png"/>
+                        <VideoItem imgUrl="assets/video/dreams-preview.png"/>
+                        <VideoItem imgUrl="assets/video/escape-preview.png"/>
+                        <VideoItem imgUrl="assets/video/golden-preview.png"/>
+                        <VideoItem imgUrl="assets/video/treehouse-preview.png"/>
+                        <VideoItem imgUrl="assets/video/roundicons-free.png"/>
+                        <VideoItem imgUrl="assets/video/startup-framework-preview.png"/>
+                        <VideoItem imgUrl="assets/video/escape-preview.png"/>
+                        <VideoItem imgUrl="assets/video/golden-preview.png"/>
+                        <VideoItem imgUrl="assets/video/treehouse-preview.png"/>
                     </Row>
                 </Grid>
             </section>
